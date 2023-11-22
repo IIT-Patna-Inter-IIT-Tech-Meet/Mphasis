@@ -13,7 +13,7 @@ class Airports(Base):
     country = Column(String(50))
     iata = Column(CHAR(3))
     icao = Column(CHAR(4))
-    latitude = Column(String(50))
+    latitude = Column(String(50)) # irrelevant
     longitude = Column(String(50))
     altitude = Column(String(50))
     timezone = Column(String(50))
@@ -78,8 +78,8 @@ if __name__ == '__main__':
     parser.add_argument('--migrate', action='store_true', default=True)
     args = parser.parse_args()
 
-    # if args.migrate:
-    #     migrate()
+    if args.migrate:
+        migrate()
 
     # migrate()
     # user = User(username='admin',email = 'admin@gmail.com')
