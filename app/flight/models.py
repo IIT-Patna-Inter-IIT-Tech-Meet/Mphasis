@@ -78,9 +78,28 @@ class SeatDistribution(models.Model):
     cabin_type = models.ForeignKey(CabinType, on_delete=models.CASCADE, null=False)
     seat_count = models.IntegerField(null=False, default=0)
     seat_avail = models.IntegerField(null=False, default=0)
+    def save(self, *args, **kwargs):
+        # Set seat_avail to be equal to seat_count on creation
+        if not self.pk:  # If this is a new instance
+            self.seat_avail = self.seat_count
+
+        # Call the original save method
+        super(SeatDistribution, self).save(*args, **kwargs)
 
 
 class Flight(models.Model):
+    status_types = [
+        ('S', 'Scheduled'),
+        ('A', 'Active'),
+        ('L', 'Landed'),
+        ('R', 'Redirected'),
+        ('Z', 'Delayed')
+        ('C', 'Cancelled'),
+        ('D', 'Diverted'),
+        ('N', 'Not Operational'),
+        ('U', 'Unknown')
+    ]
+    
     id = models.AutoField(primary_key=True, auto_created=True)
     flight_number = models.CharField(max_length=255, null=False)
     aircraft_id = models.ForeignKey(Aircraft, on_delete=models.CASCADE, null=False)
@@ -89,7 +108,7 @@ class Flight(models.Model):
     departure_time = models.DateTimeField(null=False)
     arrival_time = models.DateTimeField(null=False)
     flight_time = models.IntegerField(null=False)
-    status = models.CharField(max_length=255, null=False)
+    status = models.CharField(max_length=255, null=False, choices=status_types)
 
     def __str__(self):
         return f"[{self.flight_number}-{self.aircraft_id}-{self.departure_airport_id}-{self.arrival_airport_id}]"
