@@ -128,27 +128,43 @@ class PassengerSeat(models.Model):
     seat_number = models.CharField(max_length=255, null=False)
     seat_class = models.ForeignKey(ClassType, on_delete=models.CASCADE, null=False)
     seat_cabin = models.ForeignKey(CabinType, on_delete=models.CASCADE, null=False)
-    seat_price = models.FloatField(null=False)
-    seat_tax = models.FloatField(null=False)
-    seat_total = models.FloatField(null=False)
+    seat_price = models.FloatField(null=False, default=0)
+    seat_tax = models.FloatField(null=False, default=0)
+    seat_total = models.FloatField(null=False, default=0)
     ssr = models.CharField(max_length=255, null=True, choices=ssr_types)
     
     def save(self, *args, **kwargs):
-        # Decrease seat_avail by one when a new PassengerSeat is created
-        self.seat_distribution.seat_avail -= 1
-        self.seat_distribution.save()
+        try:
+            seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
+            # Decrease seat_avail by one when a new PassengerSeat is created
+            with transaction.atomic():
+                seat_distribution.seat_avail -= 1
+                seat_distribution.save()
+        except SeatDistribution.DoesNotExist:
+            # If the SeatDistribution does not exist, create a new one
+            seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin, seat_count=0, seat_avail=0)
+            seat_distribution.save()
         
         # Calculate seat_total
-        self.calculate_seat_total()
+        self.seat_total = self.seat_price + self.seat_tax
 
         # Call the original save method
         super(PassengerSeat, self).save(*args, **kwargs)
 
-    
-    def calculate_seat_total(self):
-        # Calculate the total price of the seat
-        self.seat_total = self.seat_price + self.seat_tax
-        self.save()
+    def delete(self, *args, **kwargs):
+        try:
+            seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
+            # Increase seat_avail by one when a PassengerSeat is deleted
+            with transaction.atomic():
+                seat_distribution.seat_avail += 1
+                seat_distribution.save()
+        except SeatDistribution.DoesNotExist:
+            # If the SeatDistribution does not exist, create a new one
+            seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin, seat_count=100, seat_avail=100)
+            seat_distribution.save()
+
+        # Call the original delete method
+        super(PassengerSeat, self).delete(*args, **kwargs)
 
     def __str__(self):
         return f"[{self.flight}-{self.passenger}-{self.seat_number}-{self.seat_class}-{self.seat_cabin}-{self.ssr}]"
