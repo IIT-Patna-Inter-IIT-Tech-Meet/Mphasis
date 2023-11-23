@@ -132,6 +132,8 @@ class PassengerSeat(models.Model):
     seat_tax = models.FloatField(null=False, default=0)
     seat_total = models.FloatField(null=False, default=0)
     ssr = models.CharField(max_length=255, null=True, choices=ssr_types)
+    paid_service = models.BooleanField(null=False, default=False)
+    loyalty_program = models.BooleanField(null=False, default=False)
     
     def save(self, *args, **kwargs):
         try:
@@ -174,13 +176,21 @@ class PNR(models.Model):
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
     seats = models.ManyToManyField(PassengerSeat)
     timestamp = models.DateTimeField(null=False)
+    total_tax = models.FloatField(null=False, default=0)
     total_price = models.FloatField(null=False, default=0)
     seat_currency = models.CharField(max_length=255, null=False)
+    paid_service = models.BooleanField(null=False, default=False)
+    group_booking = models.BooleanField(null=False, default=False)
+    loyalty_program = models.BooleanField(null=False, default=False)
 
-    def calculate_total_price(self):
+    def save(self, *args, **kwargs):
         # Sum up the total prices of all PassengerSeat instances
+        self.total_tax = sum(seat.seat_tax for seat in self.seats.all())
         self.total_price = sum(seat.seat_total for seat in self.seats.all())
-        self.save()
+        self.paid_service = any(seat.paid_service for seat in self.seats.all())
+        self.group_booking = len(self.seats.all()) > 1
+        self.loyalty_program = any(seat.loyalty_program for seat in self.seats.all())
+        super(PNR, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"[{self.id}-{self.flight}-{self.total_price}-{self.seat_currency}]"
