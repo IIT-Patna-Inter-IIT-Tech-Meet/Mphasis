@@ -49,7 +49,7 @@ class Command(BaseCommand):
                 try:
                     aircraft = Aircraft.objects.get(registration = aircraft_reg)
                 except Aircraft.DoesNotExist:
-                    print("Aircrft not found. Adding new aircraft . . .")
+                    print("Aircraft not found. Adding new aircraft . . .")
 
                     try:
                         owner_code = f'{source["flight"]["owner"]["code"]["iata"]} +  {source["flight"]["owner"]["code"]["icao"]}',

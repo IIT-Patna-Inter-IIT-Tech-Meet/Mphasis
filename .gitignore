@@ -162,3 +162,5 @@ cython_debug/
 # unnecesary files
 gather_data.py.py
 routes
+dataset/test.json
+dataset/dataset

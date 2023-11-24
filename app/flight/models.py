@@ -89,15 +89,9 @@ class SeatDistribution(models.Model):
 
 class Flight(models.Model):
     status_types = [
-        ('S', 'Scheduled'),
-        ('A', 'Active'),
-        ('L', 'Landed'),
-        ('R', 'Redirected'),
-        ('Z', 'Delayed')
-        ('C', 'Cancelled'),
-        ('D', 'Diverted'),
-        ('N', 'Not Operational'),
-        ('U', 'Unknown')
+        ('green', 'running'),
+        ('red', 'cancelled'),
+        ('yellow', 'landing or taking off')
     ]
     id = models. CharField(max_length=255, primary_key=True, unique=True, null=False)
     flight_number = models.CharField(max_length=255, null=False)
@@ -141,8 +135,8 @@ class PassengerSeat(models.Model):
     ]
     
     id = models.AutoField(primary_key=True, auto_created=True)
-    passenger = models.ForeignKey('passenger.Passenger', on_delete=models.CASCADE, null=False)
-    pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False)
+    passenger = models.ForeignKey('Passenger', on_delete=models.CASCADE, null=False)
+    pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False, related_name='seats')
     seat_number = models.CharField(max_length=255, null=False)
     seat_class = models.ForeignKey(ClassType, on_delete=models.CASCADE, null=False)
     seat_cabin = models.ForeignKey(CabinType, on_delete=models.CASCADE, null=False)
@@ -192,7 +186,7 @@ class PassengerSeat(models.Model):
 class PNR(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
-    seats = models.ManyToManyField(PassengerSeat)
+    # seats = models.ManyToManyField(PassengerSeat, related_name='pnr_seats')
     timestamp = models.DateTimeField(null=False)
     total_tax = models.FloatField(null=False, default=0)
     total_price = models.FloatField(null=False, default=0)
@@ -203,11 +197,11 @@ class PNR(models.Model):
 
     def save(self, *args, **kwargs):
         # Sum up the total prices of all PassengerSeat instances
-        self.total_tax = sum(seat.seat_tax for seat in self.seats.all())
-        self.total_price = sum(seat.seat_total for seat in self.seats.all())
-        self.paid_service = any(seat.paid_service for seat in self.seats.all())
-        self.group_booking = len(self.seats.all()) > 1
-        self.loyalty_program = any(seat.loyalty_program for seat in self.seats.all())
+        self.total_tax = sum(PassengerSeat(pnr=id).seat_tax)
+        self.total_price = sum(PassengerSeat(pnr=id).seat_total)
+        self.paid_service = any(seat.paid_service for seat in PassengerSeat(pnr=id))
+        self.group_booking = len(PassengerSeat(pnr=id)) > 1
+        self.loyalty_program = any(seat.loyalty_program for seat in PassengerSeat(pnr=id))
         super(PNR, self).save(*args, **kwargs)
 
     def __str__(self):
