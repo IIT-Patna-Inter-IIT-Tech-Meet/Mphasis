@@ -6,3 +6,4 @@ typing_extensions==4.8.0
 phonenumbers==8.13.26
 phonenumberslite==8.13.26
 django_phonenumber_field==7.2.0
+faker==20.1.0

@@ -28,7 +28,7 @@ class Command(BaseCommand):
             "--filename",
             type=str,
             help="Filename to populate from",
-            default="flight/management/data/in-airport.csv",
+            default="flight/management/data/in-airports.csv",
             nargs="?",
         )
         parser.add_argument(
@@ -43,7 +43,7 @@ def delete_all(tb_model):
     print(f"Deleted all data from {tb_model.__name__}")
 
 
-def populate_airport(filename="flight/management/data/in-airport.csv"):
+def populate_airport(filename="flight/management/data/in-airports.csv"):
     import csv
 
     with open(filename, "r") as csvfile:

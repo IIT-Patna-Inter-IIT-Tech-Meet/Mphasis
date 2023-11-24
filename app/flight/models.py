@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from enum import Enum
 from django.contrib.postgres.fields import ArrayField
 from phonenumber_field.modelfields import PhoneNumberField
@@ -47,7 +47,6 @@ class Aircraft(models.Model):
     registration = models.CharField(max_length=255, null=False)
     owner_code = models.CharField(max_length=255, null=False)
     owner_name = models.CharField(max_length=255, null=False)
-    cabin_type = models.CharField(max_length=255, null=False, blank=True)
 
     def __str__(self):
         return f"[{self.registration}-{self.owner_code}]"
@@ -73,9 +72,9 @@ class CabinType(models.Model):
     type_name = models.CharField(max_length=255, null=False, choices=types)
 
 class SeatDistribution(models.Model):
-    aircraft_id = models.ForeignKey(Aircraft, on_delete=models.CASCADE, null=False)
-    class_type = models.ForeignKey(ClassType, on_delete=models.CASCADE, null=False)
-    cabin_type = models.ForeignKey(CabinType, on_delete=models.CASCADE, null=False)
+    aircraft_id = models.ForeignKey(Aircraft, on_delete=models.DO_NOTHING, null=False)
+    class_type = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
+    cabin_type = models.ForeignKey(CabinType, on_delete=models.DO_NOTHING, null=False)
     seat_count = models.IntegerField(null=False, default=0)
     seat_avail = models.IntegerField(null=False, default=0)
     def save(self, *args, **kwargs):
@@ -89,15 +88,15 @@ class SeatDistribution(models.Model):
 
 class Flight(models.Model):
     status_types = [
-        ('green', 'running'),
-        ('red', 'cancelled'),
-        ('yellow', 'landing or taking off')
+        ('green', 'landed and open for entry'),
+        ('red', 'landed and no entry'),
+        ('grey', 'scheduled')
     ]
     id = models. CharField(max_length=255, primary_key=True, unique=True, null=False)
     flight_number = models.CharField(max_length=255, null=False)
-    aircraft_id = models.ForeignKey(Aircraft, on_delete=models.CASCADE, null=False)
-    departure_airport_id = models.ForeignKey(Airport, on_delete=models.CASCADE, null=False, related_name='departure_airport')
-    arrival_airport_id = models.ForeignKey(Airport, on_delete=models.CASCADE, null=False, related_name='arrival_airport')
+    aircraft_id = models.ForeignKey(Aircraft, on_delete=models.DO_NOTHING, null=False)
+    departure_airport_id = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=False, related_name='departure_airport')
+    arrival_airport_id = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=False, related_name='arrival_airport')
     departure_time = models.DateTimeField(null=False)
     arrival_time = models.DateTimeField(null=False)
     flight_time = models.IntegerField(null=False)
@@ -135,11 +134,11 @@ class PassengerSeat(models.Model):
     ]
     
     id = models.AutoField(primary_key=True, auto_created=True)
-    passenger = models.ForeignKey('Passenger', on_delete=models.CASCADE, null=False)
-    pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False, related_name='seats')
+    passenger = models.ForeignKey('Passenger', on_delete=models.DO_NOTHING, null=False)
+    pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False)
     seat_number = models.CharField(max_length=255, null=False)
-    seat_class = models.ForeignKey(ClassType, on_delete=models.CASCADE, null=False)
-    seat_cabin = models.ForeignKey(CabinType, on_delete=models.CASCADE, null=False)
+    seat_class = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
+    seat_cabin = models.ForeignKey(CabinType, on_delete=models.DO_NOTHING, null=False)
     seat_price = models.FloatField(null=False, default=0)
     seat_tax = models.FloatField(null=False, default=0)
     seat_total = models.FloatField(null=False, default=0)
@@ -196,12 +195,13 @@ class PNR(models.Model):
     loyalty_program = models.BooleanField(null=False, default=False)
 
     def save(self, *args, **kwargs):
+        passenger_seats = PassengerSeat.objects.filter(pnr=self)
         # Sum up the total prices of all PassengerSeat instances
-        self.total_tax = sum(PassengerSeat(pnr=id).seat_tax)
-        self.total_price = sum(PassengerSeat(pnr=id).seat_total)
-        self.paid_service = any(seat.paid_service for seat in PassengerSeat(pnr=id))
-        self.group_booking = len(PassengerSeat(pnr=id)) > 1
-        self.loyalty_program = any(seat.loyalty_program for seat in PassengerSeat(pnr=id))
+        self.total_tax = sum(seat.seat_tax for seat in passenger_seats)
+        self.total_price = sum(seat.seat_total for seat in passenger_seats)
+        self.paid_service = any(seat.paid_service for seat in passenger_seats)
+        self.group_booking = len(passenger_seats) > 1
+        self.loyalty_program = any(seat.loyalty_program for seat in passenger_seats)
         super(PNR, self).save(*args, **kwargs)
 
     def __str__(self):
