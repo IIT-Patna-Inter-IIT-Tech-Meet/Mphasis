@@ -104,5 +104,5 @@ class Command(BaseCommand):
             return
         
         self.populate_passengers(options["pcount"])
-        # self.populate_PNR()
+        self.populate_PNR()
             
