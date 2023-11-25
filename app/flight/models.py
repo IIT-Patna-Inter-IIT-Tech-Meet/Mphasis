@@ -1,7 +1,7 @@
 from django.db import models
 from enum import Enum
-from django.contrib.postgres.fields import ArrayField
 from phonenumber_field.modelfields import PhoneNumberField
+from django.db import transaction
 
 # Create your models here.
 class Airport(models.Model):
@@ -186,7 +186,6 @@ class PassengerSeat(models.Model):
 class PNR(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
-    # seats = models.ManyToManyField(PassengerSeat, related_name='pnr_seats')
     timestamp = models.DateTimeField(null=False)
     total_tax = models.FloatField(null=False, default=0)
     total_price = models.FloatField(null=False, default=0)
