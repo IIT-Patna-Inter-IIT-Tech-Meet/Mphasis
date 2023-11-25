@@ -87,6 +87,12 @@ class Command(BaseCommand):
                     flight = Flight.objects.get(id = flight_id)
                     print("Flight already exists : ", flight)
                 except Flight.DoesNotExist:
+                    try:
+                        status_json = source["flight"]["status"]["generic"]["status"]["color"]
+                        if status_json is None:
+                            status_json = "green"
+                    except:
+                        status_json = "green"
                     flight = Flight.objects.create(
                         id = flight_id,
                         flight_number = source["flight"]["identification"]["number"]["default"],
@@ -96,7 +102,7 @@ class Command(BaseCommand):
                         departure_time = datetime.fromtimestamp(source["flight"]["time"]["scheduled"]["departure"],tz=pytz.timezone(TIME_ZONE)),
                         arrival_time = datetime.fromtimestamp(source["flight"]["time"]["scheduled"]["arrival"], tz=pytz.timezone(TIME_ZONE)),
                         flight_time = int(source["flight"]["time"]["scheduled"]["arrival"]) - int(source["flight"]["time"]["scheduled"]["departure"]),
-                        status = "green",
+                        status = status_json,
                     )
                     flight.save()
                     print("Flight added : ", flight)
@@ -110,7 +116,7 @@ class Command(BaseCommand):
 def loadjson():
     all_codes = ['gop', 'ixi', 'pbd', 'ixu', 'ltu', 'rgh', 'vtz', 'myq', 'rrk', 'bep', 'ixq', 'gux', 'ktu', 'ixe', 'rmd', 'ixy', 'hyd', 'gay', 'jga', 'nvy', 'cbd', 'tni', 'rew', 'ixc', 'ixm', 'jlr', 'agx', 'pyb', 'ixd', 'jrh', 'amd', 'vga', 'bek', 'ixz', 'jsa', 'rup', 'bho', 'pnq', 'ixx', 'hsr', 'lko', 'maa', 'dbr', 'blr', 'nag', 'tir', 'ixr', 'rdp', 'sag', 'kqh', 'mzu', 'raj', 'pat', 'put', 'ixk', 'gbi', 'ixp', 'dgh', 'ixj', 'aip', 'pgh', 'imf', 'shl', 'jai', 'pny', 'dib', 'ixa', 'trv', 'sse', 'ajl', 'hss', 'bpm', 'diu', 'bhu', 'dhm', 'del', 'udr', 'ixb', 'tez', 'sxr', 'bbi', 'hjr', 'gox', 'hbx', 'omn', 'cnn', 'cjb', 'stv', 'cok', 'ixg', 'ixs', 'tei', 'bhj', 'ixh', 'bup', 'gwl', 'idr', 'klh', 'wgc', 'bkb', 'bom', 'jdh', 'dbd', 'atq', 'rtc', 'ded', 'goi', 'rja', 'knu', 'trz', 'isk', 'pab', 'ixl', 'ccj', 'kuu', 'hgi', 'sdw', 'bdq', 'akd', 'coh', 'sxv', 'agr', 'kjb', 'dep', 'ixt', 'ixw', 'vns', 'pyg', 'rpr', 'luh', 'ccu', 'slv', 'lda', 'jrg', 'tcr', 'ixn', 'gdb', 'cdp', 'gau', 'ndc', 'ixv', 'nmb', 'zer', 'rji', 'vdy', 'dmu', 'kbk', 'tjv', 'jgb']
     for code in all_codes:
-        filepath = f"flight/management/data/routes/data/arrival_{code}.json"
+        filepath = f"flight/management/data/data/arrival_{code}.json"
         with open(filepath, "r") as f:
             data = json.load(f)
         yield data
