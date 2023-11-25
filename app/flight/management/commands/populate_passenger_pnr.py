@@ -1,6 +1,3 @@
-import json
-import pytz
-import uuid
 from datetime import datetime
 from django.db import transaction
 from django.core.management.base import BaseCommand
