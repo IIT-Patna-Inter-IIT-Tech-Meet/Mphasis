@@ -23,10 +23,13 @@ class Command(BaseCommand):
         print("Cleaned")
     
     def populate_basics(self):
+        '''
+        Populates ClassType and CabinType
+        '''
         class_types = ['A', 'C', 'K']
         cabin_types = ['F', 'J', 'Y']
 
-        for i in range(3):
+        for i in range(len(class_types)):
             try:
                 class_type = ClassType.objects.get(
                     type_name=class_types[i],
@@ -64,7 +67,7 @@ class Command(BaseCommand):
                             cabin_type=cabin_type,
                         )
                     except SeatDistribution.DoesNotExist:                        
-                        seats_count = random.choice([50, 100, 200])
+                        seats_count = random.choice([50, 100, 200]) # ! need a realistic distribution 
                         seat_distribution = SeatDistribution.objects.create(
                             aircraft_id=aircraft,
                             class_type=class_type,

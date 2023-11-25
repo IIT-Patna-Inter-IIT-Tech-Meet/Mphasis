@@ -76,8 +76,6 @@ class Command(BaseCommand):
                     source_airport = Airport.objects.get(iata_code = origin)
                 except Airport.DoesNotExist:
                     # can't add
-                    source_airport = None
-                if source_airport is None:
                     continue
                     
                 flight_id = source["flight"]["identification"]["id"]
