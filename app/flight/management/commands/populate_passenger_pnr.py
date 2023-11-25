@@ -22,6 +22,13 @@ class Command(BaseCommand):
             action="store_true",
             help="clean table before populating",
         )
+
+        parser.add_argument(
+            "--pcount",
+            default=NUM_PASSENGERS,
+            type=int,
+            help="populate passengers",
+        )
         
     def clean(self):
         with transaction.atomic():
@@ -29,8 +36,8 @@ class Command(BaseCommand):
             Passenger.objects.all().delete()
         print("Cleaned")
     
-    def populate_passengers(self):
-        for _ in range(NUM_PASSENGERS):
+    def populate_passengers(self, pcount):
+        for _ in range(pcount):
             passenger = Passenger.objects.create(
                 first_name=fake.first_name(),
                 last_name=fake.last_name(),
@@ -92,6 +99,6 @@ class Command(BaseCommand):
             self.clean()
             return
         
-        self.populate_passengers()
-        self.populate_PNR()
+        self.populate_passengers(options["pcount"])
+        # self.populate_PNR()
             
