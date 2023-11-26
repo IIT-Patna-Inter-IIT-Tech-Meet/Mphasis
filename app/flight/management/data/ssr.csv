@@ -1,0 +1,15 @@
+abb,des,score
+INFT,"Infant",200
+WCHR,"Wheelchair, can walk",200
+WCHS,"Wheelchair, cant climb stairs",200
+WCHC,"Complete immobile",200
+LANG,"Language restrictions",200
+CHLD,"Child",200
+MAAS,"Meet and assist - many reasons",200
+UNMR,"Unaccompanied minor",200
+BLND,"Blind",200
+DEAF,"Deaf",200
+EXST,"Large person taking up two seats",200
+MEAL,"Meal request",200
+NSST,"seat information",200
+NRPS,"No seat request",200
