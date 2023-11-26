@@ -1,10 +1,10 @@
 import json
 import pytz
-import uuid
+import random
 from datetime import datetime
 from django.db import transaction
 from django.core.management.base import BaseCommand
-from flight.models import Airport, Aircraft, Flight
+from flight.models import Airport, Aircraft, Flight, ClassType, SeatDistribution
 
 TIME_ZONE = "Asia/Kolkata"
 
@@ -20,6 +20,7 @@ class Command(BaseCommand):
 
     def clean(self):
         with transaction.atomic():
+            SeatDistribution.objects.all().delete()
             Flight.objects.all().delete()
             Aircraft.objects.all().delete()
         print("Cleaned")
@@ -28,6 +29,9 @@ class Command(BaseCommand):
         if options["clean"]:
             self.clean()
             return
+        
+        all_class = ClassType.objects.all()
+        classes = list(all_class)
 
         for data in loadjson():
             dst_iatacode = data["result"]["request"]["code"]
@@ -66,6 +70,20 @@ class Command(BaseCommand):
                         owner_name = owner_name[0],
                     )
                     aircraft.save()
+
+                    # add seat distribution
+                    # choose n class from all_class at random
+                    n = random.randint(2,4)
+                    random_classes = random.sample(classes, n)
+                    for c in random_classes:
+                        seat_count = random.randint(c.lower, c.upper)*2
+                        seat_distribution = SeatDistribution.objects.create(
+                            aircraft_id = aircraft,
+                            class_type = c,
+                            seat_count = seat_count,
+                        )
+                        seat_distribution.save()
+
                     print("Aircraft added : ", aircraft)
                 except Exception as e:
                     print(e)
@@ -103,9 +121,6 @@ class Command(BaseCommand):
                         status = status_json,
                     )
                     flight.save()
-
-                    # add seat distribution
-                    
                     print("Flight added : ", flight)
                 except Exception as e:
                     print(e, flight_id)
@@ -117,7 +132,7 @@ class Command(BaseCommand):
 def loadjson():
     all_codes = ['gop', 'ixi', 'pbd', 'ixu', 'ltu', 'rgh', 'vtz', 'myq', 'rrk', 'bep', 'ixq', 'gux', 'ktu', 'ixe', 'rmd', 'ixy', 'hyd', 'gay', 'jga', 'nvy', 'cbd', 'tni', 'rew', 'ixc', 'ixm', 'jlr', 'agx', 'pyb', 'ixd', 'jrh', 'amd', 'vga', 'bek', 'ixz', 'jsa', 'rup', 'bho', 'pnq', 'ixx', 'hsr', 'lko', 'maa', 'dbr', 'blr', 'nag', 'tir', 'ixr', 'rdp', 'sag', 'kqh', 'mzu', 'raj', 'pat', 'put', 'ixk', 'gbi', 'ixp', 'dgh', 'ixj', 'aip', 'pgh', 'imf', 'shl', 'jai', 'pny', 'dib', 'ixa', 'trv', 'sse', 'ajl', 'hss', 'bpm', 'diu', 'bhu', 'dhm', 'del', 'udr', 'ixb', 'tez', 'sxr', 'bbi', 'hjr', 'gox', 'hbx', 'omn', 'cnn', 'cjb', 'stv', 'cok', 'ixg', 'ixs', 'tei', 'bhj', 'ixh', 'bup', 'gwl', 'idr', 'klh', 'wgc', 'bkb', 'bom', 'jdh', 'dbd', 'atq', 'rtc', 'ded', 'goi', 'rja', 'knu', 'trz', 'isk', 'pab', 'ixl', 'ccj', 'kuu', 'hgi', 'sdw', 'bdq', 'akd', 'coh', 'sxv', 'agr', 'kjb', 'dep', 'ixt', 'ixw', 'vns', 'pyg', 'rpr', 'luh', 'ccu', 'slv', 'lda', 'jrg', 'tcr', 'ixn', 'gdb', 'cdp', 'gau', 'ndc', 'ixv', 'nmb', 'zer', 'rji', 'vdy', 'dmu', 'kbk', 'tjv', 'jgb']
     for code in all_codes:
-        filepath = f"flight/management/data/data/arrival_{code}.json"
+        filepath = f"flight/management/data/routes/data/arrival_{code}.json"
         with open(filepath, "r") as f:
             data = json.load(f)
         yield data
