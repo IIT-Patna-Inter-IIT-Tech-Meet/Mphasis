@@ -1,7 +1,8 @@
 abb,des,score
-ARM,"Armed Forces",500
-DOC,"Doctors and Nurses",500
-FAM,"Family and Friends",500
-MIN,"Unaccompanied Minors",500
-STD,"Students",500
-EXL,"Exclusives",500
+NOR,"Normal",0,0.5
+ARM,"Armed Forces",500,0.2
+DOC,"Doctors and Nurses",500,0.1
+FAM,"Family and Friends",500,0.01
+MIN,"Unaccompanied Minors",500m,0.01
+STD,"Students",500,0.1
+EXL,"Exclusives",500,0.08
