@@ -45,7 +45,6 @@ class Command(BaseCommand):
             print("Passenger added : ", passenger)
     
     def populate_PNR(self):
-        
         pass
 
                 

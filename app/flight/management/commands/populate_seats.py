@@ -9,7 +9,7 @@ import random
 import pandas as pd
 
 class Command(BaseCommand):
-    help = "Populate Seats data"
+    help = "Populate Cabin Types, Class Types, SSRs, Groups, and Seat Distribution\n--clean: clear the tables"
 
     def add_arguments(self, parser):
         parser.add_argument(

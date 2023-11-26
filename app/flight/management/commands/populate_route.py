@@ -103,6 +103,9 @@ class Command(BaseCommand):
                         status = status_json,
                     )
                     flight.save()
+
+                    # add seat distribution
+                    
                     print("Flight added : ", flight)
                 except Exception as e:
                     print(e, flight_id)
