@@ -64,6 +64,7 @@ class Command(BaseCommand):
                     ssr_name=df_ssr["abb"][i],
                     ssr_des=df_ssr["des"][i],
                     ssr_point=df_ssr["score"][i],
+                    probability=df_ssr["probability"][i],
                 )
                 print(f"added ssr instance {ssr_type}")
 
