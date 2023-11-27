@@ -38,7 +38,7 @@ class Airport(models.Model):
     score = models.IntegerField(null=True)
 
     def __str__(self):
-        return f"[{self.iata_code}-{self.ident}]"
+        return f"[{self.iata_code}]"
 
 class Aircraft(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True, unique=True)
@@ -52,39 +52,56 @@ class Aircraft(models.Model):
         return f"[{self.registration}-{self.owner_code}]"
 
 class ClassType(models.Model):
-    types = [
-        ('A', 'First Class'),
-        ('C', 'Business Class'),
-        ('K', 'Economy Class')
-    ]
-    
     id = models.AutoField(primary_key=True, auto_created=True)
-    type_name = models.CharField(max_length=255, null=False, choices=types)
+    type_name = models.CharField(max_length=255, null=False)
+    des = models.CharField(max_length=225, null=False)
+    score = models.IntegerField(null=False, default=0)
+    cabin = models.ForeignKey('CabinType', on_delete=models.CASCADE, null=True)
+    upper = models.IntegerField(null=False, default=0)
+    lower = models.IntegerField(null=False, default=0)
+    
+    def __str__(self):
+        return f"[{self.type_name}]"
 
 class CabinType(models.Model):
-    types = [
-        ('F', 'First Cabin'),
-        ('J', 'Second Cabin'),
-        ('Y', 'Third Cabin')
-    ]
-    
     id = models.AutoField(primary_key=True, auto_created=True)
-    type_name = models.CharField(max_length=255, null=False, choices=types)
+    type_name = models.CharField(max_length=255, null=False)
+    des = models.CharField(max_length=225, null=False)
+    score = models.IntegerField(null=False, default=0)
+    
+    def __str__(self):
+        return f"[{self.type_name}]"
+    
+class SSR(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    ssr_name = models.CharField(max_length=255, null=False)
+    ssr_des = models.CharField(max_length=255, null=False)
+    ssr_point = models.IntegerField(null=False)
+    probability = models.FloatField(null=False, default=0.1)
+
+    def __str__(self):
+        return f"[{self.ssr_name}]"
+    
+class Group(models.Model):
+    id = models.AutoField(primary_key=True, auto_created=True)
+    group_name = models.CharField(max_length=255, null=False)
+    group_des = models.CharField(max_length=255, null=False)
+    group_point = models.IntegerField(null=False)
+    probability = models.FloatField(null=False, default=0.2)
+    
+    def __str__(self):
+        return f"[{self.group_name}]"
+    
 
 class SeatDistribution(models.Model):
     aircraft_id = models.ForeignKey(Aircraft, on_delete=models.DO_NOTHING, null=False)
     class_type = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
-    cabin_type = models.ForeignKey(CabinType, on_delete=models.DO_NOTHING, null=False)
     seat_count = models.IntegerField(null=False, default=0)
-    seat_avail = models.IntegerField(null=False, default=0)
-    def save(self, *args, **kwargs):
-        # Set seat_avail to be equal to seat_count on creation
-        if not self.pk:  # If this is a new instance
-            self.seat_avail = self.seat_count
-
-        # Call the original save method
-        super(SeatDistribution, self).save(*args, **kwargs)
-
+    # seat_avail = models.IntegerField(null=False, default=0) # cant map here
+        
+    def __str__(self):
+        return f"[{self.aircraft_id}-{self.seat_count}]"
+    
 
 class Flight(models.Model):
     status_types = [
@@ -107,103 +124,91 @@ class Flight(models.Model):
     
 class Passenger(models.Model):
     id = models.AutoField(primary_key=True, auto_created=True)
-    first_name = models.CharField(max_length=255, null=False)
-    last_name = models.CharField(max_length=255, null=False)
+    name = models.CharField(max_length=255, null=False, default="")
     phone_no = PhoneNumberField(blank=False, null=False) 
     email = models.EmailField(max_length=254, blank=False, null=False)
     
     def __str__(self):
-        return f"[{self.first_name}-{self.last_name}-{self.phone_no}-{self.email}]"
-    
-class PassengerSeat(models.Model):
-    ssr_types = [
-        ('INFT' , 'Infant'),
-        ('WCHR' , 'Wheelchair, can walk'),
-        ('WCHS' , 'Wheelchair, can\'t climb stairs'),
-        ('WCHC' , 'Complete immobile'),
-        ('LANG' , 'Language restrictions'),
-        ('CHLD' , 'Child'),
-        ('MAAS' , 'Meet and assist - many reasons'),
-        ('UNMR' , 'Unaccompanied minor'),
-        ('BLND' , 'Blind'),
-        ('DEAF' , 'Deaf'),
-        ('EXST' , 'Large person taking up two seats'),
-        ('MEAL' , 'Meal request'),
-        ('NSST' , 'seat information'),
-        ('NRPS' , 'No seat request')
-    ]
-    
-    id = models.AutoField(primary_key=True, auto_created=True)
-    passenger = models.ForeignKey('Passenger', on_delete=models.DO_NOTHING, null=False)
-    pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False)
-    seat_number = models.CharField(max_length=255, null=False)
-    seat_class = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
-    seat_cabin = models.ForeignKey(CabinType, on_delete=models.DO_NOTHING, null=False)
-    seat_price = models.FloatField(null=False, default=0)
-    seat_tax = models.FloatField(null=False, default=0)
-    seat_total = models.FloatField(null=False, default=0)
-    ssr = models.CharField(max_length=255, null=True, choices=ssr_types)
-    paid_service = models.BooleanField(null=False, default=False)
-    loyalty_program = models.BooleanField(null=False, default=False)
-    
-    def save(self, *args, **kwargs):
-        try:
-            seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
-            # Decrease seat_avail by one when a new PassengerSeat is created
-            with transaction.atomic():
-                seat_distribution.seat_avail -= 1
-                seat_distribution.save()
-        except SeatDistribution.DoesNotExist:
-            # If the SeatDistribution does not exist, create a new one
-            seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin, seat_count=0, seat_avail=0)
-            seat_distribution.save()
-        
-        # Calculate seat_total
-        self.seat_total = self.seat_price + self.seat_tax
-
-        # Call the original save method
-        super(PassengerSeat, self).save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        try:
-            seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
-            # Increase seat_avail by one when a PassengerSeat is deleted
-            with transaction.atomic():
-                seat_distribution.seat_avail += 1
-                seat_distribution.save()
-        except SeatDistribution.DoesNotExist:
-            # If the SeatDistribution does not exist, create a new one
-            seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin, seat_count=100, seat_avail=100)
-            seat_distribution.save()
-
-        # Call the original delete method
-        super(PassengerSeat, self).delete(*args, **kwargs)
-
-    def __str__(self):
-        return f"[{self.flight}-{self.passenger}-{self.seat_number}-{self.seat_class}-{self.seat_cabin}-{self.ssr}]"
+        return f"[{self.email}]"
 
 class PNR(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True)
-    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
-    timestamp = models.DateTimeField(null=False)
+    pnr = models.CharField(max_length=6, null=False, unique=True, primary_key=True)
+    passenger = models.ForeignKey(Passenger, on_delete=models.DO_NOTHING, null=False)
+    timestamp = models.DateTimeField(null=False, auto_now=True)
+    total_amount = models.FloatField(null=False, default=0)
     total_tax = models.FloatField(null=False, default=0)
-    total_price = models.FloatField(null=False, default=0)
-    seat_currency = models.CharField(max_length=255, null=False)
+    currency = models.CharField(max_length=255, null=False)
+    seat_class = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
     paid_service = models.BooleanField(null=False, default=False)
-    group_booking = models.BooleanField(null=False, default=False)
     loyalty_program = models.BooleanField(null=False, default=False)
-
-    def save(self, *args, **kwargs):
-        passenger_seats = PassengerSeat.objects.filter(pnr=self)
-        # Sum up the total prices of all PassengerSeat instances
-        self.total_tax = sum(seat.seat_tax for seat in passenger_seats)
-        self.total_price = sum(seat.seat_total for seat in passenger_seats)
-        self.paid_service = any(seat.paid_service for seat in passenger_seats)
-        self.group_booking = len(passenger_seats) > 1
-        self.loyalty_program = any(seat.loyalty_program for seat in passenger_seats)
-        super(PNR, self).save(*args, **kwargs)
+    conn = models.IntegerField(null=False, default=0)
+    pax = models.IntegerField(null=False, default=0)
+    booking_type = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=False)
+    ssr = models.IntegerField(null=False, default=0)
+    score = models.IntegerField(null=False, default=0)
 
     def __str__(self):
-        return f"[{self.id}-{self.flight}-{self.total_price}-{self.seat_currency}]"
+        return f"[{self.pnr}]"
+    
+class PnrFlightMapping(models.Model):
+    pnr = models.ForeignKey(PNR, on_delete=models.CASCADE, null=False)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
+    
+    def __str__(self):
+        return f"[{self.pnr}-{self.flight}]"
+
+    
+# class PassengerSeat(models.Model):
+    
+#     id = models.AutoField(primary_key=True, auto_created=True)
+#     passenger = models.ForeignKey(Passenger, on_delete=models.DO_NOTHING, null=False)
+#     pnr = models.ForeignKey('PNR', on_delete=models.CASCADE, null=False)
+    
+#     def save(self, *args, **kwargs):
+#         try:
+#             seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
+#             # Decrease seat_avail by one when a new PassengerSeat is created
+#             with transaction.atomic():
+#                 if seat_distribution.seat_avail <= 0:
+#                     raise Exception("No seats available")
+#                 else: 
+#                     seat_distribution.seat_avail -= 1
+#                     seat_distribution.save()
+#         except SeatDistribution.DoesNotExist:
+#             # If the SeatDistribution does not exist, create a new one
+#             with transaction.atomic():
+#                 seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.pnr.seat_class, cabin_type=self.pnr.seat_cabin, seat_count=100, seat_avail=100)
+#                 seat_distribution.save()
+#                 if seat_distribution.seat_avail <= 0:
+#                     raise Exception("No seats available")
+#                 else: 
+#                     seat_distribution.seat_avail -= 1
+#                     seat_distribution.save()
+        
+#         # Calculate seat_total
+#         self.seat_total = self.seat_price + self.seat_tax
+
+#         # Call the original save method
+#         super(PassengerSeat, self).save(*args, **kwargs)
+
+#     def delete(self, *args, **kwargs):
+#         try:
+#             seat_distribution = SeatDistribution.objects.get(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin)
+#             # Increase seat_avail by one when a PassengerSeat is deleted
+#             with transaction.atomic():
+#                 seat_distribution.seat_avail += 1
+#                 seat_distribution.save()
+#         except SeatDistribution.DoesNotExist:
+#             # If the SeatDistribution does not exist, create a new one
+#             with transaction.atomic():
+#                 seat_distribution = SeatDistribution(aircraft_id=self.pnr.flight.aircraft_id, class_type=self.seat_class, cabin_type=self.seat_cabin, seat_count=100, seat_avail=100)
+#                 seat_distribution.save()
+
+#         # Call the original delete method
+#         super(PassengerSeat, self).delete(*args, **kwargs)
+
+#     def __str__(self):
+#         return f"[{self.flight}-{self.passenger}-{self.seat_number}-{self.seat_class}-{self.seat_cabin}-{self.ssr}]"
+
 
 

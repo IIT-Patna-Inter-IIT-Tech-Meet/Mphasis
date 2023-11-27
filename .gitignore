@@ -163,4 +163,6 @@ cython_debug/
 gather_data.py.py
 routes
 dataset/test.json
-data/
+*.json
+
+dbdump
