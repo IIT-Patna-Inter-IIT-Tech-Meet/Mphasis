@@ -1,15 +1,15 @@
-abb,des,score
-INFT,"Infant",200
-WCHR,"Wheelchair, can walk",200
-WCHS,"Wheelchair, cant climb stairs",200
-WCHC,"Complete immobile",200
-LANG,"Language restrictions",200
-CHLD,"Child",200
-MAAS,"Meet and assist - many reasons",200
-UNMR,"Unaccompanied minor",200
-BLND,"Blind",200
-DEAF,"Deaf",200
-EXST,"Large person taking up two seats",200
-MEAL,"Meal request",200
-NSST,"seat information",200
-NRPS,"No seat request",200
+abb,des,score,prob
+INFT,"Infant",200,0.002
+WCHR,"Wheelchair, can walk",200,0.004
+WCHS,"Wheelchair, cant climb stairs",200,0.004
+WCHC,"Complete immobile",200,0.0001
+LANG,"Language restrictions",200,0.0001
+CHLD,"Child",200,0.003
+MAAS,"Meet and assist - many reasons",200,0.0001
+UNMR,"Unaccompanied minor",200,0.0001
+BLND,"Blind",200,0.0001
+DEAF,"Deaf",200,0.0001
+EXST,"Large person taking up two seats",200,0.00001
+MEAL,"Meal request",200,0.0001
+NSST,"seat information",200,0.0001
+NRPS,"No seat request",200,0.0001

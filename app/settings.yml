@@ -1,5 +1,5 @@
 neighbouring_dst: 100
-pax_probabilty:
+pax_probability:
   1: 0.3
   2: 0.32
   3: 0.28
@@ -12,10 +12,13 @@ pax_probabilty:
 connecting:
   upper_limit: 3
   lower_limit: 1
-  probability: 0.1
+  probability: 0.001
+  score: 100
 paid_service: 0.08
-loyalty: 0.03
-
+loyality: 0.003
+paid_service_score: 200
+loyality_program_score: 2000
+pax_score: 50
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001

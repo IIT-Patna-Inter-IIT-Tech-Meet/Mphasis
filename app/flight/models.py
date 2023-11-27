@@ -134,7 +134,7 @@ class Passenger(models.Model):
 class PNR(models.Model):
     pnr = models.CharField(max_length=6, null=False, unique=True, primary_key=True)
     passenger = models.ForeignKey(Passenger, on_delete=models.DO_NOTHING, null=False)
-    timestamp = models.DateTimeField(null=False)
+    timestamp = models.DateTimeField(null=False, auto_now=True)
     total_amount = models.FloatField(null=False, default=0)
     total_tax = models.FloatField(null=False, default=0)
     currency = models.CharField(max_length=255, null=False)
@@ -145,6 +145,7 @@ class PNR(models.Model):
     pax = models.IntegerField(null=False, default=0)
     booking_type = models.ForeignKey(Group, on_delete=models.DO_NOTHING, null=False)
     ssr = models.IntegerField(null=False, default=0)
+    score = models.IntegerField(null=False, default=0)
 
     def __str__(self):
         return f"[{self.pnr}]"
