@@ -4,7 +4,7 @@ from flight.models import CabinType, ClassType, SeatDistribution, Group, SSR
 import pandas as pd
 
 class Command(BaseCommand):
-    help = "Populate Cabin Types, Class Types, SSRs, Groups, and Seat Distribution\n--clean: clear the tables"
+    help = "Populate Cabin Types, Class Types, SSRs, Groups\n--clean: clear the tables"
 
     def add_arguments(self, parser):
         parser.add_argument(
