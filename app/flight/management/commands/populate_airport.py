@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from flight.models import Airport
-
+from tqdm import trange, tqdm
 
 class Command(BaseCommand):
     help = """
@@ -10,7 +10,7 @@ class Command(BaseCommand):
     all_tables = {"airport": Airport}
 
     def handle(self, *args, **options):
-        if options["delete"]:
+        if options["clean"]:
             delete_all(self.all_tables[options["tablename"]])
 
         if options["tablename"] == "airport":
@@ -32,7 +32,7 @@ class Command(BaseCommand):
             nargs="?",
         )
         parser.add_argument(
-            "--delete",
+            "--clean",
             action="store_true",
             help="Delete all data from table before populating",
         )
@@ -48,7 +48,10 @@ def populate_airport(filename="flight/management/data/in-airports.csv"):
 
     with open(filename, "r") as csvfile:
         reader = csv.DictReader(csvfile)
+        airports = []
         for row in reader:
+            if row["iata_code"] == "":
+                continue
             airport = Airport()
             airport.id = row["id"]
             airport.ident = row["ident"]
@@ -73,5 +76,7 @@ def populate_airport(filename="flight/management/data/in-airports.csv"):
             airport.wikipedia_link = row["wikipedia_link"]
             airport.keywords = row["keywords"]
             airport.score = row["score"]
-            airport.save()
-            print(f"Added {airport.name} to the database")
+            airports.append(airport)
+            # airport.save()
+        Airport.objects.bulk_create(airports)
+        print(f"Added {len(airports)} to the database")
