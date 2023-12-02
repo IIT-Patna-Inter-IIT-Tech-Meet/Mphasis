@@ -12,6 +12,8 @@ class Airport(models.Model):
         iata_code, continent, iso_country, iso_region, id
     Dependency:
         Null
+    Populated by:
+        `python3 manage.py populate_airport --clean`
     """
 
     airport_types = [
@@ -58,6 +60,10 @@ class Aircraft(models.Model):
         id, total_capacity, cabin/class wise capacity
     Uncleared fields:
         *invenotry
+    Dependency:
+        Null
+    Populated by:
+        `python3 manage.py populate_aircraft --clean`
     """
 
     id = models.AutoField(primary_key=True, auto_created=True, unique=True)
@@ -81,6 +87,8 @@ class ClassType(models.Model):
         id, mapped cabin type, mapped seat distribution
     Dependency:
         CabinType
+    Populated by:
+        `python3 manage.py populate_basic --clean`
     """
 
     id = models.AutoField(primary_key=True, auto_created=True)
@@ -103,6 +111,8 @@ class CabinType(models.Model):
         Buisness, Economy, First, Premium Economy > these are considered as cabin type
     Dependency:
         Null
+    Populated by:
+        `python3 manage.py populate_basic --clean`
     """
     id = models.AutoField(primary_key=True, auto_created=True)
     type_name = models.CharField(max_length=255, null=False)
@@ -117,6 +127,12 @@ class SSR(models.Model):
     Model: SSR
     Description: Special Service Request
     Data: Crafted Data / Dynamic Entry during FlightSchedule creation
+    Important fields:
+        id, ssr_point
+    Dependency:
+        Null
+    Populated by:
+        `python3 manage.py populate_basic --clean`
     """
     id = models.AutoField(primary_key=True, auto_created=True)
     ssr_name = models.CharField(max_length=255, null=False)
@@ -132,6 +148,12 @@ class Group(models.Model):
     Model: Group
     Description: Entry per group
     Data: Crafted Data / Dynamic Entry during FlightSchedule creation
+    Important fields:
+        id, group_point
+    Dependency:
+        Null
+    Populated by:
+        `python3 manage.py populate_basic --clean`
     """
     id = models.AutoField(primary_key=True, auto_created=True)
     group_name = models.CharField(max_length=255, null=False)
@@ -147,6 +169,12 @@ class Carrier(models.Model):
     Model: Carrier
     Description: Entry per carrier, don't know what it is
     Data: Random Entry
+    Important fields:
+        code, desc
+    Dependency:
+        Null
+    Populated by:
+        `python3 manage.py populate_basic --clean`
     """
     code = models.CharField(max_length=5, null=False, primary_key=True)
     desc = models.CharField(max_length=255, null=False)
@@ -161,6 +189,8 @@ class SeatDistribution(models.Model):
     Dependency:
         Aircraft, ClassType, CabinType
     Data: Distributed
+    Populated by:
+        `python3 manage.py populate_aircraft --clean`
     """
     aircraft_id = models.ForeignKey(Aircraft, on_delete=models.DO_NOTHING, null=False)
     class_type = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False)
