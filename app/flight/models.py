@@ -67,7 +67,7 @@ class Aircraft(models.Model):
     """
 
     id = models.AutoField(primary_key=True, auto_created=True, unique=True)
-    model = models.CharField(max_length=25, null=False)
+    model = models.CharField(max_length=25, null=False) # aircraft type 
     name = models.CharField(max_length=255, null=True, blank=True)
     registration = models.CharField(max_length=255, null=False)
     owner_code = models.CharField(max_length=255, null=False)
@@ -213,15 +213,16 @@ class FlightSchedule(models.Model):
         The status field is used for determining the status of 1st upcoming flight.
     Dependency:
         Aircraft, Airport, Carrier
+    Populated by:
+        `python3 manage.py populate_flight --clean`
     """
-
 
     status_types = [
         ('Scheduled', 'Booking open'),
         ('Planning', 'Booking not allowed'),
         ('Canclled', 'Time to reschedule')
     ]
-    id = models. CharField(max_length=255, primary_key=True, unique=True, null=False) # Schedule ID
+    id = models.CharField(max_length=255, primary_key=True, unique=True, null=False) # Schedule ID
     carrier_cd = models.ForeignKey(Carrier, on_delete=models.DO_NOTHING, null=True)
     # flight_number = models.CharField(max_length=255, null=False)
     aircraft_id = models.ForeignKey(Aircraft, on_delete=models.DO_NOTHING, null=False)
@@ -253,6 +254,8 @@ class FlightScheduleDate(models.Model):
     Description:
         This models ensures which date the flight will run.
         A one to many relationship with FlightSchedule
+    Populated by:
+        `python3 manage.py populate_flight --clean`
     """
     schedule = models.ForeignKey(FlightSchedule, on_delete=models.CASCADE, null=False)
     date = models.DateField(null=False)
@@ -268,6 +271,8 @@ class Flight(models.Model):
         This model acts as a bridge between FlightSchedule and PNR
         ideally, this should be cancelled during the flight schedule cancellation
         One to One mappring with FlightScheduleDate
+    Populated by:
+        `python3 manage.py populate_flight --clean`
     """
     status_types = [
         ('Scheduled', 'Booking open'),
@@ -278,7 +283,10 @@ class Flight(models.Model):
     flight_id = models.CharField(max_length=255, null=False, primary_key=True, unique=True)
     schedule = models.ForeignKey(FlightScheduleDate, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=255, null=False, choices=status_types)
-
+    departure = models.DateTimeField(null=True)
+    arrival = models.DateTimeField(null=True)
+    src = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=True, related_name='src')
+    dst = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=True, related_name='dst')
 
 class PNR(models.Model):
     """
@@ -295,11 +303,14 @@ class PNR(models.Model):
         pax
         booking_type
             sum(PnrPassenger->ssr)
+        
+    Populated by:
+        `python3 manage.py populate_pnr --clean`
     """
     pnr = models.CharField(max_length=6, null=False, unique=True, primary_key=True)
     timestamp = models.DateTimeField(null=False, auto_now=True)
-    dep_key = models.CharField(max_length=255, null=False) # DEP_KEY : DON'T know what it is
-    status = models.CharField(max_length=10, null=False) # ACTION_CD
+    dep_key = models.CharField(max_length=255, null=True) # DEP_KEY : DON'T know what it is
+    status = models.CharField(max_length=10, null=True) # ACTION_CD
     seat_class = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False) # COS_CD
     seg_seq = models.IntegerField(null=False, default=0) # SEG_SEQ : DON"T know what it is
     carrier_cd = models.CharField(max_length=5, null= True, blank= True) # CARRIER_CD ambigious field
@@ -316,6 +327,10 @@ class PNR(models.Model):
 class PnrFlightMapping(models.Model):
     """
     Many to Many mapping between PNR and Flight
+    Dependency:
+        PNR, Flight
+    Populated by:
+        `python3 manage.py populate_pnr --clean`
     """
     pnr = models.ForeignKey(PNR, on_delete=models.CASCADE, null=False)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=False)
@@ -334,6 +349,10 @@ class PnrPassenger(models.Model):
         ssr
     Irrelevant Fields:
         scd1, scd2 ( this should not be here )
+    Populated by:
+        `python3 manage.py populate_pnr --clean`
+    Dependency:
+        PNR
     """
     recloc = models.ForeignKey(PNR, on_delete=models.CASCADE, null=False)
     creation_dtz = models.DateTimeField(null=False, auto_now=True)

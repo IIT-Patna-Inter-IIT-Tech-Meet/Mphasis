@@ -28,7 +28,7 @@ class Command(BaseCommand):
         df_class = pd.read_csv("flight/management/data/class.csv")
         df_ssr = pd.read_csv("flight/management/data/ssr.csv")
         df_group = pd.read_csv("flight/management/data/group.csv")
-        # df_carreir = pd.read_csv("flight/management/data/carreir.csv")
+        df_carreir = pd.read_csv("flight/management/data/carrier.csv")
         
         # populating Cabin Type table
         cabins = []
@@ -100,6 +100,20 @@ class Command(BaseCommand):
         if len(groups) > 0:
             Group.objects.bulk_create(groups)
         print(f"Added {len(groups)} group instance.")
+
+        # populating Carrier table
+        carriers = []
+        for i in range(len(df_carreir)):
+            try:
+                carrier_type = Carrier.objects.get(code=df_carreir["code"].iloc[i])
+            except Carrier.DoesNotExist:
+                carrier_type = Carrier(
+                    code=df_carreir["code"].iloc[i],
+                    desc=df_carreir["desc"].iloc[i],
+                )
+                carriers.append(carrier_type)
+        Carrier.objects.bulk_create(carriers)
+        print(f"Added {len(carriers)} carrier instance.")
             
     def handle(self, *args, **options):
         

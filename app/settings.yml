@@ -19,6 +19,7 @@ loyality: 0.003
 paid_service_score: 200
 loyality_program_score: 2000
 pax_score: 50
+safe: False
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001
