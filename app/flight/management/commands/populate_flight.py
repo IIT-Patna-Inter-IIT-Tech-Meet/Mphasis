@@ -103,7 +103,7 @@ class Command(BaseCommand):
                 today = start_date.strftime("%A")
                 delta = day_map[today]
                 c = 0
-                for j in range(random.randint(10, 20)):
+                for j in range(random.randint(3, 8)):
                     c += 1
                     # That day should be true in the schedule
                     # print(m)
@@ -112,6 +112,9 @@ class Command(BaseCommand):
                         # print(delta)
                     
                     date = start_date + datetime.timedelta(days=delta)
+                    if date > end_date:
+                        break
+
                     flight_date = FlightScheduleDate(
                         schedule=flight,
                         date=date,

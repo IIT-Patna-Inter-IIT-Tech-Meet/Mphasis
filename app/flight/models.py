@@ -49,7 +49,7 @@ class Airport(models.Model):
     score = models.IntegerField(null=True)
 
     def __str__(self):
-        return f"[{self.iata_code}]"
+        return f"[{self.iata_code}|{self.id}]"
 
 class Aircraft(models.Model):
     """
@@ -309,7 +309,7 @@ class PNR(models.Model):
     """
     pnr = models.CharField(max_length=6, null=False, unique=True, primary_key=True)
     timestamp = models.DateTimeField(null=False, auto_now=True)
-    dep_key = models.CharField(max_length=255, null=True) # DEP_KEY : DON'T know what it is
+    dep_key = models.CharField(max_length=255, null=True, blank=True) # DEP_KEY : DON'T know what it is
     status = models.CharField(max_length=10, null=True) # ACTION_CD
     seat_class = models.ForeignKey(ClassType, on_delete=models.DO_NOTHING, null=False) # COS_CD
     seg_seq = models.IntegerField(null=False, default=0) # SEG_SEQ : DON"T know what it is
@@ -358,7 +358,7 @@ class PnrPassenger(models.Model):
     creation_dtz = models.DateTimeField(null=False, auto_now=True)
     last_name = models.CharField(max_length=255, null=True, blank=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
-    nationality = models.CharField(max_length=255, null=True, blank=True)
+    nationality = models.CharField(max_length=255, null=True, blank=True, default='IN')
     contact_no = PhoneNumberField(blank=True, null=True)
     contact_email = models.EmailField(max_length=254, blank=True, null=True)
     doc_id = models.CharField(max_length=10, null=True, blank=True)
