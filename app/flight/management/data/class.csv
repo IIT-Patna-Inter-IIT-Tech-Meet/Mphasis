@@ -1,16 +1,27 @@
-abb,des,score,cabin,upper,lower
-A,"First Class",2000,J,10,4
-D,"First Class D",2000,J,8,2
-J,"First Class J",2000,J,8,4
-F,"Business Class F",1000,F,20,5
-B,"Business Class B",1000,F,15,5
-V,"Economy Class V",500,Y,50,25
-W,"Economy Class W",500,Y,60,30
-Z,"Economy Class Z",500,Y,50,20
-O,"Economy Class O",500,Y,55,35
-S,"Economy Class S",500,Y,60,20
-T,"Economy Class T",500,Y,60,30
-U,"Economy Class U",500,Y,60,30
-M,"Economy Class M",500,Y,60,30
-N,"Economy Class N",500,Y,60,30
-Y,"Economy Class Y",500,Y,60,30
+abb,des,score,cabin
+F,"First Class F",2000,F
+P,"First Class P",2000,F
+C,"Business Class J",1500,B
+J,"Business Class F",1500,B
+Z,"Business Class B",1500,B
+Q,"Premium Economy Class Q",500,P
+R,"Premium Economy Class R",500,P
+S,"Premium Economy Class S",500,P
+T,"Premium Economy Class T",500,P
+H,"Premium Economy Class H",500,P
+M,"Premium Economy Class M",500,P
+Y,"Economy Class Y",200,E
+A,"Economy Class A",200,E
+B,"Economy Class B",200,E
+D,"Economy Class D",200,E
+E,"Economy Class E",200,E
+G,"Economy Class G",200,E
+I,"Economy Class I",200,E
+K,"Economy Class K",200,E
+L,"Economy Class L",200,E
+N,"Economy Class N",200,E
+O,"Economy Class O",200,E
+U,"Economy Class U",200,E
+V,"Economy Class V",200,E
+W,"Economy Class W",200,E
+X,"Economy Class X",200,E

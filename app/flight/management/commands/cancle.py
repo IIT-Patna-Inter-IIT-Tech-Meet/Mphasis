@@ -9,7 +9,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--percent",
             type=float,
-            default=0.05,
+            default=0.001,
             help="Percentage of flights to cancel",
         )
 
@@ -18,15 +18,8 @@ class Command(BaseCommand):
         if percent < 0 or percent > 1:
             print("Invalid percentage")
             return
-
-        flights = Flight.objects.all()
-        num_flights = len(flights)
-        num_cancelled = int(num_flights * percent)
-
-        print(f"Cancelling {num_cancelled} flights out of {num_flights} flights")
-
-        for flight in flights.order_by("?")[:num_cancelled]:
-            flight.status = "red"
-            flight.save()
-
-        print("Done")
+        c = int(Flight.objects.count())
+        num_cancelled = int(c * percent)
+        flights = Flight.objects.order_by('?')[:num_cancelled].values_list('flight_id', flat=True)
+        Flight.objects.filter(flight_id__in=flights).update(status="Cancelled")
+        print(f"Cancelle {num_cancelled} flights out of {c} flights")

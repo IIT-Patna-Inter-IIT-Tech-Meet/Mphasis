@@ -1,0 +1,701 @@
+id,model,name,registration,owner_code,owner_name,total_capacity,total_inventory
+1,Bombardier Global 6000,,VT-1420,OD323,Malindo Air,298,342
+2,Beechcraft King Air,,VT-1015,I5294,AirAsia India,100,119
+3,Boeing 787 Dreamliner,,VT-5785,AI895,Air India,334,370
+4,Airbus A330,,VT-4216,I5402,AirAsia India,75,88
+5,Airbus A330,,VT-3060,G8521,GoAir,101,117
+6,Gulfstream G650,,VT-3617,6E993,IndiGo,58,65
+7,McDonnell Douglas MD-80,,VT-8449,UK198,Vistara,390,452
+8,Bombardier Global 6000,,VT-9689,G8730,GoAir,291,340
+9,Gulfstream G650,,VT-6524,6E180,IndiGo,76,86
+10,Airbus A380,,VT-3540,G8516,GoAir,362,398
+11,Beechcraft King Air,,VT-2342,G8849,GoAir,96,113
+12,Boeing 747,,VT-8338,AI208,Air India,306,351
+13,Boeing 777,,VT-2295,D7724,AirAsia X,73,87
+14,Airbus A320,,VT-2351,OD492,Malindo Air,76,86
+15,Airbus A380,,VT-7313,6E909,IndiGo,326,381
+16,Bombardier Global 6000,,VT-7384,I5396,AirAsia India,297,326
+17,McDonnell Douglas MD-80,,VT-5414,SG348,SpiceJet,397,468
+18,Cessna 172,,VT-6914,6E295,IndiGo,159,186
+19,Gulfstream G650,,VT-8834,IX590,Air India Express,51,59
+20,Boeing 787 Dreamliner,,VT-4511,IX998,Air India Express,399,446
+21,Boeing 737,,VT-9596,IX818,Air India Express,300,336
+22,Airbus A330,,VT-6473,G8830,GoAir,91,102
+23,Bombardier Global 6000,,VT-5138,OD668,Malindo Air,287,315
+24,Gulfstream G650,,VT-5606,OD587,Malindo Air,64,74
+25,ATR 72,,VT-7884,UK298,Vistara,88,100
+26,Piper PA-28 Cherokee,,VT-8799,UK823,Vistara,361,415
+27,Airbus A380,,VT-9128,AK123,AirAsia,362,401
+28,Airbus A320,,VT-1224,SG935,SpiceJet,56,62
+29,Gulfstream G650,,VT-6627,OD655,Malindo Air,69,79
+30,Airbus A330,,VT-2143,IX746,Air India Express,98,107
+31,Bombardier Global 6000,,VT-3268,I5959,AirAsia India,287,321
+32,Bombardier Global 6000,,VT-6390,AI140,Air India,307,343
+33,Airbus A330,,VT-7329,AI880,Air India,104,120
+34,Beechcraft King Air,,VT-9605,UK188,Vistara,97,109
+35,Bombardier CRJ700,,VT-3491,AK786,AirAsia,318,352
+36,Airbus A330,,VT-6404,G8927,GoAir,60,67
+37,Bombardier CRJ700,,VT-7030,SG510,SpiceJet,292,347
+38,Piper PA-28 Cherokee,,VT-2672,G8900,GoAir,354,403
+39,Bombardier Global 6000,,VT-6481,D7210,AirAsia X,297,335
+40,Boeing 787 Dreamliner,,VT-4782,IX173,Air India Express,403,459
+41,Embraer E190,,VT-8164,6E157,IndiGo,251,291
+42,Embraer E190,,VT-6045,UK964,Vistara,268,321
+43,Bombardier Global 6000,,VT-9965,D7793,AirAsia X,275,319
+44,Airbus A320,,VT-2732,SG952,SpiceJet,54,64
+45,Bombardier Global 6000,,VT-4443,AK316,AirAsia,301,340
+46,Boeing 787 Dreamliner,,VT-9758,G8620,GoAir,364,433
+47,Boeing 747,,VT-1925,I5960,AirAsia India,292,341
+48,Airbus A320,,VT-3151,AK743,AirAsia,61,72
+49,Bombardier Global 6000,,VT-1755,I5453,AirAsia India,305,362
+50,Airbus A330,,VT-4467,6E688,IndiGo,100,116
+51,Boeing 787 Dreamliner,,VT-7359,G8537,GoAir,413,483
+52,Gulfstream G650,,VT-8879,SG601,SpiceJet,56,66
+53,Boeing 747,,VT-5937,OD421,Malindo Air,307,362
+54,Boeing 777,,VT-1559,AK216,AirAsia,99,108
+55,Boeing 747,,VT-7751,SG284,SpiceJet,296,352
+56,Boeing 737,,VT-6351,AI794,Air India,284,320
+57,Beechcraft King Air,,VT-1195,6E119,IndiGo,88,100
+58,Piper PA-28 Cherokee,,VT-4472,I5378,AirAsia India,355,397
+59,McDonnell Douglas MD-80,,VT-9826,D7201,AirAsia X,398,461
+60,Bombardier Global 6000,,VT-1308,AI740,Air India,293,331
+61,Boeing 777,,VT-7592,I5822,AirAsia India,57,66
+62,Beechcraft King Air,,VT-6637,OD527,Malindo Air,104,114
+63,Beechcraft King Air,,VT-2543,UK957,Vistara,112,128
+64,Boeing 777,,VT-9211,G8181,GoAir,88,98
+65,Bombardier CRJ700,,VT-3158,6E782,IndiGo,276,320
+66,Boeing 777,,VT-1439,6E703,IndiGo,111,133
+67,Cessna 172,,VT-9152,D7374,AirAsia X,100,110
+68,ATR 72,,VT-7194,OD401,Malindo Air,92,103
+69,McDonnell Douglas MD-80,,VT-9613,6E329,IndiGo,399,446
+70,Boeing 747,,VT-1765,SG617,SpiceJet,284,312
+71,Boeing 747,,VT-9666,G8442,GoAir,295,336
+72,Airbus A330,,VT-8254,SG380,SpiceJet,82,98
+73,Boeing 747,,VT-8420,SG600,SpiceJet,231,254
+74,McDonnell Douglas MD-80,,VT-8674,I5858,AirAsia India,339,383
+75,McDonnell Douglas MD-80,,VT-4260,D7996,AirAsia X,380,425
+76,Cessna 172,,VT-4623,I5282,AirAsia India,134,151
+77,Bombardier Global 6000,,VT-6809,D7914,AirAsia X,287,338
+78,Airbus A320,,VT-3139,D7436,AirAsia X,61,67
+79,Boeing 777,,VT-2807,6E834,IndiGo,76,89
+80,Cessna 172,,VT-6782,UK413,Vistara,159,186
+81,Bombardier Global 6000,,VT-7132,IX796,Air India Express,308,341
+82,Bombardier CRJ700,,VT-2684,IX157,Air India Express,295,324
+83,Gulfstream G650,,VT-6605,6E378,IndiGo,60,68
+84,Bombardier Global 6000,,VT-5534,OD142,Malindo Air,295,324
+85,Boeing 787 Dreamliner,,VT-6004,I5601,AirAsia India,389,447
+86,McDonnell Douglas MD-80,,VT-4794,I5169,AirAsia India,403,479
+87,Airbus A330,,VT-4319,IX413,Air India Express,87,99
+88,Embraer E190,,VT-8624,AK343,AirAsia,256,291
+89,Airbus A320,,VT-6905,D7305,AirAsia X,65,72
+90,Boeing 787 Dreamliner,,VT-2332,G8758,GoAir,403,467
+91,Bombardier Global 6000,,VT-5286,D7852,AirAsia X,313,344
+92,Boeing 777,,VT-2786,AK773,AirAsia,66,73
+93,Bombardier Global 6000,,VT-1393,UK669,Vistara,303,348
+94,Bombardier Global 6000,,VT-2946,UK630,Vistara,309,346
+95,Airbus A330,,VT-9696,OD489,Malindo Air,76,85
+96,ATR 72,,VT-4987,D7224,AirAsia X,96,110
+97,Airbus A330,,VT-6659,OD377,Malindo Air,90,102
+98,Cessna 172,,VT-6723,OD535,Malindo Air,152,182
+99,McDonnell Douglas MD-80,,VT-3424,G8928,GoAir,380,456
+100,Gulfstream G650,,VT-2959,UK118,Vistara,49,56
+101,Gulfstream G650,,VT-4178,UK468,Vistara,59,69
+102,McDonnell Douglas MD-80,,VT-9274,AI979,Air India,413,495
+103,Boeing 747,,VT-4897,IX136,Air India Express,287,321
+104,Boeing 737,,VT-1855,OD718,Malindo Air,252,299
+105,Boeing 737,,VT-3641,AI224,Air India,296,331
+106,Bombardier CRJ700,,VT-7175,IX108,Air India Express,297,335
+107,Bombardier Global 6000,,VT-5711,6E950,IndiGo,292,347
+108,Boeing 747,,VT-5077,AK759,AirAsia,307,368
+109,Gulfstream G650,,VT-7997,IX458,Air India Express,72,83
+110,Beechcraft King Air,,VT-6927,OD147,Malindo Air,81,94
+111,Piper PA-28 Cherokee,,VT-3717,AI750,Air India,338,405
+112,Airbus A380,,VT-2364,6E742,IndiGo,348,407
+113,Boeing 787 Dreamliner,,VT-3992,G8390,GoAir,392,462
+114,McDonnell Douglas MD-80,,VT-3529,IX373,Air India Express,399,446
+115,Boeing 747,,VT-3918,6E593,IndiGo,293,328
+116,Bombardier Global 6000,,VT-7356,6E324,IndiGo,292,350
+117,Boeing 787 Dreamliner,,VT-8255,G8248,GoAir,334,370
+118,Bombardier Global 6000,,VT-7638,UK893,Vistara,279,318
+119,Piper PA-28 Cherokee,,VT-1079,SG249,SpiceJet,355,422
+120,Boeing 747,,VT-2955,SG723,SpiceJet,293,331
+121,McDonnell Douglas MD-80,,VT-3046,G8597,GoAir,398,441
+122,Boeing 747,,VT-4307,I5602,AirAsia India,310,344
+123,Embraer E190,,VT-9182,I5738,AirAsia India,258,296
+124,Airbus A330,,VT-4553,OD526,Malindo Air,92,101
+125,Gulfstream G650,,VT-2093,I5646,AirAsia India,69,82
+126,Gulfstream G650,,VT-2261,OD299,Malindo Air,67,75
+127,Piper PA-28 Cherokee,,VT-4157,D7214,AirAsia X,355,394
+128,Bombardier Global 6000,,VT-7921,IX872,Air India Express,274,304
+129,Embraer E190,,VT-2753,6E474,IndiGo,263,291
+130,Airbus A320,,VT-8846,UK196,Vistara,59,64
+131,McDonnell Douglas MD-80,,VT-2347,D7242,AirAsia X,340,391
+132,Gulfstream G650,,VT-6567,6E811,IndiGo,58,69
+133,Airbus A320,,VT-8194,SG242,SpiceJet,71,84
+134,Airbus A380,,VT-6829,UK520,Vistara,303,351
+135,Bombardier Global 6000,,VT-9455,IX639,Air India Express,298,327
+136,Cessna 172,,VT-4704,G8374,GoAir,131,155
+137,ATR 72,,VT-2034,AI758,Air India,83,95
+138,Gulfstream G650,,VT-9055,IX590,Air India Express,48,56
+139,Beechcraft King Air,,VT-3386,G8522,GoAir,73,81
+140,ATR 72,,VT-3203,SG363,SpiceJet,73,85
+141,Beechcraft King Air,,VT-4898,UK878,Vistara,91,101
+142,McDonnell Douglas MD-80,,VT-9335,IX775,Air India Express,394,437
+143,Piper PA-28 Cherokee,,VT-4204,AI324,Air India,352,422
+144,Embraer E190,,VT-5134,G8854,GoAir,227,265
+145,Boeing 777,,VT-6671,AK380,AirAsia,98,117
+146,Embraer E190,,VT-8723,D7533,AirAsia X,260,291
+147,Gulfstream G650,,VT-3423,AI499,Air India,57,64
+148,Bombardier Global 6000,,VT-3103,IX784,Air India Express,262,303
+149,McDonnell Douglas MD-80,,VT-1001,AI521,Air India,369,431
+150,Embraer E190,,VT-9646,AK471,AirAsia,237,267
+151,McDonnell Douglas MD-80,,VT-4380,G8622,GoAir,391,434
+152,Airbus A330,,VT-9080,G8568,GoAir,100,120
+153,Boeing 787 Dreamliner,,VT-1261,OD526,Malindo Air,377,426
+154,Airbus A330,,VT-3508,AK111,AirAsia,69,75
+155,Embraer E190,,VT-1310,6E660,IndiGo,222,257
+156,McDonnell Douglas MD-80,,VT-4464,OD803,Malindo Air,381,426
+157,Bombardier Global 6000,,VT-2384,6E506,IndiGo,289,332
+158,Bombardier CRJ700,,VT-1992,6E437,IndiGo,276,331
+159,Boeing 737,,VT-5167,UK278,Vistara,295,324
+160,Boeing 747,,VT-3894,6E271,IndiGo,293,322
+161,Gulfstream G650,,VT-1692,IX920,Air India Express,65,78
+162,Airbus A330,,VT-4725,AI317,Air India,86,96
+163,Airbus A330,,VT-7534,OD510,Malindo Air,99,108
+164,Bombardier CRJ700,,VT-4230,D7640,AirAsia X,298,351
+165,Embraer E190,,VT-3074,G8254,GoAir,224,259
+166,Boeing 737,,VT-2601,AI605,Air India,291,343
+167,Beechcraft King Air,,VT-4972,OD956,Malindo Air,92,102
+168,Piper PA-28 Cherokee,,VT-9709,6E933,IndiGo,362,419
+169,ATR 72,,VT-9165,I5420,AirAsia India,73,80
+170,Gulfstream G650,,VT-6866,UK532,Vistara,40,46
+171,Bombardier CRJ700,,VT-3357,AK341,AirAsia,302,353
+172,McDonnell Douglas MD-80,,VT-6548,OD493,Malindo Air,391,441
+173,Piper PA-28 Cherokee,,VT-9802,OD955,Malindo Air,305,350
+174,McDonnell Douglas MD-80,,VT-5372,AI127,Air India,404,464
+175,Gulfstream G650,,VT-6236,SG598,SpiceJet,53,58
+176,ATR 72,,VT-3623,I5121,AirAsia India,70,79
+177,Airbus A320,,VT-3135,SG269,SpiceJet,57,67
+178,Airbus A380,,VT-6390,6E634,IndiGo,362,430
+179,Airbus A320,,VT-6778,6E435,IndiGo,69,82
+180,Gulfstream G650,,VT-5973,UK257,Vistara,46,51
+181,Piper PA-28 Cherokee,,VT-5368,UK162,Vistara,291,346
+182,ATR 72,,VT-3187,I5709,AirAsia India,94,109
+183,Boeing 747,,VT-5050,D7310,AirAsia X,295,354
+184,Embraer E190,,VT-4646,AI740,Air India,255,285
+185,Bombardier CRJ700,,VT-2685,D7653,AirAsia X,267,317
+186,Piper PA-28 Cherokee,,VT-1968,AI702,Air India,349,411
+187,Beechcraft King Air,,VT-1699,IX370,Air India Express,96,106
+188,Airbus A330,,VT-9378,6E342,IndiGo,85,96
+189,Piper PA-28 Cherokee,,VT-9357,G8684,GoAir,293,328
+190,Airbus A380,,VT-9210,AI209,Air India,368,434
+191,Boeing 737,,VT-3883,OD477,Malindo Air,217,240
+192,McDonnell Douglas MD-80,,VT-5594,I5595,AirAsia India,396,451
+193,Bombardier Global 6000,,VT-2527,D7852,AirAsia X,265,312
+194,Airbus A320,,VT-4157,I5100,AirAsia India,74,82
+195,Bombardier CRJ700,,VT-1486,IX804,Air India Express,294,346
+196,Boeing 777,,VT-3361,D7130,AirAsia X,92,107
+197,Beechcraft King Air,,VT-4040,6E838,IndiGo,87,100
+198,Boeing 787 Dreamliner,,VT-1212,AI436,Air India,383,440
+199,Airbus A330,,VT-5738,AK905,AirAsia,106,118
+200,Airbus A320,,VT-8036,IX302,Air India Express,62,70
+201,Boeing 787 Dreamliner,,VT-5310,UK429,Vistara,349,415
+202,Cessna 172,,VT-2636,UK599,Vistara,121,142
+203,Bombardier CRJ700,,VT-8276,D7252,AirAsia X,282,313
+204,Bombardier Global 6000,,VT-1183,6E253,IndiGo,282,318
+205,Beechcraft King Air,,VT-3446,IX384,Air India Express,80,92
+206,Cessna 172,,VT-6805,SG607,SpiceJet,139,152
+207,Embraer E190,,VT-9628,SG675,SpiceJet,259,292
+208,Gulfstream G650,,VT-2824,OD542,Malindo Air,67,79
+209,McDonnell Douglas MD-80,,VT-7783,D7635,AirAsia X,268,300
+210,Bombardier CRJ700,,VT-3940,G8401,GoAir,291,331
+211,Boeing 787 Dreamliner,,VT-4765,AI889,Air India,397,464
+212,Boeing 787 Dreamliner,,VT-3588,AK868,AirAsia,394,460
+213,Cessna 172,,VT-3061,IX216,Air India Express,119,142
+214,Gulfstream G650,,VT-6499,UK831,Vistara,45,52
+215,Boeing 737,,VT-3272,OD187,Malindo Air,285,342
+216,Embraer E190,,VT-4931,UK779,Vistara,269,314
+217,Cessna 172,,VT-9248,6E650,IndiGo,130,150
+218,Gulfstream G650,,VT-1738,SG748,SpiceJet,42,47
+219,Boeing 777,,VT-7478,6E373,IndiGo,94,106
+220,Piper PA-28 Cherokee,,VT-5954,OD995,Malindo Air,291,331
+221,Beechcraft King Air,,VT-9836,AI866,Air India,88,104
+222,Airbus A330,,VT-4802,D7906,AirAsia X,80,96
+223,Embraer E190,,VT-6065,AI523,Air India,240,278
+224,Airbus A320,,VT-6949,AK144,AirAsia,66,74
+225,Airbus A380,,VT-9661,SG983,SpiceJet,362,427
+226,Piper PA-28 Cherokee,,VT-2774,AI595,Air India,292,341
+227,Beechcraft King Air,,VT-3913,AI645,Air India,92,107
+228,Gulfstream G650,,VT-8061,G8858,GoAir,53,58
+229,Airbus A330,,VT-9873,SG459,SpiceJet,90,100
+230,Airbus A320,,VT-6078,UK885,Vistara,59,66
+231,ATR 72,,VT-2499,OD691,Malindo Air,95,108
+232,Bombardier CRJ700,,VT-4181,I5576,AirAsia India,207,235
+233,Boeing 737,,VT-9726,6E643,IndiGo,306,336
+234,Airbus A380,,VT-9070,G8158,GoAir,343,411
+235,Boeing 737,,VT-8816,OD949,Malindo Air,307,340
+236,Beechcraft King Air,,VT-4747,AI503,Air India,77,91
+237,Cessna 172,,VT-7163,UK752,Vistara,133,158
+238,Bombardier CRJ700,,VT-8003,UK629,Vistara,299,349
+239,Cessna 172,,VT-8423,G8324,GoAir,118,132
+240,Embraer E190,,VT-2319,SG253,SpiceJet,278,325
+241,Embraer E190,,VT-6893,G8127,GoAir,212,233
+242,Piper PA-28 Cherokee,,VT-7398,AK545,AirAsia,360,396
+243,Boeing 747,,VT-4585,AI352,Air India,291,337
+244,Beechcraft King Air,,VT-3785,UK567,Vistara,104,120
+245,Piper PA-28 Cherokee,,VT-9612,UK981,Vistara,258,309
+246,Bombardier Global 6000,,VT-9548,IX491,Air India Express,303,357
+247,ATR 72,,VT-6800,UK126,Vistara,113,124
+248,Bombardier Global 6000,,VT-3843,OD387,Malindo Air,289,326
+249,Gulfstream G650,,VT-3483,AK707,AirAsia,34,38
+250,Bombardier CRJ700,,VT-4988,IX577,Air India Express,297,353
+251,ATR 72,,VT-2925,6E297,IndiGo,98,113
+252,Airbus A330,,VT-7607,6E830,IndiGo,64,74
+253,Gulfstream G650,,VT-7873,D7927,AirAsia X,52,58
+254,Airbus A330,,VT-5232,SG701,SpiceJet,104,116
+255,Bombardier CRJ700,,VT-1071,AI151,Air India,291,349
+256,Boeing 787 Dreamliner,,VT-6422,G8828,GoAir,369,405
+257,Airbus A320,,VT-4704,OD822,Malindo Air,64,71
+258,McDonnell Douglas MD-80,,VT-1473,IX613,Air India Express,363,399
+259,Boeing 747,,VT-5351,AI254,Air India,312,361
+260,McDonnell Douglas MD-80,,VT-6667,UK518,Vistara,379,424
+261,Airbus A330,,VT-2834,AK544,AirAsia,89,101
+262,Boeing 737,,VT-6719,IX426,Air India Express,296,337
+263,Airbus A320,,VT-8295,UK886,Vistara,67,75
+264,Airbus A320,,VT-1776,D7538,AirAsia X,78,91
+265,Bombardier Global 6000,,VT-1959,UK357,Vistara,288,336
+266,ATR 72,,VT-9219,UK355,Vistara,79,94
+267,Boeing 737,,VT-1890,OD425,Malindo Air,299,343
+268,Boeing 777,,VT-8036,OD438,Malindo Air,67,80
+269,Beechcraft King Air,,VT-7064,I5275,AirAsia India,93,110
+270,Bombardier Global 6000,,VT-9589,AI419,Air India,287,321
+271,Boeing 737,,VT-1941,I5244,AirAsia India,297,341
+272,Beechcraft King Air,,VT-9950,UK676,Vistara,101,115
+273,Gulfstream G650,,VT-5032,D7611,AirAsia X,62,70
+274,ATR 72,,VT-8092,AI227,Air India,100,112
+275,Boeing 787 Dreamliner,,VT-5029,D7614,AirAsia X,321,359
+276,Boeing 737,,VT-9094,G8838,GoAir,299,343
+277,Piper PA-28 Cherokee,,VT-6616,UK836,Vistara,348,393
+278,Beechcraft King Air,,VT-2603,UK577,Vistara,91,109
+279,Embraer E190,,VT-6686,D7883,AirAsia X,229,254
+280,ATR 72,,VT-1928,AK736,AirAsia,80,88
+281,Airbus A320,,VT-7157,UK458,Vistara,64,73
+282,Bombardier CRJ700,,VT-5407,G8639,GoAir,295,336
+283,Gulfstream G650,,VT-7888,I5113,AirAsia India,48,55
+284,Boeing 787 Dreamliner,,VT-7166,G8491,GoAir,390,440
+285,Cessna 172,,VT-6216,I5329,AirAsia India,157,188
+286,Beechcraft King Air,,VT-4619,AI775,Air India,108,128
+287,ATR 72,,VT-2255,AK872,AirAsia,85,96
+288,Beechcraft King Air,,VT-8973,OD628,Malindo Air,75,87
+289,Boeing 737,,VT-6240,G8158,GoAir,234,264
+290,Airbus A380,,VT-5012,AK210,AirAsia,353,388
+291,Embraer E190,,VT-6538,D7205,AirAsia X,256,284
+292,Airbus A320,,VT-4780,OD535,Malindo Air,76,87
+293,Bombardier CRJ700,,VT-8078,AI824,Air India,292,335
+294,Boeing 787 Dreamliner,,VT-1683,IX866,Air India Express,389,427
+295,Boeing 747,,VT-8950,OD348,Malindo Air,288,339
+296,Piper PA-28 Cherokee,,VT-1976,OD939,Malindo Air,351,396
+297,Piper PA-28 Cherokee,,VT-7068,AI224,Air India,298,354
+298,Beechcraft King Air,,VT-2463,D7726,AirAsia X,72,82
+299,Boeing 777,,VT-5200,I5759,AirAsia India,97,112
+300,Boeing 787 Dreamliner,,VT-7854,D7719,AirAsia X,400,456
+301,Bombardier CRJ700,,VT-6214,SG271,SpiceJet,286,343
+302,Piper PA-28 Cherokee,,VT-5241,D7730,AirAsia X,351,386
+303,Gulfstream G650,,VT-8522,IX491,Air India Express,73,83
+304,Cessna 172,,VT-4663,I5838,AirAsia India,145,168
+305,Piper PA-28 Cherokee,,VT-3684,AI176,Air India,375,420
+306,Piper PA-28 Cherokee,,VT-4141,OD566,Malindo Air,296,349
+307,Boeing 747,,VT-2765,UK256,Vistara,286,340
+308,Boeing 777,,VT-4315,UK529,Vistara,85,96
+309,Boeing 747,,VT-6031,UK909,Vistara,285,327
+310,Bombardier CRJ700,,VT-8409,6E766,IndiGo,297,350
+311,Boeing 787 Dreamliner,,VT-6763,G8866,GoAir,333,366
+312,Embraer E190,,VT-6425,I5302,AirAsia India,263,312
+313,ATR 72,,VT-3483,UK402,Vistara,92,103
+314,Cessna 172,,VT-4353,SG989,SpiceJet,134,147
+315,Airbus A320,,VT-3654,IX857,Air India Express,52,62
+316,McDonnell Douglas MD-80,,VT-4143,I5701,AirAsia India,355,390
+317,ATR 72,,VT-3471,6E563,IndiGo,93,104
+318,Boeing 787 Dreamliner,,VT-4829,D7520,AirAsia X,380,433
+319,Airbus A330,,VT-6727,6E497,IndiGo,98,115
+320,Beechcraft King Air,,VT-5796,SG457,SpiceJet,96,113
+321,Embraer E190,,VT-9377,D7643,AirAsia X,264,298
+322,Bombardier CRJ700,,VT-3393,I5259,AirAsia India,299,346
+323,Boeing 747,,VT-7316,SG245,SpiceJet,282,324
+324,Airbus A330,,VT-5158,OD356,Malindo Air,107,121
+325,ATR 72,,VT-1432,I5254,AirAsia India,83,92
+326,ATR 72,,VT-5401,AI154,Air India,98,113
+327,Bombardier CRJ700,,VT-7436,UK408,Vistara,249,273
+328,Boeing 777,,VT-2592,AK700,AirAsia,99,117
+329,Boeing 737,,VT-3664,OD639,Malindo Air,303,345
+330,Airbus A380,,VT-3075,SG499,SpiceJet,355,390
+331,Gulfstream G650,,VT-9243,I5777,AirAsia India,69,81
+332,Bombardier Global 6000,,VT-8051,D7341,AirAsia X,269,317
+333,Airbus A380,,VT-9707,6E684,IndiGo,370,429
+334,McDonnell Douglas MD-80,,VT-6568,IX971,Air India Express,393,451
+335,Airbus A380,,VT-2485,6E717,IndiGo,353,388
+336,Beechcraft King Air,,VT-1449,I5698,AirAsia India,85,100
+337,Airbus A380,,VT-4943,AI579,Air India,334,394
+338,Airbus A330,,VT-3161,OD971,Malindo Air,99,109
+339,Boeing 787 Dreamliner,,VT-4447,D7715,AirAsia X,403,475
+340,Gulfstream G650,,VT-2693,6E484,IndiGo,63,71
+341,Boeing 737,,VT-8288,OD640,Malindo Air,285,342
+342,McDonnell Douglas MD-80,,VT-4179,AK619,AirAsia,353,416
+343,Airbus A330,,VT-6939,G8901,GoAir,92,103
+344,Boeing 787 Dreamliner,,VT-1234,IX573,Air India Express,412,490
+345,Embraer E190,,VT-1660,AK955,AirAsia,250,282
+346,Embraer E190,,VT-2731,AK156,AirAsia,263,305
+347,Embraer E190,,VT-2071,6E279,IndiGo,258,301
+348,ATR 72,,VT-3029,AI364,Air India,75,83
+349,Boeing 737,,VT-2731,OD655,Malindo Air,239,267
+350,Gulfstream G650,,VT-6309,OD201,Malindo Air,67,78
+351,Bombardier Global 6000,,VT-6530,UK213,Vistara,293,342
+352,Bombardier CRJ700,,VT-4886,IX590,Air India Express,297,338
+353,Beechcraft King Air,,VT-1522,6E550,IndiGo,120,142
+354,Cessna 172,,VT-8153,SG158,SpiceJet,136,155
+355,Airbus A380,,VT-4570,SG928,SpiceJet,361,415
+356,Bombardier Global 6000,,VT-7581,6E719,IndiGo,268,310
+357,Airbus A320,,VT-6499,6E705,IndiGo,60,72
+358,Gulfstream G650,,VT-9919,D7832,AirAsia X,73,84
+359,Bombardier CRJ700,,VT-9959,UK537,Vistara,295,324
+360,Boeing 787 Dreamliner,,VT-4845,OD995,Malindo Air,388,457
+361,Airbus A380,,VT-9789,I5681,AirAsia India,377,437
+362,Airbus A320,,VT-6396,UK790,Vistara,60,67
+363,Boeing 777,,VT-3948,6E360,IndiGo,79,94
+364,Airbus A380,,VT-1589,UK755,Vistara,375,416
+365,Airbus A320,,VT-7484,I5166,AirAsia India,81,90
+366,Beechcraft King Air,,VT-9267,IX800,Air India Express,103,115
+367,ATR 72,,VT-3298,D7999,AirAsia X,83,99
+368,Bombardier CRJ700,,VT-7640,D7218,AirAsia X,323,364
+369,Embraer E190,,VT-9689,OD998,Malindo Air,226,266
+370,Gulfstream G650,,VT-7650,SG548,SpiceJet,65,76
+371,McDonnell Douglas MD-80,,VT-3845,IX773,Air India Express,333,396
+372,Boeing 747,,VT-1591,D7597,AirAsia X,289,317
+373,ATR 72,,VT-2768,G8725,GoAir,86,95
+374,Boeing 777,,VT-9311,AI150,Air India,89,100
+375,Cessna 172,,VT-6097,SG793,SpiceJet,152,182
+376,Cessna 172,,VT-4638,IX911,Air India Express,147,163
+377,Airbus A330,,VT-6417,IX771,Air India Express,104,115
+378,Cessna 172,,VT-1327,AI469,Air India,141,156
+379,McDonnell Douglas MD-80,,VT-3320,AK945,AirAsia,359,427
+380,Boeing 747,,VT-8222,I5811,AirAsia India,281,331
+381,Bombardier CRJ700,,VT-9101,6E757,IndiGo,305,356
+382,Boeing 787 Dreamliner,,VT-3994,IX874,Air India Express,388,442
+383,Airbus A320,,VT-7367,IX455,Air India Express,60,66
+384,Gulfstream G650,,VT-8220,AI182,Air India,48,53
+385,Embraer E190,,VT-3410,D7132,AirAsia X,230,259
+386,McDonnell Douglas MD-80,,VT-9035,D7573,AirAsia X,324,366
+387,Airbus A330,,VT-5004,G8481,GoAir,100,110
+388,Bombardier CRJ700,,VT-7431,IX378,Air India Express,295,345
+389,Boeing 737,,VT-6807,SG999,SpiceJet,273,313
+390,Boeing 737,,VT-6076,IX954,Air India Express,289,332
+391,Cessna 172,,VT-9026,6E490,IndiGo,164,191
+392,Bombardier Global 6000,,VT-5852,6E336,IndiGo,308,348
+393,Bombardier CRJ700,,VT-7549,6E201,IndiGo,298,357
+394,Boeing 777,,VT-5556,IX944,Air India Express,72,80
+395,Airbus A330,,VT-2858,6E594,IndiGo,90,101
+396,Boeing 787 Dreamliner,,VT-6913,IX828,Air India Express,397,452
+397,Boeing 747,,VT-6815,IX608,Air India Express,293,325
+398,Airbus A380,,VT-2366,IX582,Air India Express,335,375
+399,Boeing 777,,VT-2330,UK767,Vistara,98,111
+400,Bombardier Global 6000,,VT-7880,OD528,Malindo Air,289,343
+401,ATR 72,,VT-5792,UK223,Vistara,120,133
+402,Cessna 172,,VT-7551,OD278,Malindo Air,142,164
+403,Airbus A380,,VT-9648,AK924,AirAsia,358,415
+404,Bombardier Global 6000,,VT-9260,SG524,SpiceJet,296,328
+405,Bombardier Global 6000,,VT-9501,OD690,Malindo Air,297,326
+406,Airbus A320,,VT-5837,G8856,GoAir,71,78
+407,Bombardier Global 6000,,VT-4716,D7290,AirAsia X,269,306
+408,Boeing 787 Dreamliner,,VT-7978,I5892,AirAsia India,352,390
+409,Boeing 737,,VT-9357,SG320,SpiceJet,284,326
+410,Boeing 777,,VT-9676,6E179,IndiGo,90,106
+411,McDonnell Douglas MD-80,,VT-8936,G8400,GoAir,390,448
+412,Boeing 777,,VT-7589,SG231,SpiceJet,77,88
+413,Piper PA-28 Cherokee,,VT-9772,I5298,AirAsia India,352,408
+414,Bombardier CRJ700,,VT-3440,AI385,Air India,297,335
+415,Airbus A320,,VT-5124,I5213,AirAsia India,55,61
+416,Airbus A330,,VT-9696,UK725,Vistara,90,102
+417,Airbus A380,,VT-5824,G8863,GoAir,344,378
+418,Boeing 787 Dreamliner,,VT-5231,G8954,GoAir,390,444
+419,Airbus A380,,VT-6630,G8302,GoAir,375,442
+420,Cessna 172,,VT-4134,D7389,AirAsia X,148,173
+421,Gulfstream G650,,VT-2832,I5553,AirAsia India,51,58
+422,Embraer E190,,VT-6137,UK466,Vistara,207,231
+423,Bombardier CRJ700,,VT-3397,D7146,AirAsia X,294,352
+424,Airbus A320,,VT-8791,AK473,AirAsia,61,68
+425,Airbus A330,,VT-6161,D7402,AirAsia X,89,103
+426,Beechcraft King Air,,VT-5805,D7111,AirAsia X,83,93
+427,Airbus A330,,VT-6615,UK405,Vistara,99,117
+428,Boeing 777,,VT-7731,IX983,Air India Express,51,58
+429,Gulfstream G650,,VT-6346,6E211,IndiGo,64,76
+430,Boeing 737,,VT-6132,6E396,IndiGo,238,261
+431,Airbus A330,,VT-5753,UK406,Vistara,94,105
+432,McDonnell Douglas MD-80,,VT-5400,UK963,Vistara,317,380
+433,McDonnell Douglas MD-80,,VT-7289,OD821,Malindo Air,394,460
+434,Beechcraft King Air,,VT-8793,UK748,Vistara,82,97
+435,Embraer E190,,VT-4665,UK254,Vistara,259,287
+436,Bombardier Global 6000,,VT-2762,AK243,AirAsia,298,333
+437,Embraer E190,,VT-4475,D7673,AirAsia X,257,290
+438,Airbus A330,,VT-6381,G8766,GoAir,89,99
+439,McDonnell Douglas MD-80,,VT-3982,SG261,SpiceJet,392,446
+440,Boeing 737,,VT-8694,I5118,AirAsia India,277,315
+441,Cessna 172,,VT-1271,AI544,Air India,120,138
+442,Beechcraft King Air,,VT-3209,D7339,AirAsia X,96,109
+443,Boeing 737,,VT-8516,AI542,Air India,308,344
+444,Bombardier Global 6000,,VT-6298,AI456,Air India,286,314
+445,Gulfstream G650,,VT-3324,I5237,AirAsia India,49,58
+446,Beechcraft King Air,,VT-2813,D7643,AirAsia X,111,126
+447,Airbus A380,,VT-4810,OD140,Malindo Air,303,336
+448,Embraer E190,,VT-7195,6E959,IndiGo,258,294
+449,Boeing 737,,VT-2218,D7804,AirAsia X,225,252
+450,Airbus A380,,VT-6257,OD442,Malindo Air,348,403
+451,Bombardier CRJ700,,VT-8881,6E664,IndiGo,299,337
+452,McDonnell Douglas MD-80,,VT-8360,AI282,Air India,363,431
+453,Cessna 172,,VT-1812,AI875,Air India,156,171
+454,Boeing 737,,VT-4112,OD564,Malindo Air,289,317
+455,Airbus A330,,VT-8012,AK500,AirAsia,80,91
+456,Gulfstream G650,,VT-2373,AI387,Air India,65,77
+457,ATR 72,,VT-8457,OD867,Malindo Air,79,90
+458,Airbus A380,,VT-6957,G8557,GoAir,292,338
+459,Gulfstream G650,,VT-2181,IX596,Air India Express,72,80
+460,Embraer E190,,VT-5479,SG774,SpiceJet,259,290
+461,ATR 72,,VT-3004,6E542,IndiGo,93,102
+462,Boeing 737,,VT-2520,G8869,GoAir,296,355
+463,Airbus A330,,VT-7965,OD697,Malindo Air,98,108
+464,McDonnell Douglas MD-80,,VT-6201,6E244,IndiGo,402,466
+465,Bombardier CRJ700,,VT-8073,AK880,AirAsia,302,341
+466,Boeing 787 Dreamliner,,VT-7120,SG193,SpiceJet,397,456
+467,Embraer E190,,VT-4820,6E210,IndiGo,260,312
+468,Embraer E190,,VT-3942,AK831,AirAsia,261,292
+469,Piper PA-28 Cherokee,,VT-8074,G8531,GoAir,378,446
+470,Boeing 737,,VT-5923,G8774,GoAir,289,326
+471,Boeing 737,,VT-8580,AK283,AirAsia,302,356
+472,Boeing 737,,VT-2307,SG882,SpiceJet,302,356
+473,Airbus A330,,VT-6523,IX586,Air India Express,100,119
+474,Bombardier Global 6000,,VT-3613,G8134,GoAir,229,270
+475,Airbus A320,,VT-3339,OD952,Malindo Air,55,63
+476,Boeing 777,,VT-3834,OD196,Malindo Air,96,111
+477,Boeing 787 Dreamliner,,VT-2292,OD100,Malindo Air,379,420
+478,Boeing 777,,VT-3067,G8723,GoAir,85,94
+479,Bombardier CRJ700,,VT-1642,OD341,Malindo Air,288,316
+480,Gulfstream G650,,VT-3231,D7164,AirAsia X,75,85
+481,Airbus A330,,VT-1396,UK538,Vistara,92,109
+482,Piper PA-28 Cherokee,,VT-4302,AK857,AirAsia,363,428
+483,Airbus A330,,VT-2965,SG648,SpiceJet,97,113
+484,Boeing 787 Dreamliner,,VT-3695,6E618,IndiGo,379,447
+485,McDonnell Douglas MD-80,,VT-5827,IX483,Air India Express,388,461
+486,Beechcraft King Air,,VT-9547,OD557,Malindo Air,75,82
+487,Airbus A320,,VT-7751,OD645,Malindo Air,70,79
+488,ATR 72,,VT-2484,UK603,Vistara,97,115
+489,Airbus A380,,VT-7376,AI380,Air India,309,358
+490,McDonnell Douglas MD-80,,VT-6083,AI513,Air India,401,465
+491,Boeing 787 Dreamliner,,VT-9169,6E167,IndiGo,395,450
+492,Bombardier Global 6000,,VT-7105,AK529,AirAsia,303,354
+493,Airbus A320,,VT-9856,OD943,Malindo Air,55,61
+494,McDonnell Douglas MD-80,,VT-8344,AK884,AirAsia,394,457
+495,Gulfstream G650,,VT-7182,G8838,GoAir,75,84
+496,Boeing 787 Dreamliner,,VT-4336,G8744,GoAir,407,476
+497,ATR 72,,VT-1540,6E427,IndiGo,84,94
+498,Bombardier Global 6000,,VT-5336,I5950,AirAsia India,304,358
+499,ATR 72,,VT-1260,SG229,SpiceJet,87,103
+500,Gulfstream G650,,VT-4457,UK906,Vistara,62,71
+501,Boeing 777,,VT-6391,IX950,Air India Express,67,79
+502,ATR 72,,VT-3564,UK834,Vistara,106,118
+503,Beechcraft King Air,,VT-9157,UK799,Vistara,97,113
+504,Boeing 737,,VT-6694,6E536,IndiGo,292,321
+505,Boeing 787 Dreamliner,,VT-7380,6E693,IndiGo,393,459
+506,Embraer E190,,VT-2807,UK232,Vistara,263,297
+507,Piper PA-28 Cherokee,,VT-4647,UK138,Vistara,360,414
+508,Boeing 737,,VT-6909,IX687,Air India Express,301,331
+509,Boeing 777,,VT-3379,AI932,Air India,50,56
+510,Cessna 172,,VT-4048,IX292,Air India Express,147,167
+511,Boeing 777,,VT-1863,6E206,IndiGo,85,94
+512,Embraer E190,,VT-1478,AI614,Air India,200,240
+513,Airbus A330,,VT-7214,OD825,Malindo Air,85,101
+514,Airbus A380,,VT-4781,D7679,AirAsia X,350,395
+515,Bombardier Global 6000,,VT-1332,SG446,SpiceJet,280,313
+516,Gulfstream G650,,VT-1977,AK654,AirAsia,68,77
+517,Airbus A380,,VT-5147,6E118,IndiGo,344,395
+518,Boeing 787 Dreamliner,,VT-3849,IX970,Air India Express,377,426
+519,Gulfstream G650,,VT-9465,AK510,AirAsia,42,47
+520,Piper PA-28 Cherokee,,VT-4901,I5959,AirAsia India,354,396
+521,Bombardier Global 6000,,VT-6140,I5107,AirAsia India,299,352
+522,Gulfstream G650,,VT-9613,G8556,GoAir,74,83
+523,Airbus A330,,VT-5468,UK194,Vistara,83,94
+524,Boeing 737,,VT-9065,IX904,Air India Express,295,354
+525,Bombardier Global 6000,,VT-8337,6E668,IndiGo,292,321
+526,Gulfstream G650,,VT-6965,IX491,Air India Express,58,67
+527,Airbus A330,,VT-3404,I5856,AirAsia India,106,127
+528,Gulfstream G650,,VT-6517,AK854,AirAsia,58,69
+529,Airbus A380,,VT-2904,AK338,AirAsia,347,395
+530,Boeing 787 Dreamliner,,VT-6346,SG242,SpiceJet,392,470
+531,Beechcraft King Air,,VT-5024,G8481,GoAir,69,80
+532,Airbus A380,,VT-4332,AK127,AirAsia,351,389
+533,Gulfstream G650,,VT-3249,D7663,AirAsia X,59,68
+534,ATR 72,,VT-2117,6E655,IndiGo,88,96
+535,Gulfstream G650,,VT-4527,AI960,Air India,59,66
+536,Bombardier CRJ700,,VT-4336,IX616,Air India Express,296,325
+537,Boeing 787 Dreamliner,,VT-2193,AK241,AirAsia,392,450
+538,McDonnell Douglas MD-80,,VT-3789,IX228,Air India Express,389,439
+539,Boeing 747,,VT-5956,D7234,AirAsia X,312,368
+540,ATR 72,,VT-8283,D7313,AirAsia X,72,81
+541,Airbus A320,,VT-7147,AK689,AirAsia,44,50
+542,Bombardier Global 6000,,VT-6238,IX664,Air India Express,270,310
+543,Gulfstream G650,,VT-4861,G8546,GoAir,54,64
+544,Beechcraft King Air,,VT-7722,AK914,AirAsia,102,114
+545,Beechcraft King Air,,VT-2312,6E991,IndiGo,87,96
+546,Bombardier Global 6000,,VT-6413,I5397,AirAsia India,287,332
+547,Bombardier Global 6000,,VT-6566,AI794,Air India,297,344
+548,Beechcraft King Air,,VT-8825,G8123,GoAir,85,99
+549,Boeing 787 Dreamliner,,VT-5238,G8957,GoAir,395,458
+550,Boeing 747,,VT-3608,D7414,AirAsia X,307,368
+551,Boeing 747,,VT-8992,UK210,Vistara,315,359
+552,Bombardier CRJ700,,VT-3676,AK629,AirAsia,293,325
+553,Gulfstream G650,,VT-9912,IX100,Air India Express,51,61
+554,Bombardier Global 6000,,VT-3929,SG852,SpiceJet,283,336
+555,Boeing 737,,VT-1553,IX405,Air India Express,271,322
+556,Bombardier Global 6000,,VT-4300,IX416,Air India Express,285,330
+557,Bombardier Global 6000,,VT-6283,OD800,Malindo Air,288,325
+558,Bombardier Global 6000,,VT-5676,G8520,GoAir,289,329
+559,Boeing 747,,VT-8736,OD856,Malindo Air,296,337
+560,Airbus A380,,VT-1242,IX614,Air India Express,365,427
+561,Gulfstream G650,,VT-2828,D7406,AirAsia X,61,68
+562,Piper PA-28 Cherokee,,VT-2629,SG130,SpiceJet,336,389
+563,Bombardier CRJ700,,VT-4412,SG751,SpiceJet,295,339
+564,Bombardier CRJ700,,VT-3023,SG554,SpiceJet,287,327
+565,Boeing 737,,VT-9799,UK965,Vistara,291,328
+566,Cessna 172,,VT-9253,SG608,SpiceJet,114,136
+567,Airbus A330,,VT-7248,OD276,Malindo Air,89,102
+568,Piper PA-28 Cherokee,,VT-2760,D7646,AirAsia X,344,381
+569,Boeing 747,,VT-4807,AK122,AirAsia,291,331
+570,Airbus A320,,VT-5794,I5126,AirAsia India,67,78
+571,Cessna 172,,VT-5863,SG434,SpiceJet,124,138
+572,Bombardier CRJ700,,VT-1454,IX640,Air India Express,297,356
+573,Cessna 172,,VT-1207,6E527,IndiGo,147,176
+574,Airbus A380,,VT-4856,IX374,Air India Express,328,387
+575,Piper PA-28 Cherokee,,VT-8660,AI806,Air India,333,396
+576,Airbus A330,,VT-1967,UK619,Vistara,104,120
+577,Gulfstream G650,,VT-2874,I5330,AirAsia India,74,88
+578,Bombardier CRJ700,,VT-4917,G8433,GoAir,285,324
+579,Cessna 172,,VT-9214,G8108,GoAir,138,165
+580,McDonnell Douglas MD-80,,VT-5788,IX728,Air India Express,395,466
+581,ATR 72,,VT-8549,AI330,Air India,104,116
+582,Boeing 747,,VT-8699,D7532,AirAsia X,310,359
+583,Bombardier Global 6000,,VT-8433,OD645,Malindo Air,296,346
+584,Boeing 777,,VT-6825,UK112,Vistara,95,113
+585,Boeing 747,,VT-8226,AK952,AirAsia,277,307
+586,McDonnell Douglas MD-80,,VT-1723,6E176,IndiGo,265,315
+587,Bombardier CRJ700,,VT-4459,6E428,IndiGo,302,350
+588,Boeing 787 Dreamliner,,VT-1557,UK432,Vistara,327,385
+589,Boeing 777,,VT-5159,UK392,Vistara,85,102
+590,Embraer E190,,VT-2067,I5756,AirAsia India,205,233
+591,Gulfstream G650,,VT-1469,SG380,SpiceJet,51,57
+592,Boeing 747,,VT-6163,IX780,Air India Express,286,326
+593,Piper PA-28 Cherokee,,VT-2913,I5887,AirAsia India,343,384
+594,Airbus A330,,VT-4430,IX810,Air India Express,103,121
+595,Airbus A330,,VT-3249,SG761,SpiceJet,96,106
+596,Airbus A330,,VT-7483,I5593,AirAsia India,91,102
+597,Boeing 787 Dreamliner,,VT-9795,OD803,Malindo Air,401,445
+598,Piper PA-28 Cherokee,,VT-5186,UK403,Vistara,345,403
+599,Airbus A330,,VT-7572,D7689,AirAsia X,96,105
+600,Boeing 777,,VT-4888,SG267,SpiceJet,91,102
+601,Bombardier Global 6000,,VT-6562,I5619,AirAsia India,306,354
+602,Boeing 777,,VT-4100,SG441,SpiceJet,81,89
+603,Beechcraft King Air,,VT-6327,D7706,AirAsia X,76,85
+604,Bombardier Global 6000,,VT-8392,G8228,GoAir,281,323
+605,Bombardier Global 6000,,VT-8402,AI687,Air India,288,322
+606,Boeing 777,,VT-3436,AI605,Air India,66,74
+607,ATR 72,,VT-8677,SG449,SpiceJet,96,106
+608,Boeing 737,,VT-3470,D7607,AirAsia X,290,319
+609,Airbus A330,,VT-2439,AK284,AirAsia,97,111
+610,Beechcraft King Air,,VT-4325,IX660,Air India Express,100,115
+611,Bombardier CRJ700,,VT-2162,AI452,Air India,223,263
+612,Gulfstream G650,,VT-3639,OD689,Malindo Air,51,60
+613,Gulfstream G650,,VT-1828,G8188,GoAir,55,65
+614,Boeing 737,,VT-7858,D7538,AirAsia X,308,351
+615,Bombardier CRJ700,,VT-2228,AI212,Air India,282,335
+616,Boeing 747,,VT-3673,AI330,Air India,285,316
+617,Boeing 787 Dreamliner,,VT-1804,AI837,Air India,313,344
+618,Bombardier CRJ700,,VT-1117,AK617,AirAsia,224,257
+619,Boeing 737,,VT-8659,6E197,IndiGo,314,370
+620,Boeing 777,,VT-5447,OD913,Malindo Air,103,119
+621,Airbus A320,,VT-5807,I5369,AirAsia India,72,85
+622,Bombardier CRJ700,,VT-6639,SG867,SpiceJet,288,322
+623,Gulfstream G650,,VT-4103,G8663,GoAir,48,54
+624,Boeing 777,,VT-8634,UK678,Vistara,62,68
+625,Embraer E190,,VT-6559,I5531,AirAsia India,264,308
+626,Bombardier CRJ700,,VT-5527,AK250,AirAsia,293,339
+627,Boeing 747,,VT-8720,IX640,Air India Express,307,353
+628,ATR 72,,VT-3688,SG135,SpiceJet,102,114
+629,Gulfstream G650,,VT-4113,I5179,AirAsia India,65,76
+630,ATR 72,,VT-7950,G8173,GoAir,91,108
+631,Bombardier Global 6000,,VT-1631,UK956,Vistara,280,330
+632,Boeing 747,,VT-7977,AI985,Air India,297,341
+633,Cessna 172,,VT-1128,AK651,AirAsia,140,165
+634,Bombardier CRJ700,,VT-9808,OD470,Malindo Air,237,272
+635,Boeing 777,,VT-2213,IX167,Air India Express,90,100
+636,Embraer E190,,VT-4659,IX499,Air India Express,279,323
+637,Airbus A320,,VT-1917,AI753,Air India,58,67
+638,Beechcraft King Air,,VT-5884,UK981,Vistara,93,103
+639,Embraer E190,,VT-4081,D7845,AirAsia X,268,297
+640,Gulfstream G650,,VT-4122,G8931,GoAir,50,55
+641,ATR 72,,VT-1553,IX352,Air India Express,88,100
+642,Embraer E190,,VT-6251,UK456,Vistara,277,307
+643,Bombardier CRJ700,,VT-5796,SG317,SpiceJet,284,329
+644,Beechcraft King Air,,VT-7300,6E609,IndiGo,81,90
+645,Airbus A320,,VT-8547,UK507,Vistara,58,67
+646,Boeing 787 Dreamliner,,VT-8026,G8127,GoAir,412,469
+647,Airbus A320,,VT-1584,SG103,SpiceJet,60,68
+648,Boeing 777,,VT-6396,SG877,SpiceJet,103,113
+649,Bombardier CRJ700,,VT-2489,AK654,AirAsia,297,335
+650,Airbus A320,,VT-7943,IX816,Air India Express,52,60
+651,Bombardier Global 6000,,VT-2326,G8357,GoAir,263,302
+652,Piper PA-28 Cherokee,,VT-8317,D7456,AirAsia X,318,359
+653,Cessna 172,,VT-4566,G8868,GoAir,148,174
+654,ATR 72,,VT-8380,SG177,SpiceJet,65,71
+655,Boeing 737,,VT-2254,6E525,IndiGo,304,361
+656,Bombardier Global 6000,,VT-8060,AI959,Air India,299,355
+657,Boeing 777,,VT-8528,SG245,SpiceJet,93,105
+658,ATR 72,,VT-2295,IX333,Air India Express,78,88
+659,Gulfstream G650,,VT-8957,G8198,GoAir,65,73
+660,Embraer E190,,VT-3333,UK618,Vistara,282,324
+661,Airbus A330,,VT-8309,AI304,Air India,90,105
+662,Boeing 787 Dreamliner,,VT-8702,UK951,Vistara,381,445
+663,ATR 72,,VT-3201,IX166,Air India Express,97,114
+664,Embraer E190,,VT-3986,SG370,SpiceJet,251,283
+665,Boeing 787 Dreamliner,,VT-2388,OD625,Malindo Air,379,447
+666,Bombardier CRJ700,,VT-5208,UK378,Vistara,276,314
+667,Airbus A330,,VT-5456,6E267,IndiGo,83,92
+668,Boeing 737,,VT-4201,G8954,GoAir,299,331
+669,Boeing 747,,VT-2997,D7542,AirAsia X,301,349
+670,Boeing 747,,VT-5454,IX113,Air India Express,297,338
+671,Gulfstream G650,,VT-8753,6E150,IndiGo,65,76
+672,Bombardier Global 6000,,VT-3402,IX560,Air India Express,301,346
+673,Boeing 747,,VT-4065,6E398,IndiGo,282,335
+674,Boeing 777,,VT-5701,6E831,IndiGo,95,114
+675,Boeing 737,,VT-9155,I5814,AirAsia India,259,308
+676,Embraer E190,,VT-4310,G8846,GoAir,260,299
+677,Beechcraft King Air,,VT-6884,AI911,Air India,103,116
+678,Bombardier Global 6000,,VT-3622,AK500,AirAsia,298,336
+679,Embraer E190,,VT-7096,OD518,Malindo Air,265,318
+680,Boeing 737,,VT-7151,UK428,Vistara,302,359
+681,Beechcraft King Air,,VT-9526,I5670,AirAsia India,97,108
+682,Piper PA-28 Cherokee,,VT-6380,6E870,IndiGo,358,404
+683,Gulfstream G650,,VT-8471,I5471,AirAsia India,45,50
+684,Embraer E190,,VT-7918,IX991,Air India Express,257,305
+685,Embraer E190,,VT-2936,G8470,GoAir,237,274
+686,Boeing 747,,VT-1933,UK792,Vistara,311,354
+687,Cessna 172,,VT-8757,AI984,Air India,140,155
+688,Boeing 747,,VT-3795,AI453,Air India,296,343
+689,Embraer E190,,VT-7255,D7742,AirAsia X,262,290
+690,Cessna 172,,VT-1417,6E989,IndiGo,127,148
+691,Piper PA-28 Cherokee,,VT-7326,I5889,AirAsia India,361,425
+692,Airbus A330,,VT-9963,AI462,Air India,85,99
+693,Airbus A330,,VT-5222,SG334,SpiceJet,94,109
+694,Boeing 787 Dreamliner,,VT-1400,AK994,AirAsia,399,454
+695,Airbus A380,,VT-2817,UK578,Vistara,375,450
+696,Airbus A380,,VT-6117,OD514,Malindo Air,329,384
+697,Boeing 737,,VT-6081,6E747,IndiGo,290,342
+698,McDonnell Douglas MD-80,,VT-3895,SG958,SpiceJet,383,459
+699,Airbus A330,,VT-4754,6E819,IndiGo,101,111
+700,Boeing 747,,VT-1295,I5708,AirAsia India,298,330
