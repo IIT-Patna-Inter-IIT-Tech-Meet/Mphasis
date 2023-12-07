@@ -78,6 +78,7 @@ def util_flight_ranking(flight_id):
             count=Sum("pnr__pax")
         )
         booked_seats = {s["seat_type"]: s["count"] for s in booked_seats}
+        avilaible_seats = {k: all_seats[k] - booked_seats.get(k, 0) for k in all_seats}
 
 
         data.append(
@@ -89,8 +90,24 @@ def util_flight_ranking(flight_id):
                 "arrival_time": flight.arrival,
                 "departure_time": flight.departure,
                 "total_avilable_seats" : sum(all_seats.values()) - sum(booked_seats.values()),
-                "all_seats": all_seats,
-                "booked_seats": booked_seats,
+                "avilable_seats": avilaible_seats,
+                # "all_seats": all_seats,
+                # "booked_seats": booked_seats,
             }
         )
-    return data
+
+    related_canclled_flights = Flight.objects.filter(status="Cancelled", src__in=n_src, dst__in=n_dst)
+    r_flights= []
+    for flight in related_canclled_flights:
+        r_flights.append(
+            {
+                "flight_id": flight.flight_id,
+                "departure_airport": flight.src.iata_code,
+                "arrival_airport": flight.dst.iata_code,
+                "status": flight.status,
+                "arrival_time": flight.arrival,
+                "departure_time": flight.departure,
+            }
+        )
+
+    return {"data": data, "r_flights" : r_flights }
