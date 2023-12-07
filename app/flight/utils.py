@@ -4,20 +4,17 @@ from datetime import timedelta
 from django.db.models import Count, F, Sum
 
 def cancelled_flight():
-    cancelled_flights = Flight.objects.filter(status="red")
+    cancelled_flights = Flight.objects.filter(status="Cancelled")
     data = []
     for flight in cancelled_flights:
         data.append(
             {
-                "flight_id": flight.id,
-                "flight_number": flight.flight_number,
-                "departure_airport": flight.departure_airport_id.iata_code,
-                "arrival_airport": flight.arrival_airport_id.iata_code,
+                "flight_id": flight.flight_id,
+                "departure_airport": flight.src.iata_code,
+                "arrival_airport": flight.dst.iata_code,
                 "status": flight.status,
-                "aircraft": flight.aircraft_id.registration,
-                "owner": flight.aircraft_id.owner_name,
-                "arrival_time": flight.arrival_time,
-                "departure_time": flight.departure_time,
+                "arrival_time": flight.arrival,
+                "departure_time": flight.departure,
             }
         )
     return data
@@ -25,7 +22,7 @@ def cancelled_flight():
 
 def util_pnr_ranking(flight_id):
     try:
-        flight = Flight.objects.get(id=flight_id)
+        flight = Flight.objects.get(flight_id=flight_id)
     except Flight.DoesNotExist:
         return {"error": "Flight does not exist"}
 
@@ -47,29 +44,30 @@ def util_pnr_ranking(flight_id):
 def util_flight_ranking(flight_id):
     # get source airport, and dst airport
     try:
-        flight = Flight.objects.get(id=flight_id)
+        flight = Flight.objects.get(flight_id=flight_id)
     except Flight.DoesNotExist:
         return {"error": "Flight does not exist"}
 
     # get all neighbouring source and dst airport
     # lets take other airport from same state
-    src = flight.departure_airport_id
-    dst = flight.arrival_airport_id
+    src = flight.src
+    dst = flight.dst
 
-    time_threshold = flight.arrival_time + timedelta(hours=48)
+    time_threshold = flight.arrival + timedelta(hours=48)
 
     n_src = Airport.objects.filter(iso_region=src.iso_region).exclude(iata_code="")
     n_dst = Airport.objects.filter(iso_region=dst.iso_region).exclude(iata_code="")
 
+
     # get all flights from sources to dsts
     alt_flights = Flight.objects.filter(
-        departure_airport_id__in=n_src, arrival_airport_id__in=n_dst, status="green", arrival_time__lte=time_threshold
-    ).order_by("-flight_time")
+        dst__in=n_src, src__in=n_dst, status="Scheduled", arrival__lte=time_threshold
+    )
     data = []
     for flight in alt_flights:
         # get no of free-seat for each flight
         total_seats = SeatDistribution.objects.filter(
-            aircraft_id = flight.aircraft_id,
+            aircraft_id = flight.schedule.schedule.aircraft_id,
         )
         all_seats = {s.class_type.type_name: s.seat_count for s in total_seats}
         booked_seats = PnrFlightMapping.objects.filter(flight=flight).annotate(
@@ -80,19 +78,36 @@ def util_flight_ranking(flight_id):
             count=Sum("pnr__pax")
         )
         booked_seats = {s["seat_type"]: s["count"] for s in booked_seats}
+        avilaible_seats = {k: all_seats[k] - booked_seats.get(k, 0) for k in all_seats}
 
 
         data.append(
             {
-                "flight_id": flight.id,
-                "flight_number": flight.flight_number,
-                "departure_airport": flight.departure_airport_id.iata_code,
-                "arrival_airport": flight.arrival_airport_id.iata_code,
+                "flight_id": flight.flight_id,
+                "departure_airport": flight.src.iata_code,
+                "arrival_airport": flight.dst.iata_code,
                 "status": flight.status,
-                "arrival_time": flight.arrival_time,
-                "departure_time": flight.departure_time,
-                "all_seats": all_seats,
-                "booked_seats": booked_seats,
+                "arrival_time": flight.arrival,
+                "departure_time": flight.departure,
+                "total_avilable_seats" : sum(all_seats.values()) - sum(booked_seats.values()),
+                "avilable_seats": avilaible_seats,
+                # "all_seats": all_seats,
+                # "booked_seats": booked_seats,
             }
         )
-    return data
+
+    related_canclled_flights = Flight.objects.filter(status="Cancelled", src__in=n_src, dst__in=n_dst)
+    r_flights= []
+    for flight in related_canclled_flights:
+        r_flights.append(
+            {
+                "flight_id": flight.flight_id,
+                "departure_airport": flight.src.iata_code,
+                "arrival_airport": flight.dst.iata_code,
+                "status": flight.status,
+                "arrival_time": flight.arrival,
+                "departure_time": flight.departure,
+            }
+        )
+
+    return {"data": data, "r_flights" : r_flights }

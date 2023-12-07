@@ -19,6 +19,8 @@
 
 
 # Data Ingestion
+- Run the `flight/management/data/generate.ipynb` to generate some `csv`
+
 - Table : `airport`
     - source : `flight/management/commands/in-airport.csv`
     - model : Airport
@@ -37,13 +39,28 @@
     - table_name: `flight_cabin`, `flight_class`, `flight_ssr`, `flight_group`
     - command: 
     ```python3
-    python3 manage.py populate_baic
+    python3 manage.py populate_baisc
     ```
     - For table cleanup use
     ```python3
     python3 manage.py populate_baic --clean
     ```
-- Table : `PNR`, `FlightPnrMapping`
+
+- Table : `Aircraft`
+    - model : `Aircraft`
+    - command:
+     ```python3
+    python3 manage.py populate_aircraft --clean
+    ```  
+
+- Table : `Flight`, `FlightScheuleDate`, `FlightScheule`
+    - model : `Flight`, `FlightScheuleDate`, `FlightScheule`
+    - command: 
+    ```python3
+    python3 manage.py populate_flight --clean
+    ```
+ 
+- Table : `PNR`, `PnrFlightMapping`, `PnrPassenger`
     - model : PNR, FlightPnrMapping
     - table_name: `flight_pnr`, `flight_flightpnrmapping`
     - command: 
