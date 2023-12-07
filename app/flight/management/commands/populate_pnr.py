@@ -164,7 +164,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["clean"]:
             self.clean()
-            # return
+            return
 
         self.populate_PNR()
         print("Populating PNR, PNRFlightMapping, PnrPassenger")

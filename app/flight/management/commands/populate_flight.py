@@ -5,6 +5,7 @@ import datetime
 from django.db import transaction
 from django.core.management.base import BaseCommand
 from flight.models import FlightSchedule, FlightScheduleDate, Flight, Carrier, Aircraft, Airport
+from django.utils import timezone
 import uuid
 
 TIME_ZONE = "Asia/Kolkata"
@@ -62,10 +63,10 @@ class Command(BaseCommand):
                 random_hour, random_min = random.randint(1, 24), random.randint(1, 60)
                 delta = datetime.timedelta(hours=random_hour, minutes=random_min)
                 departure_time = departure_time + delta
-                delta = datetime.timedelta(hours=random.randint(0,2), minutes=random.randint(1, 60))
-                arrival_time = departure_time + delta
+                time_delta = datetime.timedelta(hours=random.randint(0,2), minutes=random.randint(1, 60))
+                arrival_time = departure_time + time_delta
 
-                start_date = datetime.date.today() + datetime.timedelta(days=random.randint(-15, 15))
+                start_date = datetime.datetime.now(pytz.timezone(TIME_ZONE)).date() + datetime.timedelta(days=random.randint(-15, 15))
                 end_date = start_date + datetime.timedelta(days=random.randint (15, 90))
                 
                 x = random.randint(1, 2**7 -1 )
@@ -103,12 +104,12 @@ class Command(BaseCommand):
                 today = start_date.strftime("%A")
                 delta = day_map[today]
                 c = 0
-                for j in range(random.randint(3, 8)):
+                for j in range(random.randint(3, 7)):
                     c += 1
                     # That day should be true in the schedule
                     # print(m)
-                    while not m[delta]:
-                        delta = (delta + 1) % 7
+                    while not m[delta % 7]:
+                        delta += 1
                         # print(delta)
                     
                     date = start_date + datetime.timedelta(days=delta)
@@ -126,16 +127,19 @@ class Command(BaseCommand):
                         fid = str(uuid.uuid4())[:8]
                     all_fids.add(fid)
 
+                    d = timezone.make_aware(datetime.datetime.combine(date, departure_time.time()))
+                    a = d + time_delta
+
                     f = Flight(
                         flight_id = fid,
                         schedule=flight_date,
                         status = "Scheduled",
-                        departure = departure_time,
-                        arrival = arrival_time,
+                        departure = d,
+                        arrival = a,
                         src = src,
                         dst = dst,
                     )
-
+                    delta += 1
                     flights.append(f)
                 # add it's flights
 
