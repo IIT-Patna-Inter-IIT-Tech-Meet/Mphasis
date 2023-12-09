@@ -62,7 +62,7 @@ def util_flight_ranking(flight_id):
     # get all flights from sources to dsts
     alt_flights = Flight.objects.filter(
         dst__in=n_src, src__in=n_dst, status="Scheduled", arrival__lte=time_threshold
-    )
+    ).order_by("arrival")
     data = []
     for flight in alt_flights:
         # get no of free-seat for each flight
