@@ -20,8 +20,7 @@ paid_service_score: 200
 loyality_program_score: 2000
 pax_score: 50
 safe: False
-ssr_score: 100
-connecting_score: 100
+ssr_score: 100True
 min_arrival_score: 30
 max_arrival_score: 70
 min_departure_score: 30

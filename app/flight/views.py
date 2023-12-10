@@ -21,7 +21,7 @@ def alt_flight_scores(request):
     original_flight_id = request.GET.get("flight_id")
     pnr_id = request.GET.get("pnr_id")
     pnr = PNR.objects.get(pnr=pnr_id)
-    alt_flights = util_flight_ranking(original_flight_id)
+    alt_flights = util_flight_ranking(original_flight_id)["data"]
     data = []
     for flight in alt_flights:
         flight_obj = Flight.objects.get(flight_id=flight["flight_id"])
@@ -42,26 +42,3 @@ def alt_flight_scores(request):
         )
         
     return JsonResponse({"data" : data})
-
-def pnr_scores(request):
-    pnr_id = request.GET.get("pnr_id")
-    pnr = PNR.objects.get(pnr=pnr_id)
-    data = []
-    scoring = PNRScoring(pnr)
-    data.append(
-        {
-            "pnr_id": pnr_id,
-            "class_score": scoring.class_score,
-            "pax_score": scoring.pax_score,
-            "group_score": scoring.group_score,
-            "paid_services_score": scoring.paid_services_score,
-            "loyalty_score": scoring.loyalty_score,
-            "connection_score": scoring.connection_score,
-            "ssr_score": scoring.ssr_score,
-            "pnr_score": scoring.pnr_score,
-            
-        }
-    )
-    
-    return JsonResponse({"data" : data})
-    
