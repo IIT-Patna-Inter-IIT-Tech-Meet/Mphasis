@@ -1,7 +1,20 @@
-from flight.models import Flight, PNR, PnrFlightMapping, Airport, SeatDistribution
+from flight.models import Flight, PNR, PnrFlightMapping, Airport, SeatDistribution, PnrPassenger
 from app.config import settings
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db.models import Count, F, Sum
+
+SAFE = settings["safe"]
+SSR_SCORE = settings["ssr_score"]
+PAX_SCORE = settings["pax_score"]
+PAID_SERVICES_SCORE = settings["paid_service_score"]
+LOYALTY_SCORE = settings["loyality_program_score"]
+CONNECTION_SCORE = settings["connecting_score"]
+MAX_ARRIVAL_SCORE = settings["max_arrival_score"]
+MIN_ARRIVAL_SCORE = settings["min_arrival_score"]
+MAX_DEPARTURE_SCORE = settings["max_departure_score"]
+MIN_DEPARTURE_SCORE = settings["min_departure_score"]
+DO_DOWNGRADE = settings["downgrade"]
+DO_UPGRADE = settings["upgrade"]
 
 def cancelled_flight():
     cancelled_flights = Flight.objects.filter(status="Cancelled")
@@ -111,3 +124,99 @@ def util_flight_ranking(flight_id):
         )
 
     return {"data": data, "r_flights" : r_flights }
+
+class PNRScoring:
+    def __init__(self, pnr):
+        self.pnr = pnr
+        
+        self.class_score = self.get_class_score()
+        self.pax_score = self.get_pax_score()
+        self.group_score = self.get_group_score()
+        self.paid_services_score = self.get_paid_services_score()
+        self.loyalty_score = self.get_loyalty_score()
+        self.connection_score = self.get_connection_score()
+        self.ssr_score = self.get_ssr_score()
+        self.pnr_score = self.get_pnr_score()
+        
+    def get_ssr_score(self):
+        passengers = PnrPassenger.objects.filter(pnr=self.pnr)
+        ssr_scores = [passenger.ssr for passenger in passengers]
+        return sum(ssr_scores)*SSR_SCORE
+    
+    def get_class_score(self):
+        return self.pnr.seat_class.score
+    
+    def get_pax_score(self):
+        return self.pnr.pax*PAX_SCORE
+    
+    def get_group_score(self):
+        return self.pnr.booking_type.group_point
+    
+    def get_paid_services_score(self):
+        return self.pnr.paid_service*PAID_SERVICES_SCORE
+    
+    def get_loyalty_score(self):
+        return self.pnr.loyalty_program*LOYALTY_SCORE
+    
+    def get_connection_score(self):
+        return PnrFlightMapping.objects.filter(pnr=self.pnr).count()*CONNECTION_SCORE
+        
+    def get_pnr_score(self):
+        self.class_score = self.get_class_score()
+        self.pax_score = self.get_pax_score()
+        self.group_score = self.get_group_score()
+        self.paid_services_score = self.get_paid_services_score()
+        self.loyalty_score = self.get_loyalty_score()
+        self.connection_score = self.get_connection_score()
+        self.ssr_score = self.get_ssr_score()
+        
+        return self.class_score + self.pax_score + self.group_score + self.paid_services_score + self.loyalty_score + self.connection_score + self.ssr_score
+        
+    
+
+class PNRFlightScoring:
+    def __init__(self, pnr, alt_flight):
+        self.pnr = pnr
+        self.alt_flight = alt_flight
+        self.original_flight = PnrFlightMapping.objects.get(pnr=pnr).flight
+        
+        self.arrival_delay_cost = self.get_arrival_delay_cost()
+        self.departure_delay_cost = self.get_departure_delay_cost()
+        self.stopover_cost = self.get_stopover_cost()
+        self.downgrade_cost = self.get_downgrade_cost()
+        self.upgrade_cost = self.get_upgrade_cost()
+        self.same_destination_cost = self.get_same_destination_cost()
+        self.alt_flight_score = self.get_alt_flight_score()
+        
+        
+    def get_arrival_delay_cost(self):
+        delay_seconds = (self.alt_flight.arrival - self.original_flight.arrival).total_seconds()
+        delay_hours = delay_seconds / 3600  # convert seconds to hours
+
+        cost = MIN_ARRIVAL_SCORE + (48-delay_hours)/(MAX_ARRIVAL_SCORE-MIN_ARRIVAL_SCORE)
+        if delay_hours>48:
+            cost = 0
+        return cost
+        
+    def get_departure_delay_cost(self):
+        delay_seconds = (self.alt_flight.departure - self.original_flight.departure).total_seconds()
+        delay_hours = delay_seconds / 3600  # convert seconds to hours
+        cost = MIN_DEPARTURE_SCORE + (48-delay_hours)/(MAX_DEPARTURE_SCORE-MIN_DEPARTURE_SCORE)
+        if delay_hours>48:
+            cost = 0
+        return cost
+    
+    def get_upgrade_cost(self):
+        return 0
+    
+    def get_downgrade_cost(self):
+        return 0
+    
+    def get_stopover_cost(self):
+        return 0
+    
+    def get_same_destination_cost(self):
+        return 0
+    
+    def get_alt_flight_score(self):
+        return self.arrival_delay_cost + self.departure_delay_cost - self.upgrade_cost - self.downgrade_cost - self.stopover_cost + self.same_destination_cost
