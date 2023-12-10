@@ -1,7 +1,20 @@
-from flight.models import Flight, PNR, PnrFlightMapping, Airport, SeatDistribution
+from flight.models import Flight, PNR, PnrFlightMapping, Airport, SeatDistribution, PnrPassenger
 from app.config import settings
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db.models import Count, F, Sum
+
+SAFE = settings["safe"]
+SSR_SCORE = settings["ssr_score"]
+PAX_SCORE = settings["pax_score"]
+PAID_SERVICES_SCORE = settings["paid_service_score"]
+LOYALTY_SCORE = settings["loyality_program_score"]
+CONNECTION_SCORE = settings["connecting_score"]
+MAX_ARRIVAL_SCORE = settings["max_arrival_score"]
+MIN_ARRIVAL_SCORE = settings["min_arrival_score"]
+MAX_DEPARTURE_SCORE = settings["max_departure_score"]
+MIN_DEPARTURE_SCORE = settings["min_departure_score"]
+DO_DOWNGRADE = settings["downgrade"]
+DO_UPGRADE = settings["upgrade"]
 
 def cancelled_flight():
     cancelled_flights = Flight.objects.filter(status="Cancelled")
@@ -111,3 +124,4 @@ def util_flight_ranking(flight_id):
         )
 
     return {"data": data, "r_flights" : r_flights }
+
