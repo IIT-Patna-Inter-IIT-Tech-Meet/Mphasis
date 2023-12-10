@@ -67,7 +67,7 @@ class UtilityGates:
         
 
 
-class GroversHashCracker:
+class GroversSearch:
     def __init__(self, n) -> None:
         self.n = n
         self.circuit = None
