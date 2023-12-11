@@ -4,7 +4,7 @@ from .utils import *
 # Create your views here.
 def all_canclled_flight(request):
     data = cancelled_flight()
-    return JsonResponse({"data" : data})
+    return JsonResponse(data)
 
 def pnr_ranking(request):
     flight_id = request.GET.get("flight_id")
