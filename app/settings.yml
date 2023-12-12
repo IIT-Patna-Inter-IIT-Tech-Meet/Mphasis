@@ -28,6 +28,10 @@ max_departure_score: 70
 downgrade: True
 upgrade: True
 connecting_score: 100
+data_generation:
+  aircrafts: 1500
+  carriers: 15
+
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001
