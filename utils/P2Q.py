@@ -25,7 +25,7 @@ class P2Q:
         norm = sm**0.5
         # assign circuit to self.circuit
         self.circuit = QuantumCircuit(np.log2(len(states)))      
-        self.circuit.prepare_state(states/norm, [i for i in len(states)])
+        self.circuit.prepare_state(states/norm, [i for i in range(int(np.log2(len(states))))])
         self.circuit.measure_all()
         self.circuit = transpile(self.circuit, self.simulator)
     
