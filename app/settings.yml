@@ -23,7 +23,8 @@ data_generation:
   flights_per_aircraft: 15
   flights_per_aircraft_margin: 3
   flight_schedule_prefix : "SCH-ZZ-"
-
+search:
+  max_hop : 2
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001
