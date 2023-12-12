@@ -97,7 +97,7 @@ def util_flight_ranking(flight_id):
         where f1.src_id = {main_flight.src.id} AND
             f2.dst_id = {main_flight.dst.id}  AND
             f1.departure >= '{main_flight.departure}' AND f2.arrival <= '{time_threshold}' AND
-            f1.departure < f2.departure
+            f1.arrival < f2.departure
             AND f1.status = 'Scheduled' AND f2.status = 'Scheduled'
     """
     # print(query)
@@ -234,7 +234,7 @@ def util_flight_ranking(flight_id):
         )
         # if delay > timedelta(minutes=0): #: TODO : fetch from config
         c_data.append(tmp_data)
-        print(delay)
+        # print(delay)
 
 
     return {"data": data, "r_flights": r_flights, "c_flights": c_data}

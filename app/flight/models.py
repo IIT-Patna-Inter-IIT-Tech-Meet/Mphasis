@@ -27,7 +27,7 @@ class Airport(models.Model):
     ]
 
     id = models.IntegerField(primary_key=True, unique=True, null=False)
-    ident = models.CharField(max_length=4, null=False)
+    ident = models.CharField(max_length=20, null=False)
     type = models.CharField(max_length=255, null=False, choices=airport_types)
     name = models.CharField(max_length=255, null=False)
     latitude_deg = models.FloatField(null=False)

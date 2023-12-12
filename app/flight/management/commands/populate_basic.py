@@ -119,6 +119,6 @@ class Command(BaseCommand):
         
         if(options['clean']):
             self.clean()
-            return
+            # return
         
         self.populate_basics()

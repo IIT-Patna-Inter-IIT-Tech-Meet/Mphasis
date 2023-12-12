@@ -8,7 +8,6 @@ def all_canclled_flight(request):
 
 def pnr_ranking(request):
     flight_id = request.GET.get("flight_id")
-    print(flight_id)
     data = util_pnr_ranking(flight_id)
     return JsonResponse({"data" : data})
 
