@@ -78,7 +78,7 @@ def util_flight_ranking(flight_id):
     src = main_flight.src
     dst = main_flight.dst
 
-    time_threshold = main_flight.arrival + timedelta(hours=48)
+    time_threshold = main_flight.arrival + timedelta(hours=72)
 
     n_src = Airport.objects.filter(iso_region=src.iso_region).exclude(iata_code="")
     n_dst = Airport.objects.filter(iso_region=dst.iso_region).exclude(iata_code="")
