@@ -164,7 +164,7 @@ gather_data.py.py
 routes
 dataset/test.json
 *.json
-*/data/*.csv
+*.csv
 
 dbdump
 exp
