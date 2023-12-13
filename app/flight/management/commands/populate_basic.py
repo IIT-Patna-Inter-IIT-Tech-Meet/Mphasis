@@ -12,8 +12,9 @@ class Command(BaseCommand):
             action="store_true",
             help="clean table before populating",
         )
-        
-    def clean(self):
+    
+    @staticmethod
+    def clean():
         with transaction.atomic():
             CabinType.objects.all().delete()
             ClassType.objects.all().delete()
@@ -21,9 +22,10 @@ class Command(BaseCommand):
             Group.objects.all().delete()
             Carrier.objects.all().delete()
 
-        print("Cleaned")
+        print("Cleaned Cabin Types, Class Types, SSRs, Groups")
     
-    def populate_basics(self):
+    @staticmethod
+    def populate_basics():
         df_cabin = pd.read_csv("flight/management/data/cabin.csv")
         df_class = pd.read_csv("flight/management/data/class.csv")
         df_ssr = pd.read_csv("flight/management/data/ssr.csv")

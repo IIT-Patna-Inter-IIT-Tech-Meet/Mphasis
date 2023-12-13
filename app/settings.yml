@@ -25,6 +25,23 @@ data_generation:
   flight_schedule_prefix : "SCH-ZZ-"
 search:
   max_hop : 2
+scores:
+  default_ssr_score: 200
+  default_scd2_score: 300
+  default_scd3_score: 200
+  cabins:
+    F: 2000
+    B: 1000
+    P: 500
+    E: 100
+  loyalty:
+    Silver: 1000
+    Gold: 2000
+    Platinum: 3000
+probabilities:
+  default_ssr_probability: 0.001
+
+
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001
