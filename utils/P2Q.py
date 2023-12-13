@@ -11,11 +11,11 @@ class P2Q:
         self.circuit = None
         self.shots = 1000
     
-    def __build_circuit(self, states):
+    def build_circuit(self, states):
         # Deal with improper number of passed states
         nq = np.log2(len(states))
         if not(nq.is_integer()):
-            n = 2**(math.ceil(nq)) - math.floor(nq)
+            n = 2**(math.ceil(nq)) - len(states)
             for i in n:
                 states.append(0)
         # Calculate normalizatrion factor
