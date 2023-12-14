@@ -9,13 +9,13 @@ def all_canclled_flight(request):
 def pnr_ranking(request):
     flight_id = request.GET.get("flight_id")
     data = util_pnr_ranking(flight_id)
-    return JsonResponse({"data" : data})
+    return JsonResponse(data)
 
 def flight_ranking(request):
     flight_id = request.GET.get("flight_id")
     max_hop = int(settings["search"]["max_hop"])
-    data = util_flight_ranking(flight_id, max_hop)
-    return JsonResponse({"data" : data})
+    data = util_flight_ranking(flight_id, max_hop, use_inventory= True)
+    return JsonResponse(data)
 
 # def alt_flight_scores(request):
 #     original_flight_id = request.GET.get("flight_id")

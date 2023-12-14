@@ -331,7 +331,7 @@ class Command(BaseCommand):
                 # booking_type=PNR_CMAP["booking_type"],
                 score=score,
             )
-            pnr.score = pnr.seat_class.score * pnr.pax
+            pnr.score = pnr.seat_class.score
             pnr_flight = PnrFlightMapping(
                 pnr=pnr,
                 flight=self.inventory_map[row[PNR_CMAP["dep_key"]]],
