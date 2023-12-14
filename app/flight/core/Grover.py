@@ -29,7 +29,7 @@ class Grover:
             instance=P2Q(AerSimulator(method='statevector'))
             instance.build_circuit(states)
             painted_target = instance.result()
-            print(painted_target)
+            # print(painted_target)
 
             N: int = math.ceil(np.log2(len(states)))                              
             SEARCH_VALUES: set[int] = {int(painted_target,2)} 

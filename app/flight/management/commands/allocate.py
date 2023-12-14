@@ -6,7 +6,6 @@ from flight.core.allocation import PnrReallocation
 from flight.core.quantum_accelarated_allocation import QuantumReallocation
 from flight.utils import util_flight_ranking, util_pnr_ranking, cancelled_flight
 
-
 class Command(BaseCommand):
     help = "Allocates alternate flights for cancelled flights"
 
@@ -48,7 +47,7 @@ class Command(BaseCommand):
         self.config = load_settings(options["config"])
         fn_flight_ranking = self.wrapper_flight_ranking(self)
 
-        if self.config["search"]["skip_quantum"]:
+        if self.config["search"]["skip_quantumFalse"]:
             self.allocator = PnrReallocation(
                 get_alt_flights_fn=fn_flight_ranking,
                 get_pnr_fn=util_pnr_ranking,

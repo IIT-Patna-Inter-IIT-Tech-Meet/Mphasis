@@ -12,7 +12,7 @@ class P2Q:
         self.shots = 1000
     
     def build_circuit(self, states):
-        print(type(states), len(states))
+        # print(type(states), len(states))
         states = [1/i for i in states]
         # Deal with improper number of passed states
         nq = np.log2(len(states))
