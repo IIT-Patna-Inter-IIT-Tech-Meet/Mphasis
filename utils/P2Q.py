@@ -11,11 +11,11 @@ class P2Q:
         self.circuit = None
         self.shots = 1000
     
-    def __build_circuit(self, states):
+    def build_circuit(self, states):
         # Deal with improper number of passed states
         nq = np.log2(len(states))
         if not(nq.is_integer()):
-            n = 2**(math.ceil(nq)) - math.floor(nq)
+            n = 2**(math.ceil(nq)) - len(states)
             for i in n:
                 states.append(0)
         # Calculate normalizatrion factor
@@ -25,7 +25,7 @@ class P2Q:
         norm = sm**0.5
         # assign circuit to self.circuit
         self.circuit = QuantumCircuit(np.log2(len(states)))      
-        self.circuit.prepare_state(states/norm, [i for i in len(states)])
+        self.circuit.prepare_state(states/norm, [i for i in range(int(np.log2(len(states))))])
         self.circuit.measure_all()
         self.circuit = transpile(self.circuit, self.simulator)
     
