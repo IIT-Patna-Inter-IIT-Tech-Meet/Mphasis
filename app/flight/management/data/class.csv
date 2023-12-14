@@ -1,27 +1,27 @@
 abb,des,score,cabin
-F,"First Class F",2000,F
-P,"First Class P",2000,F
-C,"Business Class J",1500,B
-J,"Business Class F",1500,B
-Z,"Business Class B",1500,B
-Q,"Premium Economy Class Q",500,P
-R,"Premium Economy Class R",500,P
-S,"Premium Economy Class S",500,P
-T,"Premium Economy Class T",500,P
-H,"Premium Economy Class H",500,P
-M,"Premium Economy Class M",500,P
-Y,"Economy Class Y",200,E
-A,"Economy Class A",200,E
-B,"Economy Class B",200,E
-D,"Economy Class D",200,E
-E,"Economy Class E",200,E
-G,"Economy Class G",200,E
-I,"Economy Class I",200,E
-K,"Economy Class K",200,E
-L,"Economy Class L",200,E
-N,"Economy Class N",200,E
-O,"Economy Class O",200,E
-U,"Economy Class U",200,E
-V,"Economy Class V",200,E
-W,"Economy Class W",200,E
-X,"Economy Class X",200,E
+F,First Class - F,2000,F
+P,First Class - P,2000,F
+C,Business Class - C,1000,B
+J,Business Class - J,1000,B
+Z,Business Class - Z,1000,B
+R,Premium Economy - R,500,P
+M,Premium Economy - M,500,P
+S,Premium Economy - S,500,P
+Q,Premium Economy - Q,500,P
+H,Premium Economy - H,500,P
+T,Premium Economy - T,500,P
+L,Economy - L,100,E
+G,Economy - G,100,E
+K,Economy - K,100,E
+A,Economy - A,100,E
+U,Economy - U,100,E
+N,Economy - N,100,E
+O,Economy - O,100,E
+V,Economy - V,100,E
+I,Economy - I,100,E
+W,Economy - W,100,E
+X,Economy - X,100,E
+Y,Economy - Y,100,E
+D,Economy - D,100,E
+B,Economy - B,100,E
+E,Economy - E,100,E

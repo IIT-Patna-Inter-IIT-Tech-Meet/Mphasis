@@ -155,18 +155,19 @@ class Command(BaseCommand):
             flight_count += 1
             helper(flight)
 
-            if len(self.pnrs) % 100 == 0:
-                print(f"flight count : {flight_count}")
-                print(f"pnr count : {len(self.pnrs)}")
-                print(f"pnr-flight mapping : {len(self.pnr_flight_mappings)}")
-                print(f"pnr-passenger : {len(self.pnr_passengers)}")
+            if len(self.pnrs) > 100000 :
+                with transaction.atomic():
+                    PNR.objects.bulk_create(self.pnrs)
+                    PnrFlightMapping.objects.bulk_create(self.pnr_flight_mappings)
+                    PnrPassenger.objects.bulk_create(self.pnr_passengers)
+                print(f"PNR populated with {len(self.pnrs)} entries")
+                print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
+                print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
 
-    def handle(self, *args, **options):
-        if options["clean"]:
-            self.clean()
-            return
+                self.pnrs = []
+                self.pnr_passengers = []
+                self.pnr_flight_mappings = []
 
-        self.populate_PNR()
         print("Populating PNR, PNRFlightMapping, PnrPassenger")
         with transaction.atomic():
             PNR.objects.bulk_create(self.pnrs)
@@ -175,3 +176,10 @@ class Command(BaseCommand):
         print(f"PNR populated with {len(self.pnrs)} entries")
         print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
         print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
+
+    def handle(self, *args, **options):
+        if options["clean"]:
+            self.clean()
+            # return
+
+        self.populate_PNR()

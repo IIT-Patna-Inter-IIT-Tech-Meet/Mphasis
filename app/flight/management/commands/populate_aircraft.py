@@ -16,25 +16,15 @@ class Command(BaseCommand):
             help="clean table before populating",
         )
 
-    def clean(self):
+    @staticmethod
+    def clean():
         with transaction.atomic():
             SeatDistribution.objects.all().delete()
             Aircraft.objects.all().delete()
         print("Cleaned")
 
-    def handle(self, *args, **options):
-        """
-        Tables:
-        - Aircraft
-            - id, registration, ownercode -> random string
-            - total capcity -> random int
-        - SeatDistribution
-        """
-        if options["clean"]:
-            self.clean()
-
-
-
+    @staticmethod
+    def populate():
         df_aircraft = pd.read_csv("flight/management/data/aircrafts.csv")
         df_sd = pd.read_csv("flight/management/data/seat-distribution.csv")
 
@@ -85,3 +75,18 @@ class Command(BaseCommand):
         if len(seat_distributions) > 0:
             SeatDistribution.objects.bulk_create(seat_distributions)
         print(f"Added {len(seat_distributions)} seat distribution instances.")
+
+    def handle(self, *args, **options):
+        """
+        Tables:
+        - Aircraft
+            - id, registration, ownercode -> random string
+            - total capcity -> random int
+        - SeatDistribution
+        """
+        if options["clean"]:
+            self.clean()
+
+        self.populate()
+
+        

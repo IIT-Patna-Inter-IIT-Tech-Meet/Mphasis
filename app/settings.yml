@@ -1,14 +1,3 @@
-neighbouring_dst: 100
-pax_probability:
-  1: 0.3
-  2: 0.32
-  3: 0.28
-  4: 0.032
-  5: 0.03
-  6: 0.028
-  7: 0.0032
-  8: 0.003
-  9: 0.001
 connecting:
   upper_limit: 3
   lower_limit: 1
@@ -28,6 +17,31 @@ max_departure_score: 70
 downgrade: True
 upgrade: True
 connecting_score: 100
+data_generation:
+  aircrafts: 1100
+  carriers: 15
+  flights_per_aircraft: 15
+  flights_per_aircraft_margin: 3
+  flight_schedule_prefix : "SCH-ZZ-"
+search:
+  max_hop : 2
+scores:
+  default_ssr_score: 200
+  default_scd1_score: 300
+  default_scd2_score: 200
+  cabins:
+    F: 2000
+    B: 1000
+    P: 500
+    E: 100
+  loyalty:
+    Silver: 1000
+    Gold: 2000
+    Platinum: 3000
+probabilities:
+  default_ssr_probability: 0.001
+
+
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001
