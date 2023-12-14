@@ -1,4 +1,4 @@
-import json
+import time
 import pytz
 import random
 import datetime
@@ -7,9 +7,12 @@ from django.core.management.base import BaseCommand
 from flight.models import FlightSchedule, FlightScheduleDate, Flight, Carrier, Aircraft, Airport
 from django.utils import timezone
 import uuid
+from app.config import settings
 
 TIME_ZONE = "Asia/Kolkata"
-FLIGHT_COUNT_PER_AIRCRAFT = 7
+FLIGHT_COUNT_PER_AIRCRAFT = int(settings["data_generation"]['flights_per_aircraft'])
+FLIGHT_COUNT_MARGIN = int(settings["data_generation"]['flights_per_aircraft_margin'])
+FLIGHT_SCHEDULE_PREFIX = settings["data_generation"]['flight_schedule_prefix']
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
@@ -52,7 +55,7 @@ class Command(BaseCommand):
 
         id = 78465
         for aircraft in all_aircrafts:
-            count = FLIGHT_COUNT_PER_AIRCRAFT + random.randint(-5, 5)
+            count = FLIGHT_COUNT_PER_AIRCRAFT + random.randint(-1 * FLIGHT_COUNT_MARGIN, FLIGHT_COUNT_MARGIN)
             for i in range(count):
                 src = random.choice(all_airport)
                 dst = random.choice(all_airport)
@@ -75,7 +78,7 @@ class Command(BaseCommand):
                 f = sum(list(map(int, xb)))
 
                 flight = FlightSchedule(
-                    id = f"SCH-ZZ-{id}",
+                    id = f"{FLIGHT_SCHEDULE_PREFIX}{id}",
                     aircraft_id=aircraft,
                     carrier_cd=random.choice(all_carriers),
                     departure_airport=src,
@@ -120,6 +123,7 @@ class Command(BaseCommand):
                         schedule=flight,
                         date=date,
                     )
+                    # flight_date.save()
                     flights_schedule_date.append(flight_date)
                     
                     fid = str(uuid.uuid4())[:8]
@@ -145,10 +149,14 @@ class Command(BaseCommand):
 
         print(f"Populating...{len(flights)} flights,{len(flights_schedule)} flights schedule,{len(flights_schedule_date)} flights schedule date ")
         
+        # with transaction.atomic():
         FlightSchedule.objects.bulk_create(flights_schedule)
-        FlightScheduleDate.objects.bulk_create(flights_schedule_date)
-        Flight.objects.bulk_create(flights)
-    
-        print(f"Populated {len(flights)} flights")
         print(f"Populated {len(flights_schedule)} flights schedule")
+    
+        FlightScheduleDate.objects.bulk_create(flights_schedule_date)
         print(f"Populated {len(flights_schedule_date)} flights schedule date")
+
+        time.sleep(1)
+        Flight.objects.bulk_create(flights)
+        print(f"Populated {len(flights)} flights")
+

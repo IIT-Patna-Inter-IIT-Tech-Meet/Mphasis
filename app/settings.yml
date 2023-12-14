@@ -1,33 +1,41 @@
-neighbouring_dst: 100
-pax_probability:
-  1: 0.3
-  2: 0.32
-  3: 0.28
-  4: 0.032
-  5: 0.03
-  6: 0.028
-  7: 0.0032
-  8: 0.003
-  9: 0.001
-connecting:
-  upper_limit: 3
-  lower_limit: 1
-  probability: 0.001
-  score: 100
-paid_service: 0.08
-loyality_program: 0.003
-paid_service_score: 200
-loyality_program_score: 2000
-pax_score: 50
-safe: False
-ssr_score: 100
-min_arrival_score: 30
-max_arrival_score: 70
-min_departure_score: 30
-max_departure_score: 70
-downgrade: True
-upgrade: True
-connecting_score: 100
+data_generation:
+  safe: False # checks before inserting data in db if set True
+  aircrafts: 1100
+  carriers: 15
+  flights_per_aircraft: 15
+  flights_per_aircraft_margin: 3
+  flight_schedule_prefix : "SCH-ZZ-"
+  paid_service: 0.08
+  paid_service_score: 200
+  loyality_program_score: 2000
+  loyality_program: 0.003 # PROBABILITY
+  pax_score: 50
+  ssr_score: 100
+  default_ssr_probability: 0.001
+search:
+  max_hop : 2
+  downgrade: True
+  upgrade: True
+  skip_quantum: False # reduce time ( tries to do the same thing in classical way ) when set True
+  use_inventory: False
+  use_cabin_only: True
+  neighboring_search: True # searh using same state airport
+scores:
+  connecting_score: 100
+  default_ssr_score: 200
+  default_scd1_score: 300
+  default_scd2_score: 200
+  cabins:
+    F: 2000
+    B: 1000
+    P: 500
+    E: 100
+  loyalty:
+    Silver: 1000
+    Gold: 2000
+    Platinum: 3000
+
+
 
 
 # 0.30, 0.32, 0.28, 0.032, 0.03, 0.028, 0.0032, 0.003, 0.0028, 0.001

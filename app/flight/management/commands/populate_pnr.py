@@ -78,13 +78,13 @@ class Command(BaseCommand):
                     all_pnr.add(id)
 
                     paid_service = random.random()
-                    if paid_service < settings["paid_service"]:
+                    if paid_service < settings["data_generation"]["paid_service"]:
                         paid_service = True
                     else:
                         paid_service = False
 
                     lp = random.random()
-                    if lp < settings["loyality_program"]:
+                    if lp < settings["data_generation"]["loyality_program"]:
                         lp = True
                     else:
                         lp = False
@@ -102,10 +102,10 @@ class Command(BaseCommand):
 
                     score = (
                         seat.class_type.score
-                        + (settings["paid_service_score"] if paid_service else 0)
-                        + (settings["loyality_program_score"] if lp else 0)
-                        + tofill*int(settings["pax_score"])
-                        + total_ssr*int(settings["ssr_score"])
+                        + (settings["data_generation"]["paid_service_score"] if paid_service else 0)
+                        + (settings["data_generation"]["loyality_program_score"] if lp else 0)
+                        + tofill*int(settings["data_generation"]["pax_score"])
+                        + total_ssr*int(settings["data_generation"]["ssr_score"])
                     )
 
                     pnr = PNR(
@@ -155,18 +155,19 @@ class Command(BaseCommand):
             flight_count += 1
             helper(flight)
 
-            if len(self.pnrs) % 100 == 0:
-                print(f"flight count : {flight_count}")
-                print(f"pnr count : {len(self.pnrs)}")
-                print(f"pnr-flight mapping : {len(self.pnr_flight_mappings)}")
-                print(f"pnr-passenger : {len(self.pnr_passengers)}")
+            if len(self.pnrs) > 100000 :
+                with transaction.atomic():
+                    PNR.objects.bulk_create(self.pnrs)
+                    PnrFlightMapping.objects.bulk_create(self.pnr_flight_mappings)
+                    PnrPassenger.objects.bulk_create(self.pnr_passengers)
+                print(f"PNR populated with {len(self.pnrs)} entries")
+                print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
+                print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
 
-    def handle(self, *args, **options):
-        if options["clean"]:
-            self.clean()
-            return
+                self.pnrs = []
+                self.pnr_passengers = []
+                self.pnr_flight_mappings = []
 
-        self.populate_PNR()
         print("Populating PNR, PNRFlightMapping, PnrPassenger")
         with transaction.atomic():
             PNR.objects.bulk_create(self.pnrs)
@@ -175,3 +176,10 @@ class Command(BaseCommand):
         print(f"PNR populated with {len(self.pnrs)} entries")
         print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
         print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
+
+    def handle(self, *args, **options):
+        if options["clean"]:
+            self.clean()
+            # return
+
+        self.populate_PNR()
