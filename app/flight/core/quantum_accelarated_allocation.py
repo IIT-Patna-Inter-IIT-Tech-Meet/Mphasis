@@ -1,7 +1,21 @@
 import re
 import math
+from flight.core.Grover import Grover
+from qiskit import QuantumCircuit
+import numpy as np
+import math
+from qiskit import transpile
+from qiskit_aer import AerSimulator
+from qiskit.visualization import plot_histogram
+from qiskit import QuantumCircuit as qc
+from qiskit import QuantumRegister as qr
+from qiskit import execute
+from matplotlib.pyplot import show, subplots, xticks, yticks
+from qiskit_aer import Aer
+from math import pi, sqrt
+from heapq import nlargest
 
-class PnrReallocation:
+class QuantumReallocation:
     def __init__(self, get_pnr_fn, get_alt_flights_fn, get_cancled_fn) -> None:
         self.map_cabin={ 'F':'F','P':'F','C':'B','J':'B','Z':'B','Q':'P','R':'P','S':'P','T':'P','H':'P','M':'P',
           'Y':'E', 'A':'E', 'B':'E', 'D':'E', 'E':'E', 'G':'E', 'I':'E', 'K':'E', 'L':'E', 'N':'E', 'O':'E',
@@ -43,20 +57,30 @@ class PnrReallocation:
         sorted_pnr = sorted(sorted_pnr, key=lambda x: x['score'],reverse=True)
 
         self.allocated={}
-
+        sum=0
         for i in sorted_pnr:
             self.allocated[i['pnr']]='NULL'
+            
 
         self.tot_cost=0
     
         for i in sorted_pnr:
         #     print(i)
             f_id=i['flight_id']
-            flight_id,cabin_id,cost,list_cost=self.obj(self.alt_flight[f_id],i)
+            list_cost,cost_id =self.obj(self.alt_flight[f_id],i)
+            print("len ",(len(list_cost)))  
+            if(len(list_cost)==0):
+                sum+=1
+                self.allocated[i['pnr']]=['NULL']
+                continue
             # list_cost=self.obj(self.alt_flight[f_id],i)
         #     break
         #     print(flight_id)
         #     print(cabin_id)
+            ind=Grover(AerSimulator).Grover_search(list_cost)
+            flight_id=cost_id[ind][0]
+            cabin_id=cost_id[ind][1]
+            cost = list_cost[ind]
             if(len(flight_id)==3):
                 self.allocated[i['pnr']]=[flight_id,cabin_id,cost]
                 self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
@@ -69,6 +93,13 @@ class PnrReallocation:
             elif(flight_id[0]!=-1):
                 self.allocated[i['pnr']]=[flight_id[0],cabin_id[0],cost]
                 self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
+
+        for i in self.allocated:
+            print(self.allocated[i])
+        
+       
+        print(len(self.allocated))
+        print(sum)
 
         return self.allocated
 
@@ -208,6 +239,7 @@ class PnrReallocation:
     
     def obj(self, flights,pnr):
         list_cost=[]
+        cost_id = []
         n_flights=flights['n_flights']
         c_flights=flights['c_flights']
         t_flights=flights['t_flights']
@@ -229,8 +261,12 @@ class PnrReallocation:
                 d=self.cabin_ind[i]-cabin0
                 c=self.get_flight_time_score(d,f['flight_time'])
     #             print(c+cost)
-                list_cost.append([c+cost,[f['flight_id']],[i]])
+                list_cost.append(c+cost+1)
+                cost_id.append([[f['flight_id']],[i]])
+
                 if(c+cost<val):
+                    # list_cost.append(c+cost+1)
+                    # cost_id.append([[f['flight_id']],[i]])
                     val=c+cost
                     f_id=[f['flight_id']]
                     c_id=[i]
@@ -252,8 +288,11 @@ class PnrReallocation:
                     c=self.get_flight_time_score(d1,f[0]['flight_time'])
                     c+=self.get_flight_time_score(d2,f[1]['flight_time'])
     #                 print(c+cost)
-                    list_cost.append([c+cost,[f[0]['flight_id'],f[1]['flight_id']],[i,j]])
+                    list_cost.append(c+cost+1)
+                    cost_id.append([[f[0]['flight_id'],f[1]['flight_id']],[i,j]])
                     if(c+cost<val):
+                        # list_cost.append(c+cost+1)
+                        # cost_id.append([[f[0]['flight_id'],f[1]['flight_id']],[i,j]])
                         val=c+cost
                         f_id=[f[0]['flight_id'],f[1]['flight_id']]
                         c_id=[i,j]
@@ -276,12 +315,18 @@ class PnrReallocation:
                         c+=self.get_flight_time_score(d2,f[1]['flight_time'])
                         c+=self.get_flight_time_score(d3,f[2]['flight_time'])
     #                 print(c+cost)
-                        list_cost.append([c+cost,[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']],[i,j,k]])
+                        list_cost.append(c+cost+1)
+                        cost_id.append([[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']],[i,j,k]])
                         if(c+cost<val):
+                            # list_cost.append(c+cost+1)
+                            # cost_id.append([[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']],[i,j,k]])                            
                             val=c+cost
                             f_id=[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']]
                             c_id=[i,j,k]
             
         if val!=1e18:
             self.tot_cost+=val
-        return f_id,c_id,val,list_cost
+            # list.append(1e18)
+            # list.append(1e18)
+            # list.append(1e18)
+        return list_cost,cost_id
