@@ -78,13 +78,13 @@ class Command(BaseCommand):
                     all_pnr.add(id)
 
                     paid_service = random.random()
-                    if paid_service < settings["paid_service"]:
+                    if paid_service < settings["data_generation"]["paid_service"]:
                         paid_service = True
                     else:
                         paid_service = False
 
                     lp = random.random()
-                    if lp < settings["loyality_program"]:
+                    if lp < settings["data_generation"]["loyality_program"]:
                         lp = True
                     else:
                         lp = False
@@ -102,10 +102,10 @@ class Command(BaseCommand):
 
                     score = (
                         seat.class_type.score
-                        + (settings["paid_service_score"] if paid_service else 0)
-                        + (settings["loyality_program_score"] if lp else 0)
-                        + tofill*int(settings["pax_score"])
-                        + total_ssr*int(settings["ssr_score"])
+                        + (settings["data_generation"]["paid_service_score"] if paid_service else 0)
+                        + (settings["data_generation"]["loyality_program_score"] if lp else 0)
+                        + tofill*int(settings["data_generation"]["pax_score"])
+                        + total_ssr*int(settings["data_generation"]["ssr_score"])
                     )
 
                     pnr = PNR(

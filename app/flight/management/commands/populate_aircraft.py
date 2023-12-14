@@ -4,7 +4,7 @@ from flight.models import Aircraft, SeatDistribution, ClassType
 import pandas as pd
 from app.config import settings
 
-SAFE = settings["safe"]
+SAFE = settings["data_generation"]["safe"]
 
 class Command(BaseCommand):
     help = "polulate Aircraftt, SeatDistribution"
