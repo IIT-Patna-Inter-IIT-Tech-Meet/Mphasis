@@ -5,7 +5,8 @@ from flight.models import (
     Airport,
     SeatDistribution,
     FlightSchedule,
-    FlightScheduleDate
+    FlightScheduleDate,
+    ClassType
 )
 from django.utils import timezone
 from app.config import settings
@@ -26,6 +27,18 @@ MAX_DEPARTURE_SCORE = settings["max_departure_score"]
 MIN_DEPARTURE_SCORE = settings["min_departure_score"]
 DO_DOWNGRADE = settings["downgrade"]
 DO_UPGRADE = settings["upgrade"]
+
+
+def fetch_class_cabin_mapping():
+    class_cabin_mapping = {}
+    classes = ClassType.objects.all()
+    for c in classes:
+        if c.cabin.type_name not in class_cabin_mapping:
+            class_cabin_mapping[c.cabin.type_name] = []
+        class_cabin_mapping[c.cabin.type_name].append(c.type_name)
+    return class_cabin_mapping
+
+CLASS_CABIN_MAPPING = fetch_class_cabin_mapping()
 
 
 def cancelled_flight():
@@ -79,7 +92,13 @@ def get_avilable_seats(aircraft, flight):
     booked_seats = {s["seat_type"]: s["count"] for s in booked_seats}
     avilaible_seats = {k: all_seats[k] - booked_seats.get(k, 0) for k in all_seats}
 
-    return avilaible_seats, sum(avilaible_seats.values())
+    avilable = {}
+    for key, value in CLASS_CABIN_MAPPING.items():
+        avilable[key] = max(sum([avilaible_seats.get(k, 0) for k in value]), 0 )
+
+    # print(sum(avilable.values()),sum(avilaible_seats.values()))
+
+    return avilable, sum(avilaible_seats.values())
 
 def get_one_hop_flights(main_flight, time_threshold):
     query = f"""
@@ -295,19 +314,7 @@ def util_flight_ranking(flight_id, max_hop = 2):
 
     data = []
     for flight in alt_flights:
-        # get no of free-seat for each flight
-        total_seats = SeatDistribution.objects.filter(
-            aircraft_id=flight.schedule.schedule.aircraft_id,
-        )
-        all_seats = {s.class_type.type_name: s.seat_count for s in total_seats}
-        booked_seats = (
-            PnrFlightMapping.objects.filter(flight=flight)
-            .annotate(seat_type=F("pnr__seat_class__type_name"))
-            .values("seat_type")
-            .annotate(count=Sum("pnr__pax"))
-        )
-        booked_seats = {s["seat_type"]: s["count"] for s in booked_seats}
-        avilaible_seats = {k: all_seats[k] - booked_seats.get(k, 0) for k in all_seats}
+        avilaible_seats, total_avilable_seats = get_avilable_seats(flight.schedule.schedule.aircraft_id, flight)
 
         data.append(
             {
@@ -317,8 +324,7 @@ def util_flight_ranking(flight_id, max_hop = 2):
                 "status": flight.status,
                 "arrival_time": flight.arrival,
                 "departure_time": flight.departure,
-                "total_avilable_seats": sum(all_seats.values())
-                - sum(booked_seats.values()),
+                "total_avilable_seats": total_avilable_seats,
                 "delay":  flight.departure - main_flight.departure,
                 "flight_time": flight.arrival - flight.departure,
                 "avilable_seats": avilaible_seats,
