@@ -27,8 +27,8 @@ search:
   max_hop : 2
 scores:
   default_ssr_score: 200
-  default_scd2_score: 300
-  default_scd3_score: 200
+  default_scd1_score: 300
+  default_scd2_score: 200
   cabins:
     F: 2000
     B: 1000

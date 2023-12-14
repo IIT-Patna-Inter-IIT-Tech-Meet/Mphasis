@@ -287,6 +287,8 @@ class Flight(models.Model):
     arrival = models.DateTimeField(null=True)
     src = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=True, related_name='src')
     dst = models.ForeignKey(Airport, on_delete=models.DO_NOTHING, null=True, related_name='dst')
+    dep_key = models.CharField(max_length=255, null=True, blank=True, default = "") # DEP_KEY : DON'T know what it is
+    avilable_inventory = models.CharField(max_length=255, null=True, blank=True, default="")
 
 class PNR(models.Model):
     """
