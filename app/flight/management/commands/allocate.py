@@ -3,8 +3,8 @@ from django.core.management.base import BaseCommand, CommandParser
 from flight.models import Flight
 from app.config import load_settings
 from flight.core.allocation import PnrReallocation
+from flight.core.quantum_accelarated_allocation import QuantumReallocation
 from flight.utils import util_flight_ranking, util_pnr_ranking, cancelled_flight
-
 
 class Command(BaseCommand):
     help = "Allocates alternate flights for cancelled flights"
@@ -33,17 +33,35 @@ class Command(BaseCommand):
 
         return callable_function
 
+    def savefile(self, filename = "result.csv"):
+        # result <dict> format :
+        #   pnr : [list of inv-id]/single_inv_id, [list of class]/single_class, score
+
+
+        pass
+
+    def generate_report(self):
+        pass
+
     def handle(self, *args: Any, **options: Any) -> str | None:
         self.config = load_settings(options["config"])
-
         fn_flight_ranking = self.wrapper_flight_ranking(self)
-        self.allocator = PnrReallocation(
-            get_alt_flights_fn=fn_flight_ranking,
-            get_pnr_fn=util_pnr_ranking,
-            get_cancled_fn=cancelled_flight,
-        )
 
-        result = self.allocator.allocate()
-        print(result)
+        if self.config["search"]["skip_quantumFalse"]:
+            self.allocator = PnrReallocation(
+                get_alt_flights_fn=fn_flight_ranking,
+                get_pnr_fn=util_pnr_ranking,
+                get_cancled_fn=cancelled_flight,
+            )
+
+        else:
+            self.allocator = QuantumReallocation(
+                get_alt_flights_fn=fn_flight_ranking,
+                get_pnr_fn=util_pnr_ranking,
+                get_cancled_fn=cancelled_flight,
+            )
+
+        self.result = self.allocator.allocate()
+        print(self.result)
 
 

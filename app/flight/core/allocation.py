@@ -1,7 +1,7 @@
 import re
 import math
 
-class PnrReallocation:
+class BaseReallocation:
     def __init__(self, get_pnr_fn, get_alt_flights_fn, get_cancled_fn) -> None:
         self.map_cabin={ 'F':'F','P':'F','C':'B','J':'B','Z':'B','Q':'P','R':'P','S':'P','T':'P','H':'P','M':'P',
           'Y':'E', 'A':'E', 'B':'E', 'D':'E', 'E':'E', 'G':'E', 'I':'E', 'K':'E', 'L':'E', 'N':'E', 'O':'E',
@@ -10,74 +10,12 @@ class PnrReallocation:
         self.cabin_ind={'F':0 , 'B':1,'P':2,'E':3}
 
         self._preprocess_data(get_pnr_fn, get_alt_flights_fn, get_cancled_fn)
-        
-    def allocate(self) -> None:
-        self.used_seat={}
-        self.maximum_seat={}
-
-        for i in self.alt_flight:
-            for j in self.alt_flight[i]['n_flights']:
-                self.used_seat[j['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j['flight_id']]={'F':j['F'],'B':j['B'],'P':j['P'],'E':j['E']}
-            for j in self.alt_flight[i]['c_flights']:
-                self.used_seat[j[0]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j[0]['flight_id']]={'F':j[0]['F'],'B':j[0]['B'],'P':j[0]['P'],'E':j[0]['E']}
-                self.used_seat[j[1]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j[1]['flight_id']]={'F':j[1]['F'],'B':j[1]['B'],'P':j[1]['P'],'E':j[1]['E']}
-            for j in self.alt_flight[i]['t_flights']:
-                self.used_seat[j[0]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j[0]['flight_id']]={'F':j[0]['F'],'B':j[0]['B'],'P':j[0]['P'],'E':j[0]['E']}
-                self.used_seat[j[1]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j[1]['flight_id']]={'F':j[1]['F'],'B':j[1]['B'],'P':j[1]['P'],'E':j[1]['E']}
-                self.used_seat[j[2]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
-                self.maximum_seat[j[2]['flight_id']]={'F':j[2]['F'],'B':j[2]['B'],'P':j[2]['P'],'E':j[2]['E']}
-
-        
-        sorted_pnr=[]
-        for i in self.pnr:
-            alloc={}
-            for j in self.pnr[i]:
-                alloc=j
-                alloc['flight_id']=i
-                sorted_pnr.append(alloc)
-        sorted_pnr = sorted(sorted_pnr, key=lambda x: x['score'],reverse=True)
-
-        self.allocated={}
-
-        for i in sorted_pnr:
-            self.allocated[i['pnr']]='NULL'
-
-        self.tot_cost=0
-    
-        for i in sorted_pnr:
-        #     print(i)
-            f_id=i['flight_id']
-            flight_id,cabin_id,cost=self.obj(self.alt_flight[f_id],i)
-        #     break
-        #     print(flight_id)
-        #     print(cabin_id)
-            if(len(flight_id)==3):
-                self.allocated[i['pnr']]=[flight_id,cabin_id,cost]
-                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
-                self.used_seat[flight_id[1]][cabin_id[1]]+=i['pax']
-                self.used_seat[flight_id[2]][cabin_id[2]]+=i['pax']
-            elif(len(flight_id)==2):
-                self.allocated[i['pnr']]=[flight_id,cabin_id,cost]
-                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
-                self.used_seat[flight_id[1]][cabin_id[1]]+=i['pax']
-            elif(flight_id[0]!=-1):
-                self.allocated[i['pnr']]=[flight_id[0],cabin_id[0],cost]
-                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
-
-        return self.allocated
-
-
 
     def _preprocess_data(self, get_pnrs,get_alt_flights,get_cancled):
         cancel=get_cancled()
         pnr={}
         alt_flight={}
-    # pnr_flight={}
+        # pnr_flight={}
         for f in cancel['data']:
             pnr[f['flight_id']]=get_pnrs(f['flight_id'])["data"]
             alt=get_alt_flights(f['flight_id'])
@@ -138,7 +76,6 @@ class PnrReallocation:
 
     @staticmethod
     def get_delay_cost(delay_str):
-        
         comp = delay_str.split(", ")
         hours=0
         minutes=0
@@ -157,6 +94,7 @@ class PnrReallocation:
             time+=1
         time = math.exp(time/3)
         return time
+    
     @staticmethod
     def get_layoff_cost(delay_str):
         comp = delay_str.split(", ")
@@ -203,10 +141,10 @@ class PnrReallocation:
             return d*math.exp(time/1.2)
         else:
             return (-d)*math.exp(time/1.5)
-    
-    
+
     def obj(self, flights,pnr):
-        
+        list_cost=[]
+        cost_id = []
         n_flights=flights['n_flights']
         c_flights=flights['c_flights']
         t_flights=flights['t_flights']
@@ -228,6 +166,8 @@ class PnrReallocation:
                 d=self.cabin_ind[i]-cabin0
                 c=self.get_flight_time_score(d,f['flight_time'])
     #             print(c+cost)
+                list_cost.append(c+cost+1)
+                cost_id.append([[f['flight_id']],[i]])
                 if(c+cost<val):
                     val=c+cost
                     f_id=[f['flight_id']]
@@ -250,6 +190,8 @@ class PnrReallocation:
                     c=self.get_flight_time_score(d1,f[0]['flight_time'])
                     c+=self.get_flight_time_score(d2,f[1]['flight_time'])
     #                 print(c+cost)
+                    list_cost.append(c+cost+1)
+                    cost_id.append([[f[0]['flight_id'],f[1]['flight_id']],[i,j]])
                     if(c+cost<val):
                         val=c+cost
                         f_id=[f[0]['flight_id'],f[1]['flight_id']]
@@ -273,6 +215,8 @@ class PnrReallocation:
                         c+=self.get_flight_time_score(d2,f[1]['flight_time'])
                         c+=self.get_flight_time_score(d3,f[2]['flight_time'])
     #                 print(c+cost)
+                        list_cost.append(c+cost+1)
+                        cost_id.append([[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']],[i,j,k]])
                         if(c+cost<val):
                             val=c+cost
                             f_id=[f[0]['flight_id'],f[1]['flight_id'],f[2]['flight_id']]
@@ -280,4 +224,71 @@ class PnrReallocation:
             
         if val!=1e18:
             self.tot_cost+=val
-        return f_id,c_id,val
+        return f_id,c_id,val,list_cost,cost_id
+    
+
+
+class PnrReallocation(BaseReallocation):
+    def __init__(self, get_pnr_fn, get_alt_flights_fn, get_cancled_fn) -> None:
+        super().__init__(get_pnr_fn, get_alt_flights_fn, get_cancled_fn)
+        
+    def allocate(self) -> None:
+        self.used_seat={}
+        self.maximum_seat={}
+
+        for i in self.alt_flight:
+            for j in self.alt_flight[i]['n_flights']:
+                self.used_seat[j['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j['flight_id']]={'F':j['F'],'B':j['B'],'P':j['P'],'E':j['E']}
+            for j in self.alt_flight[i]['c_flights']:
+                self.used_seat[j[0]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j[0]['flight_id']]={'F':j[0]['F'],'B':j[0]['B'],'P':j[0]['P'],'E':j[0]['E']}
+                self.used_seat[j[1]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j[1]['flight_id']]={'F':j[1]['F'],'B':j[1]['B'],'P':j[1]['P'],'E':j[1]['E']}
+            for j in self.alt_flight[i]['t_flights']:
+                self.used_seat[j[0]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j[0]['flight_id']]={'F':j[0]['F'],'B':j[0]['B'],'P':j[0]['P'],'E':j[0]['E']}
+                self.used_seat[j[1]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j[1]['flight_id']]={'F':j[1]['F'],'B':j[1]['B'],'P':j[1]['P'],'E':j[1]['E']}
+                self.used_seat[j[2]['flight_id']]={'F':0,'B':0,'P':0,'E':0}
+                self.maximum_seat[j[2]['flight_id']]={'F':j[2]['F'],'B':j[2]['B'],'P':j[2]['P'],'E':j[2]['E']}
+
+        
+        sorted_pnr=[]
+        for i in self.pnr:
+            alloc={}
+            for j in self.pnr[i]:
+                alloc=j
+                alloc['flight_id']=i
+                sorted_pnr.append(alloc)
+        sorted_pnr = sorted(sorted_pnr, key=lambda x: x['score'],reverse=True)
+
+        self.allocated={}
+
+        for i in sorted_pnr:
+            self.allocated[i['pnr']]='NULL'
+
+        self.tot_cost=0
+    
+        for i in sorted_pnr:
+        #     print(i)
+            f_id=i['flight_id']
+            flight_id,cabin_id,cost,_,_=self.obj(self.alt_flight[f_id],i)
+            # list_cost=self.obj(self.alt_flight[f_id],i)
+        #     break
+        #     print(flight_id)
+        #     print(cabin_id)
+            if(len(flight_id)==3):
+                self.allocated[i['pnr']]=[flight_id,cabin_id,cost]
+                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
+                self.used_seat[flight_id[1]][cabin_id[1]]+=i['pax']
+                self.used_seat[flight_id[2]][cabin_id[2]]+=i['pax']
+            elif(len(flight_id)==2):
+                self.allocated[i['pnr']]=[flight_id,cabin_id,cost]
+                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
+                self.used_seat[flight_id[1]][cabin_id[1]]+=i['pax']
+            elif(flight_id[0]!=-1):
+                self.allocated[i['pnr']]=[flight_id[0],cabin_id[0],cost]
+                self.used_seat[flight_id[0]][cabin_id[0]]+=i['pax']
+
+        return self.allocated
