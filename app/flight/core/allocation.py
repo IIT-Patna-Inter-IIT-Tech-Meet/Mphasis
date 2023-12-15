@@ -63,7 +63,7 @@ class BaseReallocation:
                 f3["B"] = 0
                 f3["P"] = 0
                 f3["E"] = 0
-                f3["n_score"]=fl.get("n_score",0)
+                f3["n_score"]=flight.get("n_score",0)
                 #           print()
                 for key in self.map_cabin:
                     if key in flight["avilable_seats"]:
@@ -237,7 +237,7 @@ class BaseReallocation:
             cost = self.get_delay_cost(f[0]["delay"]) + self.get_layoff_cost(
                 f[1]["delay"]
             )
-            cost+=self.get_n_score_cost(f.get("n_score",0))
+            cost+=self.get_n_score_cost(f[0].get("n_score",0)) + self.get_n_score_cost(f[1].get("n_score",0))
 
             for i in self.cabins:
                 for j in self.cabins:
@@ -273,7 +273,7 @@ class BaseReallocation:
                 + self.get_layoff_cost(f[1]["delay"])
                 + self.get_layoff_cost(f[2]["delay"])
             )
-            cost+=self.get_n_score_cost(f.get("n_score",0))
+            cost+=self.get_n_score_cost(f[0].get("n_score",0)) + self.get_n_score_cost(f[1].get("n_score",0)) + self.get_n_score_cost(f[2].get("n_score",0))
 
             for i in self.cabins:
                 for j in self.cabins:
