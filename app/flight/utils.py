@@ -88,7 +88,7 @@ def get_avilable_seats(aircraft, flight, use_inventory=False, use_cabin_only=Tru
 
     if use_inventory:
         inventory = list(map(int, inv.split(",")))
-        keys = ["F", "B", "P", "E"]
+        keys = ["F", "C", "R", "E"]
         avilaible_seats = {keys[i]: inventory[i] for i in range(len(keys))}
         use_cabin_only = False
 
@@ -96,7 +96,14 @@ def get_avilable_seats(aircraft, flight, use_inventory=False, use_cabin_only=Tru
         avilable = {}
         for key, value in CLASS_CABIN_MAPPING.items():
             avilable[key] = max(sum([avilaible_seats.get(k, 0) for k in value]), 0)
-        avilaible_seats = avilable
+        # change keys : B -> C, P -> R
+        avilaible_seats = {
+            "C": avilable["B"],
+            "R": avilable["P"],
+            "E": avilable["E"],
+            "F": avilable["F"],
+        }
+        # avilaible_seats = avilable
 
     return avilaible_seats, sum(avilaible_seats.values())
 
@@ -142,8 +149,8 @@ def get_one_hop_flights(
                 "arrival_time": flight.arrival,
                 "departure_time": flight.departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(flight.departure - main_flight.departure),
-                "flight_time": str(flight.arrival - flight.departure),
+                "delay": str(flight.departure - main_flight.departure).split(".")[0],
+                "flight_time": str(flight.arrival - flight.departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
             }
         )
@@ -172,8 +179,8 @@ def get_one_hop_flights(
                 "arrival_time": f2_arrival,
                 "departure_time": f2_departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(delay),
-                "flight_time": str(f2_arrival - f2_departure),
+                "delay": str(delay).split(".")[0],
+                "flight_time": str(f2_arrival - f2_departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
             }
         )
@@ -233,8 +240,8 @@ def get_two_hop_flights(
                 "arrival_time": flight.arrival,
                 "departure_time": flight.departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(flight.departure - main_flight.departure),
-                "flight_time": str(flight.arrival - flight.departure),
+                "delay": str(flight.departure - main_flight.departure).split(".")[0],
+                "flight_time": str(flight.arrival - flight.departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
             }
         )
@@ -263,8 +270,8 @@ def get_two_hop_flights(
                 "arrival_time": f2_arrival,
                 "departure_time": f2_departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(delay),
-                "flight_time": str(f2_arrival - f2_departure),
+                "delay": str(delay).split(".")[0],
+                "flight_time": str(f2_arrival - f2_departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
             }
         )
@@ -293,8 +300,8 @@ def get_two_hop_flights(
                 "arrival_time": f3_arrival,
                 "departure_time": f3_departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(delay),
-                "flight_time": str(f3_arrival - f3_departure),
+                "delay": str(delay).split(".")[0],
+                "flight_time": str(f3_arrival - f3_departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
             }
         )
@@ -341,6 +348,9 @@ def util_flight_ranking(flight_id, max_hop=2, use_inventory=False, use_cabin_onl
             flight.schedule.schedule.aircraft_id, flight, use_inventory, use_cabin_only
         )
 
+        n_score = 1 if flight.src == main_flight.src else 0
+        n_score += 1 if flight.dst == main_flight.dst else 0
+
         data.append(
             {
                 "flight_id": flight.flight_id,
@@ -350,9 +360,10 @@ def util_flight_ranking(flight_id, max_hop=2, use_inventory=False, use_cabin_onl
                 "arrival_time": flight.arrival,
                 "departure_time": flight.departure,
                 "total_avilable_seats": total_avilable_seats,
-                "delay": str(flight.departure - main_flight.departure),
-                "flight_time": str(flight.arrival - flight.departure),
+                "delay": str(flight.departure - main_flight.departure).split(".")[0],
+                "flight_time": str(flight.arrival - flight.departure).split(".")[0],
                 "avilable_seats": avilaible_seats,
+                "n_score": n_score,
             }
         )
 

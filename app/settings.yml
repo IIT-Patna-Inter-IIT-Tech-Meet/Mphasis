@@ -13,7 +13,7 @@ data_generation:
   ssr_score: 100
   default_ssr_probability: 0.001
 search:
-  max_hop : 2
+  max_hop : 2 # max limit 2 
   downgrade: True
   upgrade: True
   skip_quantum: True # reduce time ( tries to do the same thing in classical way ) when set True
