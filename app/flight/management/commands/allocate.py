@@ -1,5 +1,6 @@
 import csv
 import time
+import datetime
 from typing import Any
 from django.core.management.base import BaseCommand, CommandParser
 from flight.models import *
@@ -29,6 +30,12 @@ class Command(BaseCommand):
             "--config",
             type=str,
             default="settings.yml",
+        )
+
+        parser.add_argument(
+            "--save",
+            type=str,
+            default="result.csv",
         )
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
@@ -70,6 +77,7 @@ class Command(BaseCommand):
                     "allocated_flights_departure",
                     "allocated_flights_arrival",
                     "allocated_classes",
+                    "flight_time",
                     "allocated_flights_score",
                 ]
             )
@@ -97,16 +105,17 @@ class Command(BaseCommand):
 
         self.data = []
         for pnr, allocation in self.result.items():
+            # print(allocation, type(allocation))
             pnr_obj, cancelled_flight = pnr_flight_map[pnr]
 
-            if allocation is None or allocation == "NULL":
+            if allocation is None or allocation == "NULL" or allocation == ['NULL']:
                 allocated_flights = []
             elif type(allocation[0]) is not list:
                 allocated_flights = [allocation[0]]
             else:
                 allocated_flights = allocation[0]
 
-            if allocation is None or allocation == "NULL":
+            if allocation is None or allocation == "NULL" or allocation == ['NULL']:
                 allocated_class = []
             elif type(allocation[1]) is not list:
                 allocated_class = [allocation[1]]
@@ -115,7 +124,11 @@ class Command(BaseCommand):
 
             # allocated_class = [CABIN_CLASS_MAPPING[c] for c in allocated_class]
 
-            score = allocation[2] if allocation is not None and type(allocation[2]) == float else -1.0
+            score = (
+                allocation[2]
+                if allocation is not None and allocation != ['NULL'] and type(allocation[2]) == float
+                else -1.0
+            )
 
             if allocated_flights and len(allocated_flights) > 0:
                 alt_filght = Flight.objects.get(flight_id=allocated_flights[0])
@@ -126,11 +139,17 @@ class Command(BaseCommand):
 
                 alt_filght_arrival = alt_filght.arrival
                 alt_flight_dst = alt_filght.dst
+                flight_time = datetime.timedelta(0)
+                for flight_id in allocated_flights:
+                    flight = Flight.objects.get(flight_id=flight_id)
+                    flight_time += flight.arrival - flight.departure
+                flight_time = flight_time / len(allocated_flights)
             else:
                 alt_filght_departure = None
                 alt_filght_arrival = None
                 alt_flight_src = None
                 alt_flight_dst = None
+                flight_time = None
 
             self.data.append(
                 [
@@ -148,6 +167,7 @@ class Command(BaseCommand):
                     alt_filght_departure,
                     alt_filght_arrival,
                     allocated_class,
+                    flight_time,
                     score,
                 ]
             )
@@ -163,15 +183,16 @@ class Command(BaseCommand):
                 get_alt_flights_fn=fn_flight_ranking,
                 get_pnr_fn=util_pnr_ranking,
                 get_cancled_fn=cancelled_flight,
-                upgrade=True,
-                downgrade=True,
+                upgrade=self.config["search"]["upgrade"],
+                downgrade=self.config["search"]["downgrade"],
             )
-
         else:
             self.allocator = QuantumReallocation(
                 get_alt_flights_fn=fn_flight_ranking,
                 get_pnr_fn=util_pnr_ranking,
                 get_cancled_fn=cancelled_flight,
+                upgrade=self.config["search"]["upgrade"],
+                downgrade=self.config["search"]["downgrade"],
             )
         print("Time taken for data-loading : ", time.time() - timer, " seconds")
 
@@ -180,4 +201,4 @@ class Command(BaseCommand):
         print("Time taken for allocation : ", time.time() - timer, " seconds")
         # print(self.result)
         self.process_result()
-        self.savefile()
+        self.savefile(options["save"])
