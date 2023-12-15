@@ -115,7 +115,7 @@ class Command(BaseCommand):
 
             # allocated_class = [CABIN_CLASS_MAPPING[c] for c in allocated_class]
 
-            score = allocation[2] if allocation is not None else 1e15
+            score = allocation[2] if allocation is not None and type(allocation[2]) == float else -1.0
 
             if allocated_flights and len(allocated_flights) > 0:
                 alt_filght = Flight.objects.get(flight_id=allocated_flights[0])
@@ -137,7 +137,7 @@ class Command(BaseCommand):
                     pnr,
                     pnr_obj.score,
                     [cancelled_flight.flight_id],
-                    pnr_obj.seat_class,
+                    CABIN_CLASS_MAPPING[pnr_obj.seat_class.type_name],
                     cancelled_flight.departure,
                     cancelled_flight.arrival,
                     cancelled_flight.src,
@@ -148,7 +148,7 @@ class Command(BaseCommand):
                     alt_filght_departure,
                     alt_filght_arrival,
                     allocated_class,
-                    allocation[2],
+                    score,
                 ]
             )
         # pass
@@ -163,8 +163,8 @@ class Command(BaseCommand):
                 get_alt_flights_fn=fn_flight_ranking,
                 get_pnr_fn=util_pnr_ranking,
                 get_cancled_fn=cancelled_flight,
-                upgrade=False,
-                downgrade=False,
+                upgrade=True,
+                downgrade=True,
             )
 
         else:
