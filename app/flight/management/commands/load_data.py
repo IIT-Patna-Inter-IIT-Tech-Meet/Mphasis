@@ -307,8 +307,8 @@ class Command(BaseCommand):
 
         seat_class_map = {
             "FirstClass" : "F",
-            "BusinessClass" : "B",
-            "PremiumEconomyClass" : "P",
+            "BusinessClass" : "C",
+            "PremiumEconomyClass" : "R",
             "EconomyClass" : "E"
         }
 
