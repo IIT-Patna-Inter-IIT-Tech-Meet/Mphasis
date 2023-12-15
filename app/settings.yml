@@ -16,8 +16,8 @@ search:
   max_hop : 2 # max limit 2 
   downgrade: True
   upgrade: True
-  skip_quantum: True # reduce time ( tries to do the same thing in classical way ) when set True
-  use_inventory: False
+  skip_quantum: False # reduce time ( tries to do the same thing in classical way ) when set True
+  use_inventory: False # calculate on inventory instead of capacity
   use_cabin_only: True
   neighboring_search: True # searh using same state airport
 scores:
