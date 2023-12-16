@@ -10,6 +10,8 @@ class BaseReallocation:
         get_cancled_fn,
         upgrade=True,
         downgrade=True,
+        alpha=4,
+        beta=0.3
     ) -> None:
         self.map_cabin = {
             "F": "F",
@@ -39,8 +41,8 @@ class BaseReallocation:
             "W": "E",
             "X": "E",
         }
-        self.alpha = 4  # weight for delay vs quality of flight
-        self.beta = 0.3  # weight for up vs down grading of class
+        self.alpha = alpha  # weight for delay time
+        self.beta = beta  # weight for up vs down grading of class
         self.cabins = ["F", "B", "P", "E"]
         self.cabin_ind = {"F": 0, "B": 1, "P": 2, "E": 3}
         self.upgrade, self.downgrade = upgrade, downgrade
@@ -360,9 +362,11 @@ class PnrReallocation(BaseReallocation):
         get_cancled_fn,
         upgrade=True,
         downgrade=True,
+        alpha=4,
+        beta=0.3
     ) -> None:
         super().__init__(
-            get_pnr_fn, get_alt_flights_fn, get_cancled_fn, upgrade, downgrade
+            get_pnr_fn, get_alt_flights_fn, get_cancled_fn, upgrade, downgrade, alpha, beta
         )
 
     def allocate(self) -> None:

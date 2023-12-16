@@ -17,10 +17,10 @@ from app.config import settings
 
 TIMEZONE = pytz.timezone("Asia/Kolkata")
 
-SCHEDULE_FILE = "flight/management/data/schedule_table.csv"
-FLIGHT_FILE = "flight/management/data/flight_inventory_table.csv"
-PNR_FILE = "flight/management/data/pnr_table.csv"
-PASSENGER_FILE = "flight/management/data/passenger_table.csv"
+SCHEDULE_FILE = settings["data_generation"]["schedule_file"]
+FLIGHT_FILE = settings["data_generation"]["flight_file"]
+PNR_FILE = settings["data_generation"]["pnr_file"]
+PASSENGER_FILE = settings["data_generation"]["pax_file"]
 
 
 COLUMN_MAP = {
@@ -339,7 +339,7 @@ class Command(BaseCommand):
                 score, ssr = 0, 0
                 if passenger[PASSENGER_CMAP["ssr"]] in self.ssr_map:
                     # print(passenger[PASSENGER_CMAP["ssr"]], type(passenger[PASSENGER_CMAP["ssr"]]))
-                    score = self.ssr_map[passenger[PASSENGER_CMAP["ssr"]]].ssr_point
+                    score += self.ssr_map[passenger[PASSENGER_CMAP["ssr"]]].ssr_point
                     ssr = 1
 
                 if passenger[PASSENGER_CMAP["scd1"]] != "":
