@@ -15,7 +15,7 @@ from flight.management.commands.populate_aircraft import (
 )
 from app.config import settings
 
-TIMEZONE = pytz.timezone('Asia/Kolkata')
+TIMEZONE = pytz.timezone("Asia/Kolkata")
 
 SCHEDULE_FILE = "flight/management/data/schedule_table.csv"
 FLIGHT_FILE = "flight/management/data/flight_inventory_table.csv"
@@ -59,37 +59,38 @@ FLIGHT_CMAP = {
         "PC_AvailableInventory",
         "EC_AvailableInventory",
     ],
-    "dep_key" : "Dep_Key"
+    "dep_key": "Dep_Key",
 }
 
 PNR_CMAP = {
-    "pnr" : "RECLOC",
-    "dep_key" : "DEP_KEY",
-    "status" : "ACTION_CD",
-    "seat_class" : "COS_CD",
-    "seg_seq" : "SEG_SEQ",
-    "carrier_cd" : "CARRIER_CD",
-    "paid_service" : 0,
-    "loyalty_program" : 0,
-    "conn" : "SEG_TOTAL",
-    "pax" : "PAX_CNT",
-    "booking_type" : "NA"
+    "pnr": "RECLOC",
+    "dep_key": "DEP_KEY",
+    "status": "ACTION_CD",
+    "seat_class": "COS_CD",
+    "seg_seq": "SEG_SEQ",
+    "carrier_cd": "CARRIER_CD",
+    "paid_service": 0,
+    "loyalty_program": 0,
+    "conn": "SEG_TOTAL",
+    "pax": "PAX_CNT",
+    "booking_type": "NA",
 }
 
 PASSENGER_CMAP = {
-    "recloc" : "RECLOC",
-    "last_name" : "LAST_NAME",
-    "first_name" : "FIRST_NAME",
-    "nationality" : "NATIONALITY",
-    "contact_no" : "CONTACT_PH_NUM",
-    "contact_email" : "CONTACT_EMAIL",
-    "doc_id" : "DOC_ID",
-    "doc_type" : "DOC_TYPE",
-    "scd1" : "SPECIAL_NAME_CD1",
-    "scd2" : "SPECIAL_NAME_CD2",
-    "ssr" : "SSR_CODE_CD1",
-    "loyalty" : "TierLevel"
+    "recloc": "RECLOC",
+    "last_name": "LAST_NAME",
+    "first_name": "FIRST_NAME",
+    "nationality": "NATIONALITY",
+    "contact_no": "CONTACT_PH_NUM",
+    "contact_email": "CONTACT_EMAIL",
+    "doc_id": "DOC_ID",
+    "doc_type": "DOC_TYPE",
+    "scd1": "SPECIAL_NAME_CD1",
+    "scd2": "SPECIAL_NAME_CD2",
+    "ssr": "SSR_CODE_CD1",
+    "loyalty": "TierLevel",
 }
+
 
 class Command(BaseCommand):
     help = "Randomly cancels x% of the flights"
@@ -167,8 +168,6 @@ class Command(BaseCommand):
         self.class_map = {}
         for class_type in classes:
             self.class_map[class_type.type_name] = class_type
-
-
 
     def load_aircraft(self):
         PopulateAircraftCommand.clean()
@@ -258,11 +257,11 @@ class Command(BaseCommand):
             schedule_date = self.shcedule_date_map[(row["ScheduleId"], date)]
             departure = datetime.datetime.strptime(
                 row[FLIGHT_CMAP["departure"]], "%Y-%m-%d %H:%M:%S"
-            ).replace(tzinfo= TIMEZONE)
+            ).replace(tzinfo=TIMEZONE)
 
             arrival = datetime.datetime.strptime(
                 row[FLIGHT_CMAP["arrival"]], "%Y-%m-%d %H:%M:%S"
-            ).replace(tzinfo= TIMEZONE)
+            ).replace(tzinfo=TIMEZONE)
 
             avilable_inventory = []
             for col in FLIGHT_CMAP["avilable_inventory"]:
@@ -278,7 +277,7 @@ class Command(BaseCommand):
                 src=self.airport_map[row[FLIGHT_CMAP["src"]].strip()],
                 dst=self.airport_map[row[FLIGHT_CMAP["dst"]].strip()],
                 avilable_inventory=",".join(list(map(str, avilable_inventory))),
-                dep_key = row[FLIGHT_CMAP["dep_key"]][:-2]
+                dep_key=row[FLIGHT_CMAP["dep_key"]][:-2],
             )
             self.inventory_map[inventory.dep_key] = inventory
 
@@ -306,13 +305,11 @@ class Command(BaseCommand):
         self.passenger_list = []
 
         seat_class_map = {
-            "FirstClass" : "F",
-            "BusinessClass" : "C",
-            "PremiumEconomyClass" : "R",
-            "EconomyClass" : "E"
+            "FirstClass": "F",
+            "BusinessClass": "C",
+            "PremiumEconomyClass": "R",
+            "EconomyClass": "E",
         }
-
-
 
         score = 0
 
@@ -337,37 +334,41 @@ class Command(BaseCommand):
                 flight=self.inventory_map[row[PNR_CMAP["dep_key"]]],
             )
 
-
             # load passengers
             for passenger in passengers[pnr.pnr]:
                 score, ssr = 0, 0
-                if passenger[PASSENGER_CMAP["ssr"]] in self.ssr_map :
+                if passenger[PASSENGER_CMAP["ssr"]] in self.ssr_map:
                     # print(passenger[PASSENGER_CMAP["ssr"]], type(passenger[PASSENGER_CMAP["ssr"]]))
                     score = self.ssr_map[passenger[PASSENGER_CMAP["ssr"]]].ssr_point
                     ssr = 1
 
                 if passenger[PASSENGER_CMAP["scd1"]] != "":
                     score += settings["scores"]["default_scd1_score"]
-                
+
                 if passenger[PASSENGER_CMAP["scd2"]] != "":
                     score += settings["scores"]["default_scd2_score"]
-                
-                if passenger[PASSENGER_CMAP["loyalty"]] in settings["scores"]["loyalty"]:
-                    score += settings["scores"]["loyalty"][passenger[PASSENGER_CMAP["loyalty"]]]
+
+                if (
+                    passenger[PASSENGER_CMAP["loyalty"]]
+                    in settings["scores"]["loyalty"]
+                ):
+                    score += settings["scores"]["loyalty"][
+                        passenger[PASSENGER_CMAP["loyalty"]]
+                    ]
 
                 pnr.score += score
                 passenger = PnrPassenger(
-                    recloc = pnr,
-                    last_name = passenger[PASSENGER_CMAP["last_name"]],
-                    first_name = passenger[PASSENGER_CMAP["first_name"]],
-                    nationality = passenger[PASSENGER_CMAP["nationality"]],
-                    contact_no = passenger[PASSENGER_CMAP["contact_no"]],
-                    contact_email = passenger[PASSENGER_CMAP["contact_email"]],
-                    doc_id = passenger[PASSENGER_CMAP["doc_id"]],
-                    doc_type = passenger[PASSENGER_CMAP["doc_type"]],
-                    scd1 = passenger[PASSENGER_CMAP["scd1"]],
-                    scd2 = passenger[PASSENGER_CMAP["scd2"]],
-                    ssr = ssr,
+                    recloc=pnr,
+                    last_name=passenger[PASSENGER_CMAP["last_name"]],
+                    first_name=passenger[PASSENGER_CMAP["first_name"]],
+                    nationality=passenger[PASSENGER_CMAP["nationality"]],
+                    contact_no=passenger[PASSENGER_CMAP["contact_no"]],
+                    contact_email=passenger[PASSENGER_CMAP["contact_email"]],
+                    doc_id=passenger[PASSENGER_CMAP["doc_id"]],
+                    doc_type=passenger[PASSENGER_CMAP["doc_type"]],
+                    scd1=passenger[PASSENGER_CMAP["scd1"]],
+                    scd2=passenger[PASSENGER_CMAP["scd2"]],
+                    ssr=ssr,
                 )
 
                 self.passenger_list.append(passenger)
@@ -406,6 +407,6 @@ class Command(BaseCommand):
         self.load_aircraft()
         self.load_flight_schedule()
         self.load_flight_inventory()
-        
+
         # laod pnr ``
         self.load_pnr()

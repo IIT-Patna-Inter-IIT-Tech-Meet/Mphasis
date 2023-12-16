@@ -3,6 +3,7 @@ from typing import Any
 from django.core.management.base import BaseCommand, CommandParser
 from flight.models import Flight
 
+
 class Command(BaseCommand):
     help = "Randomly cancels x% of the flights"
 
@@ -21,6 +22,8 @@ class Command(BaseCommand):
             return
         c = int(Flight.objects.count())
         num_cancelled = int(c * percent)
-        flights = Flight.objects.order_by('?')[:num_cancelled].values_list('flight_id', flat=True)
+        flights = Flight.objects.order_by("?")[:num_cancelled].values_list(
+            "flight_id", flat=True
+        )
         Flight.objects.filter(flight_id__in=flights).update(status="Cancelled")
         print(f"Cancelle {len(flights)} flights out of {c} flights")

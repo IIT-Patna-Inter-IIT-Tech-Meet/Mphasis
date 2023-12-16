@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from flight.models import Airport
 from tqdm import trange, tqdm
 
+
 class Command(BaseCommand):
     help = """
     Usages : python3 manage.py populate <table_name> <filename>
@@ -79,8 +80,7 @@ class Command(BaseCommand):
             Airport.objects.bulk_create(airports)
             print(f"Added {len(airports)} to the database")
 
+
 def delete_all(tb_model):
     tb_model.objects.all().delete()
     print(f"Deleted all data from {tb_model.__name__}")
-
-

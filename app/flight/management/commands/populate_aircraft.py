@@ -6,6 +6,7 @@ from app.config import settings
 
 SAFE = settings["data_generation"]["safe"]
 
+
 class Command(BaseCommand):
     help = "polulate Aircraftt, SeatDistribution"
 
@@ -45,7 +46,7 @@ class Command(BaseCommand):
                     pass
             if unique:
                 aircraft = Aircraft(
-                    id = df_aircraft["id"][i],
+                    id=df_aircraft["id"][i],
                     model=df_aircraft["model"][i],
                     name=df_aircraft["name"][i],
                     registration=df_aircraft["registration"][i],
@@ -71,7 +72,6 @@ class Command(BaseCommand):
             )
             seat_distributions.append(seat_distribution)
 
-
         if len(seat_distributions) > 0:
             SeatDistribution.objects.bulk_create(seat_distributions)
         print(f"Added {len(seat_distributions)} seat distribution instances.")
@@ -88,5 +88,3 @@ class Command(BaseCommand):
             self.clean()
 
         self.populate()
-
-        
