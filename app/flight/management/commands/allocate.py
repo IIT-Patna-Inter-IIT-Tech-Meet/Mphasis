@@ -108,14 +108,14 @@ class Command(BaseCommand):
             # print(allocation, type(allocation))
             pnr_obj, cancelled_flight = pnr_flight_map[pnr]
 
-            if allocation is None or allocation == "NULL" or allocation == ['NULL']:
+            if allocation is None or allocation == "NULL" or allocation == ["NULL"]:
                 allocated_flights = []
             elif type(allocation[0]) is not list:
                 allocated_flights = [allocation[0]]
             else:
                 allocated_flights = allocation[0]
 
-            if allocation is None or allocation == "NULL" or allocation == ['NULL']:
+            if allocation is None or allocation == "NULL" or allocation == ["NULL"]:
                 allocated_class = []
             elif type(allocation[1]) is not list:
                 allocated_class = [allocation[1]]
@@ -126,7 +126,9 @@ class Command(BaseCommand):
 
             score = (
                 allocation[2]
-                if allocation is not None and allocation != ['NULL'] and type(allocation[2]) == float
+                if allocation is not None
+                and allocation != ["NULL"]
+                and type(allocation[2]) == float
                 else -1.0
             )
 

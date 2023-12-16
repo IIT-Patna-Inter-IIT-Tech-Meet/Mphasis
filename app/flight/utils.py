@@ -63,7 +63,7 @@ def util_pnr_ranking(flight_id):
                 "pax": pnr.pnr.pax,
             }
         )
-    return { "data" : data }
+    return {"data": data}
 
 
 def get_avilable_seats(aircraft, flight, use_inventory=False, use_cabin_only=True):
@@ -79,7 +79,7 @@ def get_avilable_seats(aircraft, flight, use_inventory=False, use_cabin_only=Tru
     )
     booked_seats = {s["seat_type"]: s["count"] for s in booked_seats}
     avilaible_seats = {k: all_seats[k] - booked_seats.get(k, 0) for k in all_seats}
-    
+
     try:
         inv = flight.avilable_inventory
     except:
@@ -312,7 +312,13 @@ def get_two_hop_flights(
     return c_data
 
 
-def util_flight_ranking(flight_id, max_hop=2, use_inventory=False, use_cabin_only=True, neighboring_search=True):
+def util_flight_ranking(
+    flight_id,
+    max_hop=2,
+    use_inventory=False,
+    use_cabin_only=True,
+    neighboring_search=True,
+):
     # get source airport, and dst airport
     try:
         main_flight = Flight.objects.get(flight_id=flight_id)

@@ -44,7 +44,6 @@ class Command(BaseCommand):
         print("Cleaned")
 
     def populate_PNR(self):
-
         def helper(flight):
             seats = sd[flight.schedule.schedule.aircraft_id]
             total_seats = flight.schedule.schedule.aircraft_id.total_capacity
@@ -53,8 +52,8 @@ class Command(BaseCommand):
             days = (flight.departure - datetime.now(pytz.timezone(TIME_ZONE))).days
             if days < 0:
                 days = 0
-            
-            max_limit = max(100 - days*2, 0)
+
+            max_limit = max(100 - days * 2, 0)
 
             tofill = (total_seats * random.randint(max_limit - 20, max_limit)) // 100
             for seat in seats:
@@ -89,23 +88,31 @@ class Command(BaseCommand):
                     else:
                         lp = False
 
-                    values = [0,1,2,3,4,5]
+                    values = [0, 1, 2, 3, 4, 5]
                     weights = [0.5, 0.2, 0.1, 0.1, 0.05, 0.05]
                     total_ssr = random.choices(values, weights=weights)[0]
 
                     t = total_ssr // tofill
-                    ssrs = [t]*tofill
+                    ssrs = [t] * tofill
                     x = total_ssr - t
                     while x > 0:
-                        ssrs[random.randint(0, tofill-1)] += 1
+                        ssrs[random.randint(0, tofill - 1)] += 1
                         x -= 1
 
                     score = (
                         seat.class_type.score
-                        + (settings["data_generation"]["paid_service_score"] if paid_service else 0)
-                        + (settings["data_generation"]["loyality_program_score"] if lp else 0)
-                        + tofill*int(settings["data_generation"]["pax_score"])
-                        + total_ssr*int(settings["data_generation"]["ssr_score"])
+                        + (
+                            settings["data_generation"]["paid_service_score"]
+                            if paid_service
+                            else 0
+                        )
+                        + (
+                            settings["data_generation"]["loyality_program_score"]
+                            if lp
+                            else 0
+                        )
+                        + tofill * int(settings["data_generation"]["pax_score"])
+                        + total_ssr * int(settings["data_generation"]["ssr_score"])
                     )
 
                     pnr = PNR(
@@ -119,7 +126,7 @@ class Command(BaseCommand):
                         score=score,
                     )
                     self.pnrs.append(pnr)
-                    
+
                     # create pnr_flight_mapping
                     pnr_flight_mapping = PnrFlightMapping(
                         pnr=pnr,
@@ -130,14 +137,15 @@ class Command(BaseCommand):
                     for x in range(tofill):
                         # create passenger and add to pnr
                         p = PnrPassenger(
-                            recloc = pnr,
-                            last_name = fake.last_name(),
-                            first_name = fake.first_name(),
-                            contact_email = fake.email(),
-                            ssr = ssrs[x]
+                            recloc=pnr,
+                            last_name=fake.last_name(),
+                            first_name=fake.first_name(),
+                            contact_email=fake.email(),
+                            ssr=ssrs[x],
                         )
 
                         self.pnr_passengers.append(p)
+
         # bulk fetch
         seat_distributions = SeatDistribution.objects.all()
         all_booking_types = Group.objects.all()
@@ -155,13 +163,15 @@ class Command(BaseCommand):
             flight_count += 1
             helper(flight)
 
-            if len(self.pnrs) > 100000 :
+            if len(self.pnrs) > 100000:
                 with transaction.atomic():
                     PNR.objects.bulk_create(self.pnrs)
                     PnrFlightMapping.objects.bulk_create(self.pnr_flight_mappings)
                     PnrPassenger.objects.bulk_create(self.pnr_passengers)
                 print(f"PNR populated with {len(self.pnrs)} entries")
-                print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
+                print(
+                    f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries"
+                )
                 print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
 
                 self.pnrs = []
@@ -174,7 +184,9 @@ class Command(BaseCommand):
             PnrFlightMapping.objects.bulk_create(self.pnr_flight_mappings)
             PnrPassenger.objects.bulk_create(self.pnr_passengers)
         print(f"PNR populated with {len(self.pnrs)} entries")
-        print(f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries")
+        print(
+            f"PNRFlightMapping populated with {len(self.pnr_flight_mappings)} entries"
+        )
         print(f"PnrPassenger populated with {len(self.pnr_passengers)} entries")
 
     def handle(self, *args, **options):

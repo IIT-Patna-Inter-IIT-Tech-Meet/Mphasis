@@ -39,8 +39,8 @@ class BaseReallocation:
             "W": "E",
             "X": "E",
         }
-        self.alpha=4 # weight for delay vs quality of flight
-        self.beta=0.3 #weight for up vs down grading of class
+        self.alpha = 4  # weight for delay vs quality of flight
+        self.beta = 0.3  # weight for up vs down grading of class
         self.cabins = ["F", "B", "P", "E"]
         self.cabin_ind = {"F": 0, "B": 1, "P": 2, "E": 3}
         self.upgrade, self.downgrade = upgrade, downgrade
@@ -64,7 +64,7 @@ class BaseReallocation:
                 f3["B"] = 0
                 f3["P"] = 0
                 f3["E"] = 0
-                f3["n_score"]=flight.get("n_score",0)
+                f3["n_score"] = flight.get("n_score", 0)
                 #           print()
                 for key in self.map_cabin:
                     if key in flight["avilable_seats"]:
@@ -82,7 +82,7 @@ class BaseReallocation:
                     f3["B"] = 0
                     f3["P"] = 0
                     f3["E"] = 0
-                    f3["n_score"]=fl.get("n_score",0)
+                    f3["n_score"] = fl.get("n_score", 0)
                     #         print()
                     for key in self.map_cabin:
                         if key in fl["avilable_seats"]:
@@ -101,7 +101,7 @@ class BaseReallocation:
                     f3["B"] = 0
                     f3["P"] = 0
                     f3["E"] = 0
-                    f3["n_score"]=fl.get("n_score",0)
+                    f3["n_score"] = fl.get("n_score", 0)
                     #         print()
                     for key in self.map_cabin:
                         if key in fl["avilable_seats"]:
@@ -117,7 +117,7 @@ class BaseReallocation:
         self.pnr, self.alt_flight = pnr, alt_flight
 
     @staticmethod
-    def get_delay_cost(delay_str,n_score,alpha):
+    def get_delay_cost(delay_str, n_score, alpha):
         comp = delay_str.split(", ")
         hours = 0
         minutes = 0
@@ -131,20 +131,20 @@ class BaseReallocation:
             days, time_str = delay_str.split(", ")
             hours, minutes, seconds = map(int, comp[1].split(":"))
             total_hours_from_days = int(comp[0].split()[0]) * 24
-        time = total_hours_from_days + hours +minutes/60
-        if n_score==1:
-            time+=3
+        time = total_hours_from_days + hours + minutes / 60
+        if n_score == 1:
+            time += 3
         time = math.exp(time / alpha)
         return time
-    
+
     @staticmethod
     def get_n_score_cost(val):
-        time = val*3
-        time=math.exp(time/3)
+        time = val * 3
+        time = math.exp(time / 3)
         return time
 
     @staticmethod
-    def get_layoff_cost(delay_str,n_score,alpha):
+    def get_layoff_cost(delay_str, n_score, alpha):
         comp = delay_str.split(", ")
         hours = 0
         minutes = 0
@@ -158,21 +158,21 @@ class BaseReallocation:
             days, time_str = delay_str.split(", ")
             hours, minutes, seconds = map(int, comp[1].split(":"))
             total_hours_from_days = int(comp[0].split()[0]) * 24
-        time = total_hours_from_days + hours+minutes/60
-        if n_score==1:
-            time+=3
-        time = math.exp(time / alpha*0.8)
+        time = total_hours_from_days + hours + minutes / 60
+        if n_score == 1:
+            time += 3
+        time = math.exp(time / alpha * 0.8)
         return time
 
     @staticmethod
-    def get_flight_time_score(d, s,beta):
+    def get_flight_time_score(d, s, beta):
         delay_str = s
         comp = delay_str.split(", ")
         hours = 0
         minutes = 0
         seconds = 0
-        up=2.5*beta
-        down=2.5-up
+        up = 2.5 * beta
+        down = 2.5 - up
         total_hours_from_days = 0
         # Extract hours, minutes, and seconds from the time string
         if len(comp) == 1:
@@ -182,7 +182,7 @@ class BaseReallocation:
             days, time_str = delay_str.split(", ")
             hours, minutes, seconds = map(int, comp[1].split(":"))
             total_hours_from_days = int(comp[0].split()[0]) * 24
-        time = total_hours_from_days + hours +minutes/60
+        time = total_hours_from_days + hours + minutes / 60
         if d == 0:
             return math.exp(time / 2)
         elif d > 0:
@@ -206,7 +206,7 @@ class BaseReallocation:
         for f in n_flights:
             #         print(f)
             #         break
-            cost = self.get_delay_cost(f["delay"],f.get("n_score",0),self.alpha)
+            cost = self.get_delay_cost(f["delay"], f.get("n_score", 0), self.alpha)
             # cost+=self.get_n_score_cost(f.get("n_score",0))
 
             for i in self.cabins:
@@ -221,14 +221,14 @@ class BaseReallocation:
                     continue
 
                 d = self.cabin_ind[i] - cabin0
-                c = self.get_flight_time_score(d, f["flight_time"],self.beta)
+                c = self.get_flight_time_score(d, f["flight_time"], self.beta)
                 #             print(c+cost)
-                t_cost =  cost + c
+                t_cost = cost + c
                 list_cost.append(t_cost)
                 cost_id.append([[f["flight_id"]], [i]])
                 if t_cost < val:
                     # print(t_cost," ",cost, " ",c)
-                    val = t_cost 
+                    val = t_cost
                     f_id = [f["flight_id"]]
                     c_id = [i]
         #             temp_id+=1
@@ -237,9 +237,9 @@ class BaseReallocation:
         #     print('kkkkkk')
         for f in c_flights:
             #         print(f[1]['delay'])
-            cost = self.get_delay_cost(f[0]["delay"],f[0].get("n_score",0),self.alpha) + self.get_layoff_cost(
-                f[1]["delay"],f[0].get("n_score",0),self.alpha
-            )
+            cost = self.get_delay_cost(
+                f[0]["delay"], f[0].get("n_score", 0), self.alpha
+            ) + self.get_layoff_cost(f[1]["delay"], f[0].get("n_score", 0), self.alpha)
             # cost+=self.get_n_score_cost(f[0].get("n_score",0)) + self.get_n_score_cost(f[1].get("n_score",0))
 
             for i in self.cabins:
@@ -259,10 +259,10 @@ class BaseReallocation:
 
                     d1 = self.cabin_ind[i] - cabin0
                     d2 = self.cabin_ind[j] - cabin0
-                    c = self.get_flight_time_score(d1, f[0]["flight_time"],self.beta)
-                    c += self.get_flight_time_score(d2, f[1]["flight_time"],self.beta)
+                    c = self.get_flight_time_score(d1, f[0]["flight_time"], self.beta)
+                    c += self.get_flight_time_score(d2, f[1]["flight_time"], self.beta)
                     #                 print(c+cost)
-                    t_cost = cost +  c
+                    t_cost = cost + c
                     list_cost.append(t_cost)
                     cost_id.append([[f[0]["flight_id"], f[1]["flight_id"]], [i, j]])
                     if t_cost < val:
@@ -274,9 +274,13 @@ class BaseReallocation:
         for f in t_flights:
             #         print(f[1]['delay'])
             cost = (
-                self.get_delay_cost(f[0]["delay"],f[0].get("n_score",0),self.alpha)
-                + self.get_layoff_cost(f[1]["delay"],f[0].get("n_score",0),self.alpha)
-                + self.get_layoff_cost(f[2]["delay"],f[0].get("n_score",0),self.alpha)
+                self.get_delay_cost(f[0]["delay"], f[0].get("n_score", 0), self.alpha)
+                + self.get_layoff_cost(
+                    f[1]["delay"], f[0].get("n_score", 0), self.alpha
+                )
+                + self.get_layoff_cost(
+                    f[2]["delay"], f[0].get("n_score", 0), self.alpha
+                )
             )
             # cost+=self.get_n_score_cost(f[0].get("n_score",0)) + self.get_n_score_cost(f[1].get("n_score",0)) + self.get_n_score_cost(f[2].get("n_score",0))
 
@@ -310,11 +314,17 @@ class BaseReallocation:
                         d1 = self.cabin_ind[i] - cabin0
                         d2 = self.cabin_ind[j] - cabin0
                         d3 = self.cabin_ind[k] - cabin0
-                        c = self.get_flight_time_score(d1, f[0]["flight_time"],self.beta)
-                        c += self.get_flight_time_score(d2, f[1]["flight_time"],self.beta)
-                        c += self.get_flight_time_score(d3, f[2]["flight_time"],self.beta)
+                        c = self.get_flight_time_score(
+                            d1, f[0]["flight_time"], self.beta
+                        )
+                        c += self.get_flight_time_score(
+                            d2, f[1]["flight_time"], self.beta
+                        )
+                        c += self.get_flight_time_score(
+                            d3, f[2]["flight_time"], self.beta
+                        )
                         #                 print(c+cost)
-                        t_cost=cost+c
+                        t_cost = cost + c
                         list_cost.append(t_cost)
                         cost_id.append(
                             [
