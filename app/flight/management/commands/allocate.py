@@ -64,6 +64,7 @@ class Command(BaseCommand):
         self.filename = filename
         self.df = pd.DataFrame(self.data, columns= [
                 "pnr",
+                "pax",
                 "pnr_score",
                 "canclled_flight",
                 "canclled_class",
@@ -87,35 +88,46 @@ class Command(BaseCommand):
     def generate_report(self):
         # open a file to save report
         f = open(f"{self.filename.split('.')[0]}.txt", "w")
+        def printf(*args):
+            f.write(" ".join([str(x) for x in args]) + "\n")
+            print(*args)
 
         df = pd.read_csv(self.filename)
+        ## STATIC REPOPRT
         mean_score = df["pnr_score"].mean()
         std_dev_score = df["pnr_score"].std()
-        print("PNR Score Stats")
-        print("Mean PNR Score: ", mean_score)
-        print("Std Dev. PNR Score: ", std_dev_score)
-        print("Max PNR Score: ", df["pnr_score"].max())
-        print("Min PNR Score: ", df["pnr_score"].min())
-        print(DIVIDER)
+        printf("PNR Score Stats")
+        printf("Mean PNR Score: ", mean_score)
+        printf("Std Dev. PNR Score: ", std_dev_score)
+        printf("Max PNR Score: ", df["pnr_score"].max())
+        printf("Min PNR Score: ", df["pnr_score"].min())
+        printf(DIVIDER)
 
         mean_score = df["allocated_flights_score"].mean()
         std_dev_score = df["allocated_flights_score"].std()
-        print("PNR-FLIGHT Score Stats")
-        print("Mean PNR-FLIGHT Score: ", mean_score)
-        print("Std Dev. PNR-FLIGHT Score: ", std_dev_score)
-        print("Max PNR-FLIGHT Score: ", df["allocated_flights_score"].max())
-        print("Min PNR-FLIGHT Score: ", df["allocated_flights_score"].min())
-        print(DIVIDER)
+        printf("PNR-FLIGHT Score Stats")
+        printf("Mean PNR-FLIGHT Score: ", mean_score)
+        printf("Std Dev. PNR-FLIGHT Score: ", std_dev_score)
+        printf("Max PNR-FLIGHT Score: ", df["allocated_flights_score"].max())
+        printf("Min PNR-FLIGHT Score: ", df["allocated_flights_score"].min())
+        printf(DIVIDER)
 
-        print("Allocation Stats")
+        tap = 0
+        for _, row in df.iterrows():
+            if type(row["allocated_src"]) == str:
+                tap += int(row["pax"])
+
+        printf("Allocation Stats")
         total = df["pnr"].count()
         allocated = df["allocated_src"].count()
-        print("Total pnr: ", total)
-        print("Total allocated pnr: ", allocated)
-        print("Total unallocated pnr: ", total - allocated)
+        printf("Total pnr: ", total)
+        printf("Total allocated pnr: ", allocated)
+        printf("Total unallocated pnr: ", total - allocated)
+        printf("Total Passengers: ", df["pax"].sum())
+        printf("Total Allocatted passengers: ", tap)
 
-        print(DIVIDER)
-        print("Connection Stats")
+        printf(DIVIDER)
+        printf("Connection Stats")
 
         conn = [0, 0, 0, 0]
         for x in df["allocated_flights"]:
@@ -123,12 +135,12 @@ class Command(BaseCommand):
             x = ast.literal_eval(x)
             conn[len(x)] += 1
 
-        print("Unallocated : ", conn[0])
-        print("Direct : ", conn[1])
-        print("One Stop : ", conn[2])
-        print("Two Stop : ", conn[3])
+        printf("Unallocated : ", conn[0])
+        printf("Direct : ", conn[1])
+        printf("One Stop : ", conn[2])
+        printf("Two Stop : ", conn[3])
 
-        print(DIVIDER)
+        printf(DIVIDER)
         class_map = {"F": 0, "B": 1, "P": 2, "E": 3}
         flight_stats = {}
         for _, row in df.iterrows():
@@ -138,6 +150,8 @@ class Command(BaseCommand):
                     "total_pnr": 0,
                     "allocated_pnr": 0,
                     "unallocated_pnr": 0,
+                    "allocated_passengers": 0,
+                    "unallocated_passengers": 0,
                     "upgraded_pnr": 0,
                     "samestate_pnr": 0,
                     "downgraded_pnr": 0,
@@ -149,8 +163,10 @@ class Command(BaseCommand):
             flight_stats[r_flight]["total_pnr"] += 1
             if type(row["allocated_src"]) == str:
                 flight_stats[r_flight]["allocated_pnr"] += 1
+                flight_stats[r_flight]["allocated_passengers"] += int(row["pax"])
             else:
                 flight_stats[r_flight]["unallocated_pnr"] += 1
+                flight_stats[r_flight]["unallocated_passengers"] += int(row["pax"])
 
 
             if type(row["allocated_src"]) == str:
@@ -158,7 +174,7 @@ class Command(BaseCommand):
                 a_class_score = sum([class_map[x] for x in ast.literal_eval(row["allocated_classes"])]) / max(
                     len(ast.literal_eval(row["allocated_classes"])), 1
                 )
-                # print(r_class_score, a_class_score, row["canclled_class"], ast.literal_eval(row["allocated_classes"]))
+                # printf(r_class_score, a_class_score, row["canclled_class"], ast.literal_eval(row["allocated_classes"]))
                 if r_class_score > a_class_score:
                     flight_stats[r_flight]["upgraded_pnr"] += 1
                 elif r_class_score < a_class_score:
@@ -182,26 +198,24 @@ class Command(BaseCommand):
             flight_stats[flight]["default_allocation"] = max_count
 
 
-        print("Cancelled Flight Level Stats")
-        print("Total Cancelled Flights: ", len(flight_stats))
-        print(
-            "Flight id\tTotal PNR\tReAllocated PNR\tUnallocated PNR\tUpgraded PNR\tSameState PNR\tDowngraded PNR\tDefault Flight\tDefault Allocation"
-        )
-        for k, v in flight_stats.items():
-            print(
-                f"{k}\t{v['total_pnr']}\t{v['allocated_pnr']}\t{v['unallocated_pnr']}\t{v['upgraded_pnr']}\t{v['samestate_pnr']}\t{v['downgraded_pnr']}\t{v['default_flight']}\t{v['default_allocation']}"
-            )
+        printf(f"Cancelled Flight Level Stats saved in : {self.filename.split('.')[0]}.flight_stats.csv")
+        printf("Total Cancelled Flights: ", len(flight_stats))
+        flight_stats_df = pd.DataFrame(flight_stats).T
+        flight_stats_df.to_csv(f"{self.filename.split('.')[0]}.flight_stats.csv")
 
         df['canclled_flight_arrival'] = pd.to_datetime(df['canclled_flight_arrival'])
         df['allocated_flights_arrival'] = pd.to_datetime(df['allocated_flights_arrival'])
 
         # Calculate the delay
         df['delay'] = (df['allocated_flights_arrival'] - df['canclled_flight_arrival']).dt.total_seconds() / 3600
-        print(DIVIDER)
-        print("Delay Stats")
-        print("Mean Delay: ", df['delay'].mean())
-        print("Std Dev. Delay: ", df['delay'].std())
-        print("Max Delay: ", df['delay'].max())
+        printf(DIVIDER)
+        printf("Delay Stats")
+        printf("Mean Delay: ", df['delay'].mean())
+        printf("Std Dev. Delay: ", df['delay'].std())
+        printf("Max Delay: ", df['delay'].max())
+
+        f.close()
+
 
     def process_result(self):
         # current columns ->
@@ -270,6 +284,7 @@ class Command(BaseCommand):
             self.data.append(
                 [
                     pnr,
+                    pnr_obj.pax,
                     pnr_obj.score,
                     [cancelled_flight.flight_id],
                     CABIN_CLASS_MAPPING[pnr_obj.seat_class.type_name],
