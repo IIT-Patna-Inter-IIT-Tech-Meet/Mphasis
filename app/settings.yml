@@ -12,6 +12,10 @@ data_generation:
   pax_score: 50
   ssr_score: 100
   default_ssr_probability: 0.001
+  schedule_file: "flight/management/data/schedule_table.csv"
+  flight_file: "flight/management/data/flight_inventory_table.csv"
+  pnr_file: "flight/management/data/flight_inventory_table.csv"
+  pax_file: "flight/management/data/passenger_table.csv"
 search:
   max_hop : 2 # max limit 2 
   downgrade: True
@@ -20,6 +24,8 @@ search:
   use_inventory: False # calculate on inventory instead of capacity
   use_cabin_only: True
   neighboring_search: True # searh using same state airport
+  alpha: 4
+  beta: 0.3 
 scores:
   connecting_score: 100
   default_ssr_score: 200

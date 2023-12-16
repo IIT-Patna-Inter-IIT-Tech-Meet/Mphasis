@@ -26,9 +26,11 @@ class QuantumReallocation(BaseReallocation):
         get_cancled_fn,
         upgrade=True,
         downgrade=True,
+        alpha=4,
+        beta=0.3
     ) -> None:
         super().__init__(
-            get_pnr_fn, get_alt_flights_fn, get_cancled_fn, upgrade, downgrade
+            get_pnr_fn, get_alt_flights_fn, get_cancled_fn, upgrade, downgrade, alpha, beta
         )
 
     def allocate(self) -> None:

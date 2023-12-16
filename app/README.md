@@ -36,7 +36,9 @@
         - `--config` : to specify the config file, default is `settings.yml`
     - For more information on the config file refer to the [Buisness Rules](#buisness-rules) section below.
 - Run Post analysis
-    - Use the `post_analysis.ipynb` notebook to analyse the results.
+    - Three file should be generated, `result.csv` for pnr-flight allocation, `result.txt` for summary and `result.flight_stats.csv` for per flight stats.
+    - This contains default solutions.
+    - Alternatively Use the `post_analysis.ipynb` notebook to analyse the results.
     - The second cell contains the file name of the result file, change it accordingly. 
     - Run all!! 
 
@@ -164,6 +166,8 @@ search:
   use_inventory: False # calculate on inventory instead of capacity
   use_cabin_only: True
   neighboring_search: True # searh using same state airport
+  alpha : 4
+  beta : 0.3
 scores:
   connecting_score: 100
   default_ssr_score: 200
@@ -199,14 +203,9 @@ scores:
         - `cabins` : score for each cabin (edit the class.csv for class level scoring)
         - `loyalty` : score for each loyalty program
 
-# How it works ?
-### High Level Schema
+
+## High Level Schema
 ![High Level Schema](./static/system_arch.png)
-
-### Pnr Ranking
-
-
-
 ### API Endpoints
 #### Note
 - These api endpoints were used for our early development and testing.

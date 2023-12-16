@@ -308,6 +308,9 @@ class Command(BaseCommand):
         self.config = load_settings(options["config"])
         fn_flight_ranking = self.wrapper_flight_ranking(self)
 
+        alpha=self.config["search"].get("alpha",4)
+        beta=self.config["search"].get("beta", 0.3)
+
         timer = time.time()
         if self.config["search"]["skip_quantum"]:
             self.allocator = PnrReallocation(
@@ -316,6 +319,7 @@ class Command(BaseCommand):
                 get_cancled_fn=cancelled_flight,
                 upgrade=self.config["search"]["upgrade"],
                 downgrade=self.config["search"]["downgrade"],
+                alpha=alpha, beta=beta
             )
         else:
             self.allocator = QuantumReallocation(
@@ -324,6 +328,7 @@ class Command(BaseCommand):
                 get_cancled_fn=cancelled_flight,
                 upgrade=self.config["search"]["upgrade"],
                 downgrade=self.config["search"]["downgrade"],
+                alpha=alpha, beta=beta
             )
         print("Time taken for data-loading : ", time.time() - timer, " seconds")
 

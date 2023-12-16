@@ -1,0 +1,32 @@
+PNR Score Stats
+Mean PNR Score:  6649.659863945578
+Std Dev. PNR Score:  4340.439454337752
+Max PNR Score:  20000
+Min PNR Score:  600
+----------------
+PNR-FLIGHT Score Stats
+Mean PNR-FLIGHT Score:  1364535.7629036806
+Std Dev. PNR-FLIGHT Score:  15028440.198468141
+Max PNR-FLIGHT Score:  239280572.9116976
+Min PNR-FLIGHT Score:  -1.0
+----------------
+Allocation Stats
+Total pnr:  441
+Total allocated pnr:  297
+Total unallocated pnr:  144
+Total Passengers:  1492
+Total Allocatted passengers:  1080
+----------------
+Connection Stats
+Unallocated :  144
+Direct :  297
+One Stop :  0
+Two Stop :  0
+----------------
+Cancelled Flight Level Stats saved in : result_3q.flight_stats.csv
+Total Cancelled Flights:  20
+----------------
+Delay Stats
+Mean Delay:  17.911672278338944
+Std Dev. Delay:  12.8806313790927
+Max Delay:  40.9
